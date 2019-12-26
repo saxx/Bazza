@@ -13,9 +13,20 @@
     <link rel="stylesheet" href="~/css/bundle.css?v=@version"/>
 </head>
 <body>
+
 <main class="container">
     @RenderBody()
 </main>
+
+<footer class="footer container">
+    <div class="content has-text-centered">
+        <p>
+            Bei Fragen oder Schwierigkeiten bitte an Ursula Scheinmayr [TODO Email] wenden.<br />
+            v@(version) &copy; <a href="https://github.com/saxx/bazza">Hannes Sachsenhofer</a>
+        </p>
+    </div>
+</footer>
+
 @* ReSharper disable once Html.PathError *@
 <script src="~/js/bundle.js?v=@version"></script>
 </body>

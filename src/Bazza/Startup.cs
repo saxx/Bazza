@@ -19,6 +19,7 @@ namespace Bazza
                     "/css/site.scss");
                 pipeline.AddJavaScriptBundle(
                     "/js/bundle.js",
+                    "/lib/jquery.js",
                     "/js/site.js");
             });
             services.AddHealthChecks();

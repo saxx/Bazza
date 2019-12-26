@@ -1,4 +1,13 @@
-﻿@import "../lib/bulma/bulma.sass";
+﻿$fa-font-path: "../lib/fontawesome/webfonts";
+@import "../lib/fontawesome/scss/fontawesome.scss";
+@import "../lib/fontawesome/scss/duotone.scss";
+
+@import "../lib/bulma/bulma.sass";
+
+.footer {
+  margin-top: 3rem;
+  font-size: $help-size;
+}
 
 .input-validation-error {
   border-color: $red;

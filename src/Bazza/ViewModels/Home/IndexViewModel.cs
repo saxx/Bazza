@@ -17,13 +17,20 @@ namespace Bazza.ViewModels.Home
         [Required(ErrorMessage = "Bitte gib deine Telefonnummer an.")]
         public string Phone { get; set; }
 
+        [Required(ErrorMessage = "Bitte stimm unserer Datenschutzerklärung zu."), RegularExpression("true", ErrorMessage = "Bitte stimme unserer Datenschutzerklärung zu.")]
+        public string Privacy { get; set; }
+
         public IList<Article> Articles { get; set; } = new List<Article>();
-        
+
         public class Article
         {
+            [Required(ErrorMessage = "Bitte gib eine aussagekräftige Artikelbeschreibung an.")]
             public string Name { get; set; }
+
             public string Size { get; set; }
-            public double Price { get; set; }
+
+            [Required(ErrorMessage = "Bitte gib den Preis an.")]
+            public string Price { get; set; }
         }
     }
 }
