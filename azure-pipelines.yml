@@ -39,7 +39,7 @@ stages:
         command: buildAndPush
         repository: 'bazza'
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-        containerRegistry: 'asdf'
+        containerRegistry: 'Dockerhub'
         tags: |
           $(Build.BuildNumber)
           latest
