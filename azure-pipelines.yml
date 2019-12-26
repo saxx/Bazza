@@ -1,0 +1,45 @@
+name: 0.0.$(Rev:r)
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+stages:
+- stage: All
+  jobs:  
+  - job: Publish
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: UseDotNet@2
+      displayName: "Install .NET Core 2.1.x"
+      inputs:
+        version: '2.1.x'
+        packageType: runtime
+    - task: UseDotNet@2 
+      displayName: "Install .NET Core 3.1.x"
+      inputs:
+        version: '3.1.x'
+        packageType: sdk
+    - task: DotNetCoreCLI@2
+      displayName: 'Install Set Version'
+      inputs:
+        command: custom
+        custom: tool
+        arguments: 'install -g dotnet-setversion'
+    - script: |
+        cd src/Bazza
+        setversion $(Build.BuildNumber)
+      displayName: 'Set Version'
+    - task: Docker@2
+      displayName: Build and push image
+      inputs:
+        command: buildAndPush
+        repository: 'bazza'
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        containerRegistry: 'asdf'
+        tags: |
+          $(Build.BuildNumber)
+          latest

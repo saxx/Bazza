@@ -1,0 +1,23 @@
+﻿@using System.Globalization
+@using System.Reflection
+@using Bazza
+@{ var version = typeof(Startup).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion; }
+
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Basar Neufelden: Registrierung</title>
+    @* ReSharper disable once Html.PathError *@
+    <link rel="stylesheet" href="~/css/bundle.css?v=@version"/>
+</head>
+<body>
+<main class="container">
+    @RenderBody()
+</main>
+@* ReSharper disable once Html.PathError *@
+<script src="~/js/bundle.js?v=@version"></script>
+</body>
+</html>
+<!-- Adliance.Website v@(version) -->
