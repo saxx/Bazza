@@ -37,9 +37,9 @@ stages:
       displayName: Build and push image
       inputs:
         command: buildAndPush
-        repository: 'bazza'
+        containerRegistry: 'DockerHub'
+        repository: 'saxx/bazza'
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-        containerRegistry: 'Dockerhub'
         tags: |
           $(Build.BuildNumber)
           latest
