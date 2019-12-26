@@ -1,1 +1,49 @@
-﻿This is the index page.
+﻿@model Bazza.ViewModels.Home.IndexViewModel
+
+<form asp-action="Index" asp-controller="Home">
+    <div class="columns">
+        <div class="column">
+            <div class="field">
+                <label asp-for="Name" class="label">Dein Name:</label>
+                <div class="control">
+                    <input asp-for="Name" class="input" type="text" placeholder="Maria Musterfrau">
+                </div>
+                <span asp-validation-for="Name" class="help is-danger"></span>
+            </div>
+        </div>
+        <div class="column">
+            <div class="field">
+                <label asp-for="Address" class="label">Deine Adresse:</label>
+                <div class="control">
+                    <textarea asp-for="Address" class="input" type="text" placeholder="Straße 12&#10;4120 Neufelden" style="height: 4rem"></textarea>
+                </div>
+                <span asp-validation-for="Address" class="help is-danger"></span>
+            </div>
+        </div>
+    </div>
+    
+        <div class="columns">
+            <div class="column">
+                <div class="field">
+                    <label asp-for="Email" class="label">Deine E-Mail-Adresse:</label>
+                    <div class="control">
+                        <input asp-for="Email" class="input" type="text" placeholder="maria@musterfrau.at">
+                    </div>
+                <span asp-validation-for="Email" class="help is-danger"></span>
+                </div>
+            </div>
+            <div class="column">
+                <div class="field">
+                    <label asp-for="Phone" class="label">Deine Telefonnummer:</label>
+                    <div class="control">
+                        <input asp-for="Phone" class="input" type="text" placeholder="0664 123 456 789">
+                    </div>
+                <span asp-validation-for="Phone" class="help is-danger"></span>
+                </div>
+            </div>
+        </div>
+    
+    
+    <button type="submit" class="button is-primary">Daten speichern und verbindlich registrieren</button>
+
+</form>

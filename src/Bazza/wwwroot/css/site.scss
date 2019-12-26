@@ -1,20 +1,5 @@
-﻿@font-face {
-  font-family: Ubuntu;
-  src: local("Ubuntu"), url("../fonts/Ubuntu-Regular.ttf") format("truetype");
-}
+﻿@import "../lib/bulma/bulma.sass";
 
-$primary: rgb(2,30,69);
-$link: $primary;
-$family-sans-serif: Ubuntu, sans-serif;
-
-$navbar-background-color: $primary;
-$navbar-item-color: white;
-$navbar-item-hover-color: white;
-$navbar-item-hover-background-color: $primary;
-$navbar-burger-color: white;
-
-@import "../lib/bulma/bulma.sass";
-
-main {
-  padding: 0.5rem 0.75rem;  
+.input-validation-error {
+  border-color: $red;
 }

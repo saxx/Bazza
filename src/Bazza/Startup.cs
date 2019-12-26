@@ -14,7 +14,6 @@ namespace Bazza
             services.AddControllersWithViews();
             services.AddWebOptimizer(pipeline =>
             {
-                // don't use globbing, because WebOptimizer has an issue as per August 2018: https://github.com/ligershark/WebOptimizer/issues/83
                 pipeline.AddScssBundle(
                     "/css/bundle.css",
                     "/css/site.scss");
