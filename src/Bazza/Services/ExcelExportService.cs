@@ -46,6 +46,7 @@ namespace Bazza.Services
             worksheet.Column(4).Width = 25;
             worksheet.Column(5).Width = 20;
             worksheet.Column(6).Width = 20;
+            worksheet.Column(7).Width = 20;
 
             worksheet.Cells[1, 1].Value = "Nummer";
             worksheet.Cells[1, 2].Value = "Name";
@@ -53,7 +54,8 @@ namespace Bazza.Services
             worksheet.Cells[1, 4].Value = "E-Mail-Adresse";
             worksheet.Cells[1, 5].Value = "Telefonnummer";
             worksheet.Cells[1, 6].Value = "Erstellt (UTC)";
-            worksheet.Cells[1, 1, 1, 6].Style.Font.Bold = true;
+            worksheet.Cells[1, 7].Value = "Geändert (UTC)";
+            worksheet.Cells[1, 1, 1, 7].Style.Font.Bold = true;
 
             var row = 2;
             foreach (var p in persons)
@@ -66,10 +68,12 @@ namespace Bazza.Services
                 worksheet.Cells[row, 5].Value = p.Phone;
                 worksheet.Cells[row, 6].Value = p.CreatedUtc;
                 worksheet.Cells[row, 6].Style.Numberformat.Format = "dd.MM.yyyy HH:mm";
+                worksheet.Cells[row, 7].Value = p.UpdatedUtc;
+                worksheet.Cells[row, 7].Style.Numberformat.Format = "dd.MM.yyyy HH:mm";
                 row++;
             }
 
-            worksheet.Cells[1, 1, row - 1, 6].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+            worksheet.Cells[1, 1, row - 1, 7].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
         }
 
         private void AddArticles(ExcelPackage excel, IList<Article> articles)
