@@ -1,0 +1,17 @@
+﻿@model Bazza.ViewModels.Home.IndexViewModel
+
+@if (string.IsNullOrWhiteSpace(Model.AccessToken))
+{
+    <section class="section">
+        <h4 class="title is-4">Registrierung für den Basar Neufelden</h4>
+        Willkommen bei der Registrierung für den Basar am XX.YY. in Neufelden. Bitte gib deine persönlichen Daten an, damit wir deine Artikel zuordnen und dir deine Etiketten zusenden können.
+        Aus organisatorischen Gründen kannst du maximal 50 Artikel angeben. Solltest du mehr Artikel verkaufen wollen, registriere dich bitte ein weiteres Mal.
+    </section>
+}
+else
+{
+    <section class="section">
+        <h4 class="title is-4">Registrierung für den Basar Neufelden anpassen</h4>
+        Willkommen zurück, @Model.Name! Du findest unten die Daten deiner Registrierung und kannst sie gerne noch anpassen oder verändern.
+    </section>
+}

@@ -2,67 +2,17 @@
 
 @if (Model.DisplayInitialSuccess)
 {
-    <section class="section">
-        <h4 class="title is-4">Herzlichen Dank für deine Registrierung</h4>
-        <div class="notification is-success">
-            <p>
-                Dankeschön! Wir freuen uns, dass du mit an Bord bist.<br/><br/>
-            </p>
-            <p>
-                Deine Registrierung ist bei uns eingelangt, und wir werden uns rechtzeitig vor dem Basar wieder bei dir melden,
-                um dir deine Etiketten und alle sonstigen Informationen zum Basar zuzusenden.
-            </p>
-        </div>
-        <p>
-            Du kannst deine Registrierung beziehungsweise deine Artikel noch anpassen, indem du diese Adresse aufrufst:<br/>
-            @{ var url = Url.Action("Index", "Home", null, "https") + Model.AccessToken; }
-            <a href="@url">@url</a><br/><br/>
-            Wenn du dir diese Adresse abspeicherst (beispielsweise indem du sie in den Favoriten deines Browsers speicherst), kannst du auch später noch auf deine Registrierung zugreifen und sie anpassen.
-            Wir haben dir außerdem eine E-Mail an <code>@Model.Email</code> geschickt, wo diese Adresse ebenfalls zu finden ist. Solltest du keine E-Mail erhalten haben, wirf bitte auch einen Blick in deinen Spam-Ordner.
-        </p>
-    </section>
+    <partial name="_InitialSuccess"/>
 }
 else if (Model.DisplaySubsequentSuccess)
 {
-    <section class="section">
-        <h4 class="title is-4">Herzlichen Dank für die Anpassung deiner Registrierung</h4>
-        <div class="notification is-success">
-            <p>
-                Deine angepassten Daten sind bei uns eingelangt, und wir werden uns rechtzeitig vor dem Basar wieder bei dir melden,
-                um dir deine Etiketten und alle sonstigen Informationen zum Basar zuzusenden.
-            </p>
-        </div>
-        <p>
-            Du kannst deine Registrierung beziehungsweise deine Artikel noch anpassen, indem du diese Adresse aufrufst:<br/>
-            @{ var url = Url.Action("Index", "Home", null, "https") + Model.AccessToken; }
-            <a href="@url">@url</a>
-        </p>
-    </section>
+    <partial name="_SubsequentSuccess"/>
 }
 else
 {
-    @if (string.IsNullOrWhiteSpace(Model.AccessToken))
-    {
-        <section class="section">
-            <h4 class="title is-4">Registrierung für den Basar Neufelden</h4>
-            <div class="notification is-link">
-                Willkommen bei der Registrierung für den Basar am XX.YY. in Neufelden. Bitte gib deine persönlichen Daten an, damit wir deine Artikel zuordnen und dir deine Etiketten zusenden können.
-                Aus organisatorischen Gründen kannst du maximal 50 Artikel angeben. Solltest du mehr Artikel verkaufen wollen, registriere dich bitte ein weiteres Mal.
-            </div>
-        </section>
-    }
-    else
-    {
-        <section class="section">
-            <h4 class="title is-4">Registrierung für den Basar Neufelden anpassen</h4>
-            <div class="notification is-link">
-                Willkommen zurück, @Model.Name! Du findest unten die Daten deiner Registrierung und kannst sie gerne noch anpassen oder verändern.
-            </div>
-        </section>
-    }
-
-    <form method="post" action="/">
-        @Html.AntiForgeryToken();
+    <partial name="_Intro"/>
+    <form method="post" action="~/">
+        @Html.AntiForgeryToken()
         <input type="hidden" asp-for="AccessToken"/>
         <section class="section">
             <div class="columns">

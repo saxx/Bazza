@@ -1,0 +1,14 @@
+﻿@model Bazza.ViewModels.Home.IndexViewModel
+
+<section class="section">
+    <h4 class="title is-4">Herzlichen Dank für die Anpassung deiner Registrierung</h4>
+    <p>
+        Deine angepassten Daten sind bei uns eingelangt, und wir werden uns rechtzeitig vor dem Basar wieder bei dir melden,
+        um dir deine Etiketten und alle sonstigen Informationen zum Basar zuzusenden.<br/><br/>
+    </p>
+    <p>
+        Du kannst deine Registrierung beziehungsweise deine Artikel noch anpassen, indem du diese Adresse aufrufst:<br/>
+        @{ var url = Url.Action("Index", "Home", null, "https") + Model.AccessToken; }
+        <a href="@url">@url</a>
+    </p>
+</section>
