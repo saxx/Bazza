@@ -135,7 +135,7 @@ namespace Bazza.ViewModels.Home
                                "Bei Anmerkungen oder Fragen kannst du dich jederzeit gerne an Ursula Pühringer unter basar.neufelden@gmail.com bzw. 0664 1458265 wenden.<br /><br />" +
                                "Danke & liebe Grüße,<br />das Team vom Basar Neufelden" +
                                "</div>";
-
+                
                 await _emailer.Send(viewModel.Email, subject, htmlBody, "");
             }
             catch (Exception ex)
