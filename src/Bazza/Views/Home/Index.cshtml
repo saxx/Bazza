@@ -1,131 +1,162 @@
 ﻿@model Bazza.ViewModels.Home.IndexViewModel
 
-<form asp-action="Index" asp-controller="Home">
+@if (Model.DisplaySuccess)
+{
     <section class="section">
-        <h4 class="title is-4">Persönliche Informationen</h4>
-        <div class="columns">
-            <div class="column">
-                <div class="field">
-                    <label asp-for="Name" class="label">Dein Name:</label>
-                    <div class="control">
-                        <input asp-for="Name" class="input" type="text" placeholder="Maria Musterfrau">
-                    </div>
-                    <span asp-validation-for="Name" class="help is-danger"></span>
-                </div>
-            </div>
-            <div class="column">
-                <div class="field">
-                    <label asp-for="Address" class="label">Deine Adresse:</label>
-                    <div class="control">
-                        <textarea asp-for="Address" class="input" type="text" placeholder="Straße 12&#10;4120 Neufelden" style="height: 4rem"></textarea>
-                    </div>
-                    <span asp-validation-for="Address" class="help is-danger"></span>
-                </div>
-            </div>
+        <h4 class="title is-4">Herzlichen Dank für deine Registrierung</h4>
+        <div class="notification is-success">
+            <p>
+                Dankeschön! Wir freuen uns, dass du mit an Bord bist.<br /><br />
+            </p>
+            <p>
+                Deine Registrierung ist bei uns eingelangt, und wir werden uns rechtzeitig vor dem Basar wieder bei dir melden, 
+                um dir deine Etiketten und alle sonstigen Informationen zum Basar zuzusenden.<br /><br />
+            </p>
+            <p>
+                Solltest du noch mehr Artikel verkaufen wollen, kannst du dich gerne <a asp-action="Index" asp-controller="Home">ein weiteres Mal registrieren</a>. 
+                Ansonsten kannst du diese Seite nun schließen, du hast alles erfolgreich erledigt <i class="fad fa-smile-beam"></i>.
+            </p>
         </div>
-
-        <div class="columns">
-            <div class="column">
-                <div class="field">
-                    <label asp-for="Email" class="label">Deine E-Mail-Adresse:</label>
-                    <div class="control">
-                        <input asp-for="Email" class="input" type="text" placeholder="maria@musterfrau.at">
-                    </div>
-                    <span asp-validation-for="Email" class="help is-danger"></span>
-                    <span class="help">An diese Adresse schicken wir dir die Etiketten für deine Artikel zu.</span>
-                </div>
-            </div>
-            <div class="column">
-                <div class="field">
-                    <label asp-for="Phone" class="label">Deine Telefonnummer:</label>
-                    <div class="control">
-                        <input asp-for="Phone" class="input" type="text" placeholder="0664 123 456 789">
-                    </div>
-                    <span asp-validation-for="Phone" class="help is-danger"></span>
-                    <span class="help">Für Rückfragen.</span>
-                </div>
-            </div>
+    </section>
+}
+else
+{
+    <section class="section">
+        <h4 class="title is-4">Registrierung für den Basar Neufelden</h4>
+        <div class="notification is-link">
+            Willkommen bei der Registrierung für den Basar am XX.YY. in Neufelden. Bitte gib deine persönlichen Daten an, damit wir deine Artikel zuordnen und dir deine Etiketten zusenden können.
+            Aus organisatorischen Gründen kannst du maximal 50 Artikel angeben. Solltest du mehr Artikel verkaufen wollen, registriere dich bitte ein weiteres Mal.
         </div>
     </section>
 
-    <section class="section">
-        <h4 class="title is-4">Artikel</h4>
-        <p>
-            Du kannst bis zu 50 Artikel angeben. Bitte gib für jeden Artikel mindestens den Preis und eine möglichst aussagekräftige Bezeichnung an.
-            Bitte runde den Preis immer auf 50 Cent genau.
-        </p>
-        <div class="table-container">
-            <table class="table is-striped is-hoverable is-fullwidth is-narrow">
-                <thead>
-                <tr>
-                    <th>Artikelbezeichnung</th>
-                    <th style="width:120px;">Größe</th>
-                    <th class="has-text-right" style="width:100px;">Preis</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr id="template_row" style="display: none;">
-                    <td>
-                        <input type="text" class="input is-fullwidth is-small" maxlength="70" placeholder="Gummistiefel Paw Patrol Marshal (rot)">
-                    </td>
-                    <td>
-                        <input type="text" class="input is-small is-fullwidth" placeholder="Schuhgröße 26" maxlength="50">
-                    </td>
-                    <td class="">
-                        <div class="field has-addons is-pulled-right">
-                            <p class="control">
-                                <input type="text" class="input is-small has-text-right" style="width:50px;" placeholder="4,50">
-                            </p>
-                            <p class="control">
-                                <a class="button is-static is-small">€</a>
-                            </p>
+    <form asp-action="Index" asp-controller="Home">
+        <section class="section">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label asp-for="Name" class="label">Dein Name:</label>
+                        <div class="control">
+                            <input asp-for="Name" class="input" type="text" placeholder="Maria Musterfrau">
                         </div>
-                    </td>
-                </tr>
-                @for (var i = 0; i < Model.Articles.Count; i++)
-                {
+                        <span asp-validation-for="Name" class="help is-danger"></span>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label asp-for="Address" class="label">Deine Adresse:</label>
+                        <div class="control">
+                            <textarea asp-for="Address" class="input" type="text" placeholder="Straße 12&#10;4120 Neufelden" style="height: 4rem"></textarea>
+                        </div>
+                        <span asp-validation-for="Address" class="help is-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label asp-for="Email" class="label">Deine E-Mail-Adresse:</label>
+                        <div class="control">
+                            <input asp-for="Email" class="input" type="text" placeholder="maria@musterfrau.at">
+                        </div>
+                        <span asp-validation-for="Email" class="help is-danger"></span>
+                        <span class="help">An diese Adresse schicken wir dir die Etiketten für deine Artikel zu.</span>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label asp-for="Phone" class="label">Deine Telefonnummer:</label>
+                        <div class="control">
+                            <input asp-for="Phone" class="input" type="text" placeholder="0664 123 456 789">
+                        </div>
+                        <span asp-validation-for="Phone" class="help is-danger"></span>
+                        <span class="help">Für Rückfragen.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="table-container">
+                <table class="table is-striped is-hoverable is-fullwidth is-narrow">
+                    <thead>
                     <tr>
+                        <th>Artikelbezeichnung</th>
+                        <th style="width:120px;">Größe</th>
+                        <th class="has-text-right" style="width:100px;">Preis</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="template_row" style="display: none;">
                         <td>
-                            <input asp-for="Articles[i].Name" type="text" class="input is-fullwidth is-small" maxlength="70">
-                            <span asp-validation-for="Articles[i].Name" class="help is-danger"></span>
+                            <input type="text" class="input is-fullwidth is-small" maxlength="70" placeholder="Gummistiefel Paw Patrol Marshal (rot)">
                         </td>
                         <td>
-                            <input asp-for="Articles[i].Size" type="text" class="input is-small is-fullwidth" placeholder="Schuhgröße 26" maxlength="50">
-                            <span asp-validation-for="Articles[i].Size" class="help is-danger"></span>
+                            <input type="text" class="input is-small is-fullwidth" placeholder="Schuhgröße 26" maxlength="50">
                         </td>
                         <td class="">
                             <div class="field has-addons is-pulled-right">
                                 <p class="control">
-                                    <input asp-for="Articles[i].Price" type="text" class="input is-small has-text-right" style="width:50px;" placeholder="4,50">
+                                    <input type="text" class="input is-small has-text-right" style="width:50px;" placeholder="4,50">
                                 </p>
                                 <p class="control">
                                     <a class="button is-static is-small">€</a>
                                 </p>
                             </div>
-                            <span asp-validation-for="Articles[i].Price" class="help is-danger"></span>
                         </td>
                     </tr>
-                }
+                    @for (var i = 0; i < Model.Articles.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input asp-for="Articles[i].Name" type="text" class="input is-fullwidth is-small" maxlength="70">
+                                <span asp-validation-for="Articles[i].Name" class="help is-danger"></span>
+                            </td>
+                            <td>
+                                <input asp-for="Articles[i].Size" type="text" class="input is-small is-fullwidth" placeholder="Schuhgröße 26" maxlength="50">
+                                <span asp-validation-for="Articles[i].Size" class="help is-danger"></span>
+                            </td>
+                            <td class="">
+                                <div class="field has-addons is-pulled-right">
+                                    <p class="control">
+                                        <input asp-for="Articles[i].Price" type="text" class="input is-small has-text-right" style="width:50px;" placeholder="4,50">
+                                    </p>
+                                    <p class="control">
+                                        <a class="button is-static is-small">€</a>
+                                    </p>
+                                </div>
+                                <span asp-validation-for="Articles[i].Price" class="help is-danger"></span>
+                            </td>
+                        </tr>
+                    }
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-            <button type="button" id="add_row" class="button is-success is-small"><i class="fad fa-plus"></i>&nbsp;Weiteren Artikel hinzufügen</button>
-            <button type="button" id="remove_row" class="button is-danger is-small"><i class="fad fa-trash"></i>&nbsp;Letzte Zeile entfernen</button>
-        </div>
-    </section>
+                <p>
+                    <button type="button" id="add_row" class="button is-success is-small"><i class="fad fa-plus"></i>&nbsp;Weiteren Artikel hinzufügen</button>
+                    <button type="button" id="remove_row" class="button is-danger is-small"><i class="fad fa-trash"></i>&nbsp;Letzte Zeile entfernen</button>
+                </p>
+                <span class="help">
+                    Du kannst bis zu 50 Artikel angeben. Bitte gib für jeden Artikel mindestens den Preis und eine möglichst aussagekräftige Bezeichnung an.
+                    Bitte runde den Preis immer auf 50 Cent genau.
+                </span>
+            </div>
 
-    <section class="section">
-        <div class="field">
-            <label class="checkbox">
-                <input type="checkbox" asp-for="Privacy" value="true">
-                Ich stimme zu, dass meine Daten zur Organisation und Abwicklung des Basars verwendet werden dürfen.
-            </label>
-            <span asp-validation-for="Privacy" class="help is-danger"></span>
-        </div>
+        </section>
 
-        <div class="field">
-            <button type="submit" class="button is-link"><i class="fad fa-save"></i>&nbsp;Speichern und verbindlich registrieren</button>
-        </div>
-    </section>
-</form>
+        <section class="section">
+            <div class="field">
+                <label class="checkbox">
+                    <input type="checkbox" asp-for="Privacy" value="true">
+                    Ich stimme zu, dass meine Daten zur Organisation und Abwicklung des Basars verwendet werden dürfen.
+                </label>
+                <span asp-validation-for="Privacy" class="help is-danger"></span>
+            </div>
+
+            <div class="field">
+                <button type="submit" class="button is-link"><i class="fad fa-save"></i>&nbsp;Speichern und verbindlich registrieren</button>
+            </div>
+        </section>
+    </form>
+}

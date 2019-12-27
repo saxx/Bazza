@@ -1,16 +1,28 @@
 using System.Globalization;
+using Bazza.Models.Database;
+using Bazza.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Bazza
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationInsightsTelemetry();
+            services.AddDbContext<Db>(options => options.UseSqlServer(_configuration.GetValue<string>("DbConnectionString")));
             services.AddControllersWithViews();
             services.AddWebOptimizer(pipeline =>
             {
@@ -23,12 +35,13 @@ namespace Bazza
                     "/js/site.js");
             });
             services.AddHealthChecks();
+
+            services.AddTransient<ExcelExportService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseStatusCodePagesWithReExecute("/error/{0}");
-            app.UseExceptionHandler("/error/500");
+            app.UseStatusCodePages();
             app.UseHsts();
             app.UseHttpsRedirection();
             app.UseStaticFiles();

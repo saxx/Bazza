@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Bazza.ViewModels.Home
 {
@@ -22,6 +23,8 @@ namespace Bazza.ViewModels.Home
 
         public IList<Article> Articles { get; set; } = new List<Article>();
 
+        [BindNever] public bool DisplaySuccess { get; set; }
+        
         public class Article
         {
             [Required(ErrorMessage = "Bitte gib eine aussagekräftige Artikelbeschreibung an.")]
@@ -30,7 +33,7 @@ namespace Bazza.ViewModels.Home
             public string Size { get; set; }
 
             [Required(ErrorMessage = "Bitte gib den Preis an.")]
-            public string Price { get; set; }
+            public double? Price { get; set; }
         }
     }
 }
