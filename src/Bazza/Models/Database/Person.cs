@@ -10,5 +10,7 @@ namespace Bazza.Models.Database
         public string Email { get; set; }
         public string Phone { get; set; }
         public DateTime CreatedUtc { get; set; }
+        public DateTime? UpdatedUtc { get; set; }
+        public string AccessToken { get; set; }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bazza.Migrations
 {
     [DbContext(typeof(Db))]
-    [Migration("20191227115116_Initial")]
+    [Migration("20191227163134_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,9 @@ namespace Bazza.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AccessToken")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
@@ -64,6 +67,9 @@ namespace Bazza.Migrations
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedUtc")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PersonId");
 

@@ -1,6 +1,10 @@
 using System.Globalization;
+using System.Xml;
+using Adliance.AspNetCore.Buddy.Email;
+using Adliance.AspNetCore.Buddy.Extensions;
 using Bazza.Models.Database;
 using Bazza.Services;
+using Bazza.ViewModels.Home;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
@@ -18,12 +22,12 @@ namespace Bazza
         {
             _configuration = configuration;
         }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationInsightsTelemetry();
             services.AddDbContext<Db>(options => options.UseSqlServer(_configuration.GetValue<string>("DbConnectionString")));
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options => { options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((a,b) => "Ungültige Angabe."); });
             services.AddWebOptimizer(pipeline =>
             {
                 pipeline.AddScssBundle(
@@ -36,6 +40,11 @@ namespace Bazza
             });
             services.AddHealthChecks().AddDbContextCheck<Db>();
 
+            services.AddHttpContextAccessor();
+            services.AddTransient<IEmailer, SendgridEmailer>();
+            services.AddTransient<ISendgridConfiguration>(_ => new SendgridConfiguration(_configuration.GetValue<string>("SendgridSecret")));
+            services.AddTransient<IEmailConfiguration>(_ => new EmailConfiguration());
+            services.AddTransient<IndexViewModelFactory>();
             services.AddTransient<ExcelExportService>();
         }
 
@@ -58,6 +67,23 @@ namespace Bazza
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapHealthChecks("/health");
             });
+        }
+
+        public class SendgridConfiguration : ISendgridConfiguration
+        {
+            public SendgridConfiguration(string secret)
+            {
+                SendgridSecret = secret;
+            }
+
+            public string SendgridSecret { get; }
+            public string SendgridLabel => "Bazza";
+        }
+
+        public class EmailConfiguration : IEmailConfiguration
+        {
+            public string EmailSenderName => "Basar Neufelden";
+            public string EmailSenderAddress => "basar.neufelden@gmail.com";
         }
     }
 }

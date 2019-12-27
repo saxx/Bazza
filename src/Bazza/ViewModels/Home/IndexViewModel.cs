@@ -1,9 +1,166 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Adliance.AspNetCore.Buddy;
+using Adliance.AspNetCore.Buddy.Email;
+using Bazza.Models.Database;
+using Bazza.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Bazza.ViewModels.Home
 {
+    public class IndexViewModelFactory
+    {
+        private readonly ILogger<IndexViewModelFactory> _logger;
+        private readonly Db _db;
+        private readonly IEmailer _emailer;
+        private readonly LinkGenerator _link;
+        private readonly IHttpContextAccessor _context;
+
+        public IndexViewModelFactory(ILogger<IndexViewModelFactory> logger, Db db, IEmailer emailer, LinkGenerator link, IHttpContextAccessor context)
+        {
+            _logger = logger;
+            _db = db;
+            _emailer = emailer;
+            _link = link;
+            _context = context;
+        }
+
+        public async Task<IndexViewModel> Fill(string accessToken = null)
+        {
+            var result = new IndexViewModel();
+
+            if (!string.IsNullOrWhiteSpace(accessToken))
+            {
+                var person = await _db.Persons.FirstOrDefaultAsync(x => x.AccessToken == accessToken);
+                if (person != null)
+                {
+                    result.Address = person.Address;
+                    result.Email = person.Email;
+                    result.Name = person.Name;
+                    result.Phone = person.Phone;
+                    result.AccessToken = person.AccessToken;
+
+                    var articles = await _db.Articles.Where(x => x.PersonId == person.PersonId).OrderBy(x => x.ArticleId).ToListAsync();
+                    result.Articles = articles.Select(x => new IndexViewModel.Article
+                    {
+                        Name = x.Name,
+                        Price = x.Price,
+                        Size = x.Size
+                    }).ToList();
+                }
+            }
+
+            return result;
+        }
+
+        private static readonly SemaphoreSlim Lock = new SemaphoreSlim(1, 1);
+
+        public async Task SaveToDatabase(IndexViewModel viewModel)
+        {
+            await Lock.WaitAsync();
+            var sendMail = false;
+
+            Person person = null;
+            if (!string.IsNullOrWhiteSpace(viewModel.AccessToken))
+            {
+                person = await _db.Persons.FirstOrDefaultAsync(x => x.AccessToken == viewModel.AccessToken);
+            }
+
+            if (person == null)
+            {
+                person = await CreateNewPerson();
+                _db.Persons.Add(person);
+                sendMail = true;
+            }
+            else
+            {
+                person.UpdatedUtc = DateTime.UtcNow;
+            }
+
+            person.Address = viewModel.Address;
+            person.Email = viewModel.Email;
+            person.Phone = viewModel.Phone;
+            person.Name = viewModel.Name;
+            person.AccessToken = string.IsNullOrWhiteSpace(person.AccessToken) ? Crypto.RandomString(20) : person.AccessToken;
+            _db.Articles.RemoveRange(_db.Articles.Where(x => x.PersonId == person.PersonId));
+            await _db.SaveChangesAsync();
+
+            var articleId = 1;
+            foreach (var a in viewModel.Articles)
+            {
+                _db.Articles.Add(new Article
+                {
+                    Name = a.Name,
+                    Price = a.Price ?? 0,
+                    Size = a.Size,
+                    ArticleId = articleId++,
+                    PersonId = person.PersonId
+                });
+            }
+
+            await _db.SaveChangesAsync();
+
+            viewModel.AccessToken = person.AccessToken;
+
+            if (sendMail)
+            {
+                viewModel.DisplayInitialSuccess = true;
+                await SendEmail(viewModel);
+            }
+            else
+            {
+                viewModel.DisplaySubsequentSuccess = true;
+            }
+
+            Lock.Release();
+        }
+
+        private async Task SendEmail(IndexViewModel viewModel)
+        {
+            try
+            {
+                var subject = "Deine Registrierung für den Basar Neufelden";
+                var htmlBody = "<div style=\"font-family:sans-serif;\">" +
+                               $"Hallo {viewModel.Name}!<br /><br />Danke für deine Registrierung für den Basar Neufelden. Wir freuen uns, dass du mit an Bord bist.<br /><br />" +
+                               "Wenn du deine Registrierung oder deine Artikel im Nachhinein anpassen möchtest, kannst du das über die folgende Adresse tun:<br /><br />" +
+                               $"{_link.GetUriByAction(_context.HttpContext, "Index", "Home", null, "https") + viewModel.AccessToken}<br /><br />" +
+                               "Bei Anmerkungen oder Fragen kannst du dich jederzeit gerne an Ursula Pühringer unter basar.neufelden@gmail.com bzw. 0664 1458265 wenden.<br /><br />" +
+                               "Danke & liebe Grüße,<br />das Team vom Basar Neufelden" +
+                               "</div>";
+
+                await _emailer.Send(viewModel.Email, subject, htmlBody, "");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning("Unable to send email.", ex);
+            }
+        }
+
+        private async Task<Person> CreateNewPerson()
+        {
+            var existingPersonIds = await _db.Persons.Select(x => x.PersonId).ToListAsync();
+            var personId = 1;
+            while (existingPersonIds.Contains(personId))
+            {
+                personId++;
+            }
+
+            return new Person
+            {
+                PersonId = personId,
+                CreatedUtc = DateTime.UtcNow
+            };
+        }
+    }
+
     public class IndexViewModel
     {
         [Required(ErrorMessage = "Bitte gib deinen Namen an.")]
@@ -23,8 +180,11 @@ namespace Bazza.ViewModels.Home
 
         public IList<Article> Articles { get; set; } = new List<Article>();
 
-        [BindNever] public bool DisplaySuccess { get; set; }
-        
+        public string AccessToken { get; set; }
+
+        [BindNever] public bool DisplayInitialSuccess { get; set; }
+        [BindNever] public bool DisplaySubsequentSuccess { get; set; }
+
         public class Article
         {
             [Required(ErrorMessage = "Bitte gib eine aussagekräftige Artikelbeschreibung an.")]
@@ -32,7 +192,7 @@ namespace Bazza.ViewModels.Home
 
             public string Size { get; set; }
 
-            [Required(ErrorMessage = "Bitte gib den Preis an.")]
+            [Required(ErrorMessage = "Bitte gib den Preis an."), DivisableBy50, RegularExpression("[\\d,]*", ErrorMessage = "Bitte gib den Preis an.")]
             public double? Price { get; set; }
         }
     }

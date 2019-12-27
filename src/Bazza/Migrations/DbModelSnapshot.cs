@@ -48,6 +48,9 @@ namespace Bazza.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AccessToken")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
@@ -62,6 +65,9 @@ namespace Bazza.Migrations
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedUtc")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PersonId");
 

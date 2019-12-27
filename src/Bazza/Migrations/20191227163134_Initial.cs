@@ -31,7 +31,9 @@ namespace Bazza.Migrations
                     Address = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: true),
-                    CreatedUtc = table.Column<DateTime>(nullable: false)
+                    CreatedUtc = table.Column<DateTime>(nullable: false),
+                    UpdatedUtc = table.Column<DateTime>(nullable: true),
+                    AccessToken = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
