@@ -34,7 +34,7 @@ namespace Bazza
                     "/lib/jquery.js",
                     "/js/site.js");
             });
-            services.AddHealthChecks();
+            services.AddHealthChecks().AddDbContextCheck<Db>();
 
             services.AddTransient<ExcelExportService>();
         }
