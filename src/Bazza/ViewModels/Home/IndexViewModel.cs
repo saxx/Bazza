@@ -76,7 +76,7 @@ namespace Bazza.ViewModels.Home
 
             if (person == null)
             {
-                person = await CreateNewPerson();
+                person = await CreateNewPerson(viewModel);
                 _db.Persons.Add(person);
                 sendMail = true;
             }
@@ -144,10 +144,10 @@ namespace Bazza.ViewModels.Home
             }
         }
 
-        private async Task<Person> CreateNewPerson()
+        private async Task<Person> CreateNewPerson(IndexViewModel viewModel)
         {
             var existingPersonIds = await _db.Persons.Select(x => x.PersonId).ToListAsync();
-            var personId = 1;
+            var personId = (viewModel.Address ?? "").Contains("Mütterrunde",StringComparison.InvariantCultureIgnoreCase) ? 1001 : 1;
             while (existingPersonIds.Contains(personId))
             {
                 personId++;
