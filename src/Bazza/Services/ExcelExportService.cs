@@ -167,12 +167,12 @@ namespace Bazza.Services
             worksheet.Cells[4, 3, 4, 5].Merge = true;
             worksheet.Cells[5, 3].Value = p.Phone;
             worksheet.Cells[5, 3, 5, 5].Merge = true;
-            worksheet.Cells[7, 3].Formula = "=COUNTIF(E13:E999,\"=v\")";
-            worksheet.Cells[8, 3].Formula = "=SUMIF(E13:E999,\"=v\",D13:D999)";
+            worksheet.Cells[7, 3].Formula = "=COUNTIF(E14:E999,\"=v\")";
+            worksheet.Cells[8, 3].Formula = "=SUMIF(E14:E999,\"=v\",D14:D999)";
             worksheet.Cells[8, 3].Style.Numberformat.Format = "#0.00 €";
             worksheet.Cells[9, 3].Formula = "=C8*-0.1";
             worksheet.Cells[9, 3].Style.Numberformat.Format = "#0.00 €";
-            worksheet.Cells[10, 3].Formula = "=COUNTIFS(E14:E19,\"=v\",D14:D19,\">=25\")*-1+COUNTIFS(E14:E19,\"=v\",D14:D19,\"<25\")*-0.1";
+            worksheet.Cells[10, 3].Formula = "=COUNTIFS(E14:E999,\"=v\",D14:D999,\">=25\")*-1+COUNTIFS(E14:E999,\"=v\",D14:D999,\"<25\")*-0.1";
             worksheet.Cells[10, 3].Style.Numberformat.Format = "#0.00 €";
             worksheet.Cells[11, 3].Formula = "=C8+C9+C10";
             worksheet.Cells[11, 3].Style.Numberformat.Format = "#0.00 €";
