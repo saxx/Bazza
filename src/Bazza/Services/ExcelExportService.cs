@@ -152,7 +152,6 @@ namespace Bazza.Services
             worksheet.Cells[11, 1, 11, 3].Style.Border.Bottom.Style = ExcelBorderStyle.Double;
             worksheet.Cells[1, 1, 11, 1].Style.Font.Bold = true;
 
-
             worksheet.Cells[1, 3].Value = p.PersonId.ToString();
             worksheet.Cells[1, 3].Style.Font.Size = 18;
             worksheet.Cells[1, 3, 1, 5].Merge = true;
@@ -172,9 +171,9 @@ namespace Bazza.Services
             worksheet.Cells[8, 3].Style.Numberformat.Format = "#0.00 €";
             worksheet.Cells[9, 3].Formula = "=C8*-0.1";
             worksheet.Cells[9, 3].Style.Numberformat.Format = "#0.00 €";
-            worksheet.Cells[10, 3].Formula = "=COUNTIFS(E14:E999,\"=v\",D14:D999,\">=25\")*-1+COUNTIFS(E14:E999,\"=v\",D14:D999,\"<25\")*-0.1";
+            worksheet.Cells[10, 3].Formula = "=COUNTIF(D14:D999,\">=25\")*-1+COUNTIF(D14:D999,\"<25\")*-0.1";
             worksheet.Cells[10, 3].Style.Numberformat.Format = "#0.00 €";
-            worksheet.Cells[11, 3].Formula = "=C8+C9+C10";
+            worksheet.Cells[11, 3].Formula = "=MAX(C8+C9+C10,0)";
             worksheet.Cells[11, 3].Style.Numberformat.Format = "#0.00 €";
 
             worksheet.Column(1).Width = 10;
