@@ -193,6 +193,7 @@ namespace Bazza.ViewModels.Home
             public string Size { get; set; }
 
             [Required(ErrorMessage = "Bitte gib den Preis an."), DivisableBy50, RegularExpression("[\\d,]*", ErrorMessage = "Bitte gib den Preis an.")]
+            [Range(0.1,99999,ErrorMessage = "Der Preis muss größer als 0,- sein.")]
             public double? Price { get; set; }
         }
     }
