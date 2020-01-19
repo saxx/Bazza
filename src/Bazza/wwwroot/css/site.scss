@@ -12,3 +12,8 @@
 .input-validation-error {
   border-color: $red;
 }
+
+::placeholder {
+  color: $grey-light !important;
+  opacity: 1 !important;
+}
