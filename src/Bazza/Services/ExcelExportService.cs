@@ -2,9 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Bazza.Models.Database;
-using Bazza.ViewModels.Home;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 
@@ -12,12 +10,10 @@ namespace Bazza.Services
 {
     public class ExcelExportService
     {
-        private readonly ILogger<ExcelExportService> _logger;
         private readonly Db _db;
 
-        public ExcelExportService(ILogger<ExcelExportService> logger, Db db)
+        public ExcelExportService(Db db)
         {
-            _logger = logger;
             _db = db;
         }
 
@@ -123,7 +119,7 @@ namespace Bazza.Services
 
         private void AddPerson(ExcelPackage excel, Person p, IList<Article> articles)
         {
-            var worksheet = excel.Workbook.Worksheets.Add($"Artikel {p.PersonId}");
+            var worksheet = excel.Workbook.Worksheets.Add($"Kunde {p.PersonId}");
             worksheet.Cells[1, 1].Value = "Nummer:";
             worksheet.Cells[1, 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             worksheet.Cells[1, 1, 1, 2].Merge = true;
