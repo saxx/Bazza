@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Bazza.Models.Database;
@@ -97,9 +98,8 @@ namespace Bazza.Services
                 worksheet.Cells[row, 1].Value = a.PersonId;
                 worksheet.Cells[row, 2].Value = a.ArticleId;
                 worksheet.Cells[row, 3].Value = a.Name;
-                worksheet.Cells[row, 4].Value = a.Size;
-                worksheet.Cells[row, 5].Value = a.Price;
-                worksheet.Cells[row, 5].Style.Numberformat.Format = "#0.00 €";
+                worksheet.Cells[row, 4].Value = string.IsNullOrWhiteSpace(a.Size) ? "" : "Gr. " + a.Size;
+                worksheet.Cells[row, 5].Value = a.Price.ToString("N2", new CultureInfo("de-DE")) + " €";
 
                 if (lastPersonId != 0 && lastPersonId != a.PersonId)
                 {
@@ -120,6 +120,8 @@ namespace Bazza.Services
         private void AddPerson(ExcelPackage excel, Person p, IList<Article> articles)
         {
             var worksheet = excel.Workbook.Worksheets.Add($"Kunde {p.PersonId}");
+            worksheet.PrinterSettings.RepeatRows = new ExcelAddress("1:2");
+
             worksheet.Cells[1, 1].Value = "Nummer:";
             worksheet.Cells[1, 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             worksheet.Cells[1, 1, 1, 2].Merge = true;
@@ -191,11 +193,15 @@ namespace Bazza.Services
             {
                 worksheet.Cells[row, 1].Value = a.ArticleId;
                 worksheet.Cells[row, 2].Value = a.Name;
+                worksheet.Cells[row, 2].Style.WrapText = true;
                 worksheet.Cells[row, 3].Value = a.Size;
                 worksheet.Cells[row, 4].Value = a.Price;
                 worksheet.Cells[row, 4].Style.Numberformat.Format = "#0.00 €";
                 worksheet.Cells[row, 5].Value = "";
                 worksheet.Cells[row, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[row, 1, row, 5].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+                worksheet.Cells[row, 1, row, 5].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                worksheet.Row(row).Height = 25.8; // 43px
                 row++;
             }
         }
