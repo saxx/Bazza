@@ -65,6 +65,7 @@ else
                 <table class="table is-striped is-hoverable is-fullwidth is-narrow">
                     <thead>
                     <tr>
+                        <th style="width:1px;"></th>
                         <th>Artikelbezeichnung</th>
                         <th style="width:120px;">Größe</th>
                         <th class="has-text-right" style="width:100px;">Preis</th>
@@ -72,6 +73,7 @@ else
                     </thead>
                     <tbody>
                     <tr id="template_row" style="display: none;">
+                        <td></td>
                         <td>
                             <input type="text" class="input is-fullwidth is-small" maxlength="70" placeholder="Gummistiefel Paw Patrol Marshal (rot)">
                         </td>
@@ -92,6 +94,7 @@ else
                     @for (var i = 0; i < Model.Articles.Count; i++)
                     {
                         <tr>
+                            <td>@(i+1)</td>
                             <td>
                                 <input asp-for="Articles[i].Name" type="text" class="input is-fullwidth is-small" maxlength="70">
                                 <span asp-validation-for="Articles[i].Name" class="help is-danger"></span>
