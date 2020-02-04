@@ -83,7 +83,7 @@ namespace Bazza
         public class EmailConfiguration : IEmailConfiguration
         {
             public string EmailSenderName => "Basar Neufelden";
-            public string EmailSenderAddress => "basar.neufelden@sachsenhofer.com";
+            public string EmailSenderAddress => "basar.neufelden@em9951.sachsenhofer.com";
             public string EmailReplyToAddress => "basar.neufelden@gmail.com";
         }
     }
