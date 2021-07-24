@@ -9,6 +9,7 @@ using Bazza.Services;
 using Bazza.ViewModels.Home;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -49,13 +50,21 @@ namespace Bazza
             services.AddHttpContextAccessor();
             services.AddTransient<IndexViewModelFactory>();
             services.AddTransient<ExcelExportService>();
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
+                options.KnownNetworks.Clear();
+                options.KnownProxies.Clear();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseStatusCodePages();
-            app.UseHsts();
+            app.UseForwardedHeaders();
             app.UseHttpsRedirection();
+            app.UseHsts();
+            app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseRequestLocalization(options =>
             {

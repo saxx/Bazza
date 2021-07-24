@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_and_deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,7 +29,10 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/bazza:latest
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/bazza:${{ env.VERSION }}
-      
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
         with:
