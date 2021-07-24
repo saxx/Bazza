@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy;
-using Adliance.AspNetCore.Buddy.Email;
+using Adliance.AspNetCore.Buddy.Abstractions;
 using Bazza.Models.Database;
 using Bazza.Services;
 using Microsoft.AspNetCore.Http;

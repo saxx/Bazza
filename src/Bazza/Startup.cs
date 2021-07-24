@@ -1,6 +1,8 @@
 using System.Globalization;
 using System.Xml;
+using Adliance.AspNetCore.Buddy.Abstractions.Extensions;
 using Adliance.AspNetCore.Buddy.Email;
+using Adliance.AspNetCore.Buddy.Email.Mailjet.Extensions;
 using Adliance.AspNetCore.Buddy.Extensions;
 using Bazza.Models.Database;
 using Bazza.Services;
@@ -27,7 +29,7 @@ namespace Bazza
         {
             services.AddApplicationInsightsTelemetry();
             services.AddDbContext<Db>(options => options.UseSqlServer(_configuration.GetValue<string>("DbConnectionString")));
-            services.AddControllersWithViews(options => { options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((a,b) => "Ungültige Angabe."); });
+            services.AddControllersWithViews(options => { options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((a, b) => "Ungültige Angabe."); });
             services.AddWebOptimizer(pipeline =>
             {
                 pipeline.AddScssBundle(
@@ -38,12 +40,13 @@ namespace Bazza
                     "/lib/jquery.js",
                     "/js/site.js");
             });
-            services.AddHealthChecks().AddDbContextCheck<Db>();
+            services.AddHealthChecks()
+                .AddMailjetCheck()
+                .AddDbContextCheck<Db>();
 
+            services.AddBuddy()
+                .AddMailjet(_configuration.GetSection("Email"), _configuration.GetSection("Mailjet"));
             services.AddHttpContextAccessor();
-            services.AddTransient<IEmailer, SendgridEmailer>();
-            services.AddTransient<ISendgridConfiguration>(_ => new SendgridConfiguration(_configuration.GetValue<string>("SendgridSecret")));
-            services.AddTransient<IEmailConfiguration>(_ => new EmailConfiguration());
             services.AddTransient<IndexViewModelFactory>();
             services.AddTransient<ExcelExportService>();
         }
@@ -67,24 +70,6 @@ namespace Bazza
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapHealthChecks("/health");
             });
-        }
-
-        public class SendgridConfiguration : ISendgridConfiguration
-        {
-            public SendgridConfiguration(string secret)
-            {
-                SendgridSecret = secret;
-            }
-
-            public string SendgridSecret { get; }
-            public string SendgridLabel => "Bazza";
-        }
-
-        public class EmailConfiguration : IEmailConfiguration
-        {
-            public string EmailSenderName => "Basar Neufelden";
-            public string EmailSenderAddress => "basar.neufelden@em9951.sachsenhofer.com";
-            public string EmailReplyToAddress => "basar.neufelden@gmail.com";
         }
     }
 }

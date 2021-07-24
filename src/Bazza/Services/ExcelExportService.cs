@@ -23,6 +23,7 @@ namespace Bazza.Services
             var allPersons = await _db.Persons.OrderBy(x => x.PersonId).ToListAsync();
             var allArticles = await _db.Articles.OrderBy(x => x.PersonId).ThenBy(x => x.ArticleId).ToListAsync();
 
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var excel = new ExcelPackage();
             AddPersons(excel, allPersons);
             AddArticles(excel, allArticles);
@@ -31,7 +32,7 @@ namespace Bazza.Services
                 AddPerson(excel, p, allArticles.Where(x => x.PersonId == p.PersonId).ToList());
             }
 
-            return excel.GetAsByteArray();
+            return await excel.GetAsByteArrayAsync();
         }
 
         private void AddPersons(ExcelPackage excel, IList<Person> persons)
