@@ -30,7 +30,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/bazza:latest, ${{ secrets.DOCKER_HUB_USERNAME }}/bazza:${{ VERSION }} 
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/bazza:latest, ${{ secrets.DOCKER_HUB_USERNAME }}/bazza:${{ env.VERSION }} 
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
