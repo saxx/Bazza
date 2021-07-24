@@ -1,10 +1,13 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS setversion
 ARG VERSION=0.0.0.0
 RUN dotnet tool install -g dotnet-setversion
-RUN export PATH="$PATH:/root/.dotnet/tools"
+ENV PATH="${PATH}:/root/.dotnet/tools"
 COPY ./src/ /src/
-WORKDIR /src
-RUN setversion "$VERSION"
+WORKDIR /src/Bazza
+RUN setversion $VERSION
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+COPY --from=setversion /src/ /src/
 RUN dotnet restore "/src/Bazza/Bazza.csproj"
 RUN dotnet build "/src/Bazza/Bazza.csproj" -c Release -o /app/build
 RUN dotnet publish "/src/Bazza/Bazza.csproj" -c Release -o /app/publish
