@@ -6,8 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{0AAA53BC-F751-40A9-88CC-C3BFC53A18E0}"
 ProjectSection(SolutionItems) = preProject
 	Dockerfile = Dockerfile
-	azure-pipelines.yml = azure-pipelines.yml
 	README.md = README.md
+	.github\workflows\main.yml = .github\workflows\main.yml
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bazza", "src\Bazza\Bazza.csproj", "{B68AE066-D8F6-4CBD-A710-77648B051DEB}"

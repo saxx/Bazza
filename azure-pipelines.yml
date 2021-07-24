@@ -1,4 +1,4 @@
-name: 1.0.$(Rev:r)
+name: 1.1.$(Rev:r)
 
 trigger:
 - master
@@ -13,16 +13,11 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - task: UseDotNet@2
-      displayName: "Install .NET Core 2.1.x"
-      inputs:
-        version: '2.1.x'
-        packageType: runtime
     - task: UseDotNet@2 
       displayName: "Install .NET Core 3.1.x"
       inputs:
         version: '3.1.x'
-        packageType: sdk
+        packageType: runtime
     - task: DotNetCoreCLI@2
       displayName: 'Install Set Version'
       inputs:
