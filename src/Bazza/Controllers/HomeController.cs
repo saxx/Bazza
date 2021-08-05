@@ -10,19 +10,25 @@ namespace Bazza.Controllers
     public class HomeController : Controller
     {
         [HttpGet("/")]
-        public async Task<IActionResult> Index([FromServices] IndexViewModelFactory factory)
+        public IActionResult Index()
         {
-            return await Index(factory, (string)null);
+            return View();
         }
         
-        [HttpGet("/{accessToken}")]
-        public async Task<IActionResult> Index([FromServices] IndexViewModelFactory factory, string accessToken)
+        [HttpGet("/register")]
+        public async Task<IActionResult> Register([FromServices] RegisterViewModelFactory factory)
+        {
+            return await Register(factory, (string)null);
+        }
+        
+        [HttpGet("/register/{accessToken}")]
+        public async Task<IActionResult> Register([FromServices] RegisterViewModelFactory factory, string accessToken)
         {
             return View(await factory.Fill(accessToken));
         }
         
-        [HttpPost("/"), ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index([FromServices] IndexViewModelFactory factory, IndexViewModel viewModel)
+        [HttpPost("/register"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register([FromServices] RegisterViewModelFactory factory, RegisterViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {

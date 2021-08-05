@@ -16,15 +16,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Bazza.ViewModels.Home
 {
-    public class IndexViewModelFactory
+    public class RegisterViewModelFactory
     {
-        private readonly ILogger<IndexViewModelFactory> _logger;
+        private readonly ILogger<RegisterViewModelFactory> _logger;
         private readonly Db _db;
         private readonly IEmailer _emailer;
         private readonly LinkGenerator _link;
         private readonly IHttpContextAccessor _context;
 
-        public IndexViewModelFactory(ILogger<IndexViewModelFactory> logger, Db db, IEmailer emailer, LinkGenerator link, IHttpContextAccessor context)
+        public RegisterViewModelFactory(ILogger<RegisterViewModelFactory> logger, Db db, IEmailer emailer, LinkGenerator link, IHttpContextAccessor context)
         {
             _logger = logger;
             _db = db;
@@ -33,9 +33,9 @@ namespace Bazza.ViewModels.Home
             _context = context;
         }
 
-        public async Task<IndexViewModel> Fill(string accessToken = null)
+        public async Task<RegisterViewModel> Fill(string accessToken = null)
         {
-            var result = new IndexViewModel();
+            var result = new RegisterViewModel();
 
             if (!string.IsNullOrWhiteSpace(accessToken))
             {
@@ -49,7 +49,7 @@ namespace Bazza.ViewModels.Home
                     result.AccessToken = person.AccessToken;
 
                     var articles = await _db.Articles.Where(x => x.PersonId == person.PersonId).OrderBy(x => x.ArticleId).ToListAsync();
-                    result.Articles = articles.Select(x => new IndexViewModel.Article
+                    result.Articles = articles.Select(x => new RegisterViewModel.Article
                     {
                         Name = x.Name,
                         Price = x.Price,
@@ -63,7 +63,7 @@ namespace Bazza.ViewModels.Home
 
         private static readonly SemaphoreSlim Lock = new SemaphoreSlim(1, 1);
 
-        public async Task SaveToDatabase(IndexViewModel viewModel)
+        public async Task SaveToDatabase(RegisterViewModel viewModel)
         {
             await Lock.WaitAsync();
             var sendMail = false;
@@ -123,7 +123,7 @@ namespace Bazza.ViewModels.Home
             Lock.Release();
         }
 
-        private async Task SendEmail(IndexViewModel viewModel)
+        private async Task SendEmail(RegisterViewModel viewModel)
         {
             try
             {
@@ -131,8 +131,8 @@ namespace Bazza.ViewModels.Home
                 var htmlBody = "<div style=\"font-family:sans-serif;\">" +
                                $"Hallo {viewModel.Name}!<br /><br />Danke für deine Registrierung für den Basar Neufelden. Wir freuen uns, dass du mit an Bord bist.<br /><br />" +
                                "Wenn du deine Registrierung oder deine Artikel im Nachhinein anpassen möchtest, kannst du das über die folgende Adresse tun:<br /><br />" +
-                               $"{_link.GetUriByAction(_context.HttpContext, "Index", "Home", null, "https") + viewModel.AccessToken}<br /><br />" +
-                               "Bei Anmerkungen oder Fragen kannst du dich jederzeit gerne an Ursula Pühringer unter basar.neufelden@gmail.com bzw. 0664 1458265 wenden.<br /><br />" +
+                               $"{_link.GetUriByAction(_context.HttpContext, "Register", "Home", null, "https") + viewModel.AccessToken}<br /><br />" +
+                               "Bei Anmerkungen oder Fragen kannst du dich jederzeit gerne an Ursula Pühringer unter basar@neufelden.at bzw. 0664 1458265 wenden.<br /><br />" +
                                "Danke & liebe Grüße,<br />das Team vom Basar Neufelden" +
                                "</div>";
                 
@@ -144,7 +144,7 @@ namespace Bazza.ViewModels.Home
             }
         }
 
-        private async Task<Person> CreateNewPerson(IndexViewModel viewModel)
+        private async Task<Person> CreateNewPerson(RegisterViewModel viewModel)
         {
             var existingPersonIds = await _db.Persons.Select(x => x.PersonId).ToListAsync();
             var personId = (viewModel.Address ?? "").Contains("Mütterrunde",StringComparison.InvariantCultureIgnoreCase) ? 1001 : 1;
@@ -161,7 +161,7 @@ namespace Bazza.ViewModels.Home
         }
     }
 
-    public class IndexViewModel
+    public class RegisterViewModel
     {
         [Required(ErrorMessage = "Bitte gib deinen Namen an.")]
         public string Name { get; set; }

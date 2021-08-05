@@ -9,7 +9,7 @@ namespace Bazza.Services
         protected override ValidationResult IsValid(object value,
             ValidationContext validationContext)
         {
-            var article = (IndexViewModel.Article) validationContext.ObjectInstance;
+            var article = (RegisterViewModel.Article) validationContext.ObjectInstance;
 
 
             if ((article.Price ?? 0) % 0.5 > 0)

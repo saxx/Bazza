@@ -48,7 +48,7 @@ namespace Bazza
             services.AddBuddy()
                 .AddMailjet(_configuration.GetSection("Email"), _configuration.GetSection("Mailjet"));
             services.AddHttpContextAccessor();
-            services.AddTransient<IndexViewModelFactory>();
+            services.AddTransient<RegisterViewModelFactory>();
             services.AddTransient<ExcelExportService>();
 
             services.Configure<ForwardedHeadersOptions>(options =>

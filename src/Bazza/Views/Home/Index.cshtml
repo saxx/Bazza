@@ -1,149 +1,121 @@
-﻿@model Bazza.ViewModels.Home.IndexViewModel
-
-@if (Model.DisplayInitialSuccess)
-{
-    <partial name="_InitialSuccess"/>
+﻿@{
+    var startDate = new DateTime(2020, 08, 23).Date;
+    var endDate = new DateTime(2021, 09, 07).Date;
 }
-else if (Model.DisplaySubsequentSuccess)
-{
-    <partial name="_SubsequentSuccess"/>
-}
-else
-{
-    <partial name="_Intro"/>
-    <form method="post" action="~/">
-        @Html.AntiForgeryToken()
-        <input type="hidden" asp-for="AccessToken"/>
-        <section class="section">
-            <div class="columns">
-                <div class="column">
-                    <div class="field">
-                        <label asp-for="Name" class="label">Dein Name:</label>
-                        <div class="control">
-                            <input asp-for="Name" class="input" type="text" placeholder="Maria Musterfrau">
-                        </div>
-                        <span asp-validation-for="Name" class="help is-danger"></span>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="field">
-                        <label asp-for="Address" class="label">Deine Adresse:</label>
-                        <div class="control">
-                            <textarea asp-for="Address" class="input" type="text" placeholder="Straße 12&#10;4120 Neufelden" style="height: 4rem"></textarea>
-                        </div>
-                        <span asp-validation-for="Address" class="help is-danger"></span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="columns">
-                <div class="column">
-                    <div class="field">
-                        <label asp-for="Email" class="label">Deine E-Mail-Adresse:</label>
-                        <div class="control">
-                            <input asp-for="Email" class="input" type="text" placeholder="maria@musterfrau.at">
-                        </div>
-                        <span asp-validation-for="Email" class="help is-danger"></span>
-                        <span class="help">An diese Adresse schicken wir dir die Etiketten für deine Artikel zu.</span>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="field">
-                        <label asp-for="Phone" class="label">Deine Telefonnummer:</label>
-                        <div class="control">
-                            <input asp-for="Phone" class="input" type="text" placeholder="0664 123 456 789">
-                        </div>
-                        <span asp-validation-for="Phone" class="help is-danger"></span>
-                        <span class="help">Für Rückfragen.</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+<h1 class="is-title is-size-1 has-text-centered mt-5">Kinderwarenbasar Neufelden</h1>
 
-        <section class="section">
-            <div class="table-container">
-                <table class="table is-striped is-hoverable is-fullwidth is-narrow">
-                    <thead>
-                    <tr>
-                        <th style="width:1px;"></th>
-                        <th>Artikelbezeichnung</th>
-                        <th style="width:120px;">Größe</th>
-                        <th class="has-text-right" style="width:100px;">Preis</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr id="template_row" style="display: none;">
-                        <td></td>
-                        <td>
-                            <input type="text" class="input is-fullwidth is-small" maxlength="70" placeholder="Gummistiefel Paw Patrol Marshal (rot)">
-                        </td>
-                        <td>
-                            <input type="text" class="input is-small is-fullwidth" placeholder="Schuhgröße 26" maxlength="50">
-                        </td>
-                        <td class="">
-                            <div class="field has-addons is-pulled-right">
-                                <p class="control">
-                                    <input type="text" class="input is-small has-text-right" style="width:50px;" placeholder="4,50">
-                                </p>
-                                <p class="control">
-                                    <a class="button is-static is-small">€</a>
-                                </p>
-                            </div>
-                        </td>
-                    </tr>
-                    @for (var i = 0; i < Model.Articles.Count; i++)
-                    {
-                        <tr>
-                            <td>@(i+1)</td>
-                            <td>
-                                <input asp-for="Articles[i].Name" type="text" class="input is-fullwidth is-small" maxlength="70">
-                                <span asp-validation-for="Articles[i].Name" class="help is-danger"></span>
-                            </td>
-                            <td>
-                                <input asp-for="Articles[i].Size" type="text" class="input is-small is-fullwidth" placeholder="Schuhgröße 26" maxlength="50">
-                                <span asp-validation-for="Articles[i].Size" class="help is-danger"></span>
-                            </td>
-                            <td class="">
-                                <div class="field has-addons is-pulled-right">
-                                    <p class="control">
-                                        <input asp-for="Articles[i].Price" type="text" class="input is-small has-text-right" style="width:50px;" placeholder="4,50">
-                                    </p>
-                                    <p class="control">
-                                        <a class="button is-static is-small">€</a>
-                                    </p>
-                                </div>
-                                <span asp-validation-for="Articles[i].Price" class="help is-danger"></span>
-                            </td>
-                        </tr>
-                    }
+<div class="columns mt-5">
+    <div class="column is-half has-text-centered">
+        <h2 class="is-title is-size-3">10. – 11. September 2021</h2>
+    </div>
+    <div class="column is-half has-text-centered">
+        <h2 class="is-title is-size-3">Turnsaal der Volksschule Neufelden<br/>Marktplatz 12, 4120 Neufelden</h2>
+    </div>
+</div>
 
-                    </tbody>
-                </table>
 
-                <p>
-                    <button type="button" id="add_row" class="button is-success is-small"><i class="fad fa-plus"></i>&nbsp;Weiteren Artikel hinzufügen</button>
-                    <button type="button" id="remove_row" class="button is-danger is-small"><i class="fad fa-trash"></i>&nbsp;Letzte Zeile entfernen</button>
-                </p>
-                <span class="help">
-                    Du kannst bis zu 50 Artikel angeben. Bitte gib für jeden Artikel mindestens den Preis und eine möglichst aussagekräftige Bezeichnung an.
-                    Bitte runde den Preis immer auf 50 Cent genau.
-                </span>
-            </div>
+<div class="columns">
+    <div class="column is-half">
+        <h3 class="is-title is-size-5 mt-5">
+            Annahme der vorab eingeschriebenen Artikel
+        </h3>
+        <p>
+            Donnerstag, 9. September 2021 von 17 bis 19:30 Uhr
+        </p>
+    </div>
+    <div class="column is-half">
+        <h3 class="is-title is-size-5">
+            Verkauf
+        </h3>
+        <p>
+            Freitag, 10. September 2021 von 18 bis 19:30 Uhr<br/>
+            Samstag, 11. September 2021 von 9 bis 11 Uhr
+        </p>
+    </div>
+</div>
 
-        </section>
 
-        <section class="section">
-            <div class="field">
-                <label class="checkbox">
-                    <input type="checkbox" asp-for="Privacy" value="true">
-                    Ich stimme zu, dass meine Daten zur Organisation und Abwicklung des Basars verwendet werden dürfen.
-                </label>
-                <span asp-validation-for="Privacy" class="help is-danger"></span>
-            </div>
+<div class="columns">
+    <div class="column is-half">
+        <h3 class="is-title is-size-5">
+            Abholung der nicht verkauften Waren
+        </h3>
+        <p>
+            Samstag, 11. September 2021 von 16 bis 17 Uhr
+        </p>
+    </div>
+    <div class="column is-half">
+        <h3 class="is-title is-size-5 mt-5">
+            Derzeitige Corona-Maßnahmen
+        </h3>
+        <p>
+            Eintritt für max. 99 Personen gleichzeitig<br/>
+            3-G-Regel
+        </p>
+    </div>
+</div>
 
-            <div class="field">
-                <button type="submit" class="button is-link"><i class="fad fa-save"></i>&nbsp;Speichern und verbindlich registrieren</button>
-            </div>
-        </section>
-    </form>
-}
+<div class="columns">
+    <div class="column">
+        <h3 class="is-title is-size-5">
+            Diesen Artikeln geben wir gerne eine 2. Chance
+        </h3>
+        <span class="tag is-success">Alles rund ums Baby</span>
+        <span class="tag is-success">Spielsachen</span>
+        <span class="tag is-success">Wintersportartikel</span>
+        <span class="tag is-success">Kinderbekleidung bis Größe 164</span>
+        <span class="tag is-success">Bücher</span>
+        <span class="tag is-success">Kinderwägen</span>
+        <span class="tag is-success">Umstandsmode</span>
+        <span class="tag is-success">Kinderfahrzeuge</span>
+        <span class="tag is-success">Autositze</span>
+        <span class="tag is-success">Faschingsbekleidung</span>
+        <span class="tag is-success">Schaukelpferde</span>
+        <span class="tag is-success">Hochstühle</span>
+        <span class="tag is-success">Schuhe</span>
+    </div>
+</div>
+
+<div class="columns pt-5 pb-5">
+    <div class="column is-two-thirds">
+        <p class="alert is-warning">
+            Die Onlineeinschreibung ist von Montag, 23. August 2021 bis Dienstag, 7. September 2021 möglich
+        </p>
+    </div>
+    <div class="column is-one-third">
+        @if (DateTime.UtcNow.Date >= startDate && DateTime.UtcNow.Date <= endDate)
+        {
+            <p>
+                <a asp-action="Register" asp-controller="Home" class="button is-info is-large is-fullwidth">Jetzt online einschreiben</a>
+            </p>
+        }
+    </div>
+</div>
+
+
+<div class="columns">
+    <div class="column">
+        <h3 class="is-title is-size-5">
+            Einschreibgebühr
+        </h3>
+        <p>
+            10 Cent pro Artikel bzw 1 Euro ab einem Verkaufswert von 25 Euro.<br/>
+            10% vom Erlös werden einbehalten.
+        </p>
+    </div>
+</div>
+
+<div class="columns">
+    <div class="column">
+        <h3 class="is-title is-size-5">
+            Kontaktpersonen
+        </h3>
+        <p>
+            Ursula Pühringer: 0664/14 58 265<br/>
+            Sandra Brunninger: 0664/42 48 075<br/>
+            basar@neufelden.at<br/>
+            https://www.facebook.com/search/top?q=basar%20neufelden
+        </p>
+    </div>
+</div>
