@@ -94,7 +94,7 @@ else
                     @for (var i = 0; i < Model.Articles.Count; i++)
                     {
                         <tr>
-                            <td>@(i+1)</td>
+                            <td>@(i + 1)</td>
                             <td>
                                 <input asp-for="Articles[i].Name" type="text" class="input is-fullwidth is-small" maxlength="70">
                                 <span asp-validation-for="Articles[i].Name" class="help is-danger"></span>
@@ -139,6 +139,12 @@ else
                     Ich stimme zu, dass meine Daten zur Organisation und Abwicklung des Basars verwendet werden dürfen.
                 </label>
                 <span asp-validation-for="Privacy" class="help is-danger"></span>
+
+                <div class="help">
+                    Sie werden ausschließlich für diesen Zweck verwendet.
+                    Die Zusendung von Informations-E-Mails zum Basar und die Speicherung meiner Daten in diesem Zusammenhang kann ich jederzeit telefonisch bei Ursula Pühringer, 0664 / 14 58 265 oder per Mail an basar@neufelden.at widerrufen.
+                    Es wird darauf hingewiesen, dass alle bis zum Widerruf vorgenommenen Verarbeitungen weiterhin rechtmäßig bleiben.
+                </div>
             </div>
 
             <div class="field">

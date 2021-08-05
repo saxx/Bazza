@@ -2,16 +2,75 @@
 
 @if (string.IsNullOrWhiteSpace(Model.AccessToken))
 {
-    <section class="section">
-        <h4 class="title is-4">Registrierung für den Basar Neufelden</h4>
-        Willkommen bei der Registrierung für den Basar am <b>10. und 11. September 2021</b> im <b>Turnsaal der Volksschule Neufelden</b>, Marktplatz 12, 4120 Neufelden. Bitte gib deine persönlichen Daten an, damit wir deine Artikel zuordnen und dir deine Etiketten zusenden können.
-        Aus organisatorischen Gründen kannst du maximal 50 Artikel angeben. Solltest du mehr Artikel verkaufen wollen, registriere dich bitte ein weiteres Mal.
-    </section>
+    <div class="columns">
+        <div class="column">
+            <h1 class="title is-1">Registrierung für den Basar Neufelden</h1>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <b>Willkommen</b> bei der Registrierung für den Basar am 10. und 11. September 2021 im Turnsaal der Volksschule Neufelden.
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-title is-size-5">
+                Artikel
+            </h3>
+            <p>
+                Bitte gib deine persönlichen Daten an, damit wir deine Artikel zuordnen und dir deine Etiketten zusenden können.
+                Aus organisatorischen Grünen kannst du maximal 50 Artikel angeben.
+                Solltest du mehr verkaufen wollen, registriere dich bitte ein weiteres Mal.
+            </p>
+        </div>
+
+        <div class="column">
+            <h3 class="is-title is-size-5">
+                Listen
+            </h3>
+            <p>
+                Bei vollständig ausgefüllten Listen mit 50 Artikeln, werden die Etiketten ehestmöglich erstellt und an die von dir angegebene E-Mail-Adresse zugesendet.
+                Ausgefüllte Listen mit weniger als 50 Artikeln können noch für 1 Woche ab Erstellung ergänzt werden und dann erst bekommst du von mir die Etiketten.
+                Sollte deine Liste schon fertig sein und du benötigst die Etiketten schon vor Ablauf der 7 Tage, schreibe bitte kurz ein E-Mail an basar@neufelden.at.
+            </p>
+        </div>
+    </div>
+    
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-title is-size-5">
+                Deadline
+            </h3>
+            <p>
+Die Eingabe der Artikel ist bis Dienstag, 7. September 2021 möglich.
+            </p>
+        </div>
+
+        <div class="column">
+            <h3 class="is-title is-size-5">
+                Etiketten
+            </h3>
+            <p>
+                Zum Ausdrucken der Etiketten benötigen die ersten 60 Kunden einen Kopierkarton 160g/m² in einem kräftigen Grün (für 50 Etiketten werden 2 Blätter Kopierkarton benötigt). 
+                Alle weiteren Kunden benötigen einen Kopierkarton 160g/m² in einem kräftigen Gelb (für 50 Etiketten werden 2 Blätter Kopierkarton benötigt). 
+                Die Farbe des Kopierkartons steht dann in der E-Mail mit den Etiketten.
+            </p>
+        </div>
+    </div>
 }
 else
 {
-    <section class="section">
-        <h4 class="title is-4">Registrierung für den Basar Neufelden anpassen</h4>
-        Willkommen zurück, @Model.Name! Du findest unten die Daten deiner Registrierung und kannst sie gerne noch anpassen oder verändern.
-    </section>
+    <div class="columns">
+        <div class="column">
+            <h1 class="title is-size-1">Registrierung für den Basar Neufelden anpassen</h1>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <b>Willkommen zurück</b>, @Model.Name! Du findest unten die Daten deiner Registrierung und kannst sie gerne noch anpassen oder verändern.
+        </div>
+    </div>
 }
