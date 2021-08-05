@@ -3,21 +3,25 @@
     var endDate = new DateTime(2021, 09, 07).Date;
 }
 
-<h1 class="is-title is-size-1 has-text-centered mt-5">Kinderwarenbasar Neufelden</h1>
+<div style="background-image: url('/images/title.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center; padding-top: 300px; margin: 0 -.5rem;">
+    <div style="background-color: rgba(255,255,255,0.75); ">
+        <h1 class="is-title is-size-1 has-text-centered mt-5">Kinder&shy;waren&shy;basar Neufelden</h1>
 
-<div class="columns mt-5">
-    <div class="column is-half has-text-centered">
-        <h2 class="is-title is-size-3">10. – 11. September 2021</h2>
-    </div>
-    <div class="column is-half has-text-centered">
-        <h2 class="is-title is-size-3">Turnsaal der Volksschule Neufelden<br/>Marktplatz 12, 4120 Neufelden</h2>
+        <div class="columns mt-5">
+            <div class="column is-half has-text-centered">
+                <h2 class="is-title is-size-3">10. – 11. September 2021</h2>
+            </div>
+            <div class="column is-half has-text-centered">
+                <h2 class="is-title is-size-3">Turnsaal der Volksschule Neufelden<br/>Marktplatz 12, 4120 Neufelden</h2>
+            </div>
+        </div>
     </div>
 </div>
 
 
-<div class="columns">
+<div class="columns mt-5">
     <div class="column is-half">
-        <h3 class="is-title is-size-5 mt-5">
+        <h3 class="is-title is-size-5">
             Annahme der vorab eingeschriebenen Artikel
         </h3>
         <p>
@@ -36,7 +40,7 @@
 </div>
 
 
-<div class="columns">
+<div class="columns mt-5">
     <div class="column is-half">
         <h3 class="is-title is-size-5">
             Abholung der nicht verkauften Waren
@@ -46,7 +50,7 @@
         </p>
     </div>
     <div class="column is-half">
-        <h3 class="is-title is-size-5 mt-5">
+        <h3 class="is-title is-size-5">
             Derzeitige Corona-Maßnahmen
         </h3>
         <p>
@@ -57,29 +61,34 @@
 </div>
 
 <div class="columns">
-    <div class="column">
+    <div class="column is-half">
+        <img src="~/images/logo.jpg" alt="Mütterrunde Logo" style="width:100%; max-width:200px; margin:0 auto; display:block;"/>
+    </div>
+    <div class="column is-half">
         <h3 class="is-title is-size-5">
             Diesen Artikeln geben wir gerne eine 2. Chance
         </h3>
-        <span class="tag is-success">Alles rund ums Baby</span>
-        <span class="tag is-success">Spielsachen</span>
-        <span class="tag is-success">Wintersportartikel</span>
-        <span class="tag is-success">Kinderbekleidung bis Größe 164</span>
-        <span class="tag is-success">Bücher</span>
-        <span class="tag is-success">Kinderwägen</span>
-        <span class="tag is-success">Umstandsmode</span>
-        <span class="tag is-success">Kinderfahrzeuge</span>
-        <span class="tag is-success">Autositze</span>
-        <span class="tag is-success">Faschingsbekleidung</span>
-        <span class="tag is-success">Schaukelpferde</span>
-        <span class="tag is-success">Hochstühle</span>
-        <span class="tag is-success">Schuhe</span>
+        <ul>
+            <li>&#x2713; Alles rund ums Baby</li>
+            <li>&#x2713; Spielsachen</li>
+            <li>&#x2713; Wintersportartikel</li>
+            <li>&#x2713; Kinderbekleidung bis Größe 164</li>
+            <li>&#x2713; Bücher</li>
+            <li>&#x2713; Kinderwägen</li>
+            <li>&#x2713; Umstandsmode</li>
+            <li>&#x2713; Kinderfahrzeuge</li>
+            <li>&#x2713; Autositze</li>
+            <li>&#x2713; Faschingsbekleidung</li>
+            <li>&#x2713; Schaukelpferde</li>
+            <li>&#x2713; Hochstühle</li>
+            <li>&#x2713; Schuhe</li>
+        </ul>
     </div>
 </div>
 
 <div class="columns pt-5 pb-5">
     <div class="column is-two-thirds">
-        <p class="alert is-warning">
+        <p class="notification is-warning">
             Die Onlineeinschreibung ist von Montag, 23. August 2021 bis Dienstag, 7. September 2021 möglich
         </p>
     </div>
@@ -106,16 +115,28 @@
     </div>
 </div>
 
-<div class="columns">
+<div class="columns mt-5">
     <div class="column">
         <h3 class="is-title is-size-5">
             Kontaktpersonen
         </h3>
         <p>
-            Ursula Pühringer: 0664/14 58 265<br/>
-            Sandra Brunninger: 0664/42 48 075<br/>
-            basar@neufelden.at<br/>
-            https://www.facebook.com/search/top?q=basar%20neufelden
+            Ursula Pühringer: <a href="tel:+43 664 14 58 265">0664/14 58 265</a><br/>
+            Sandra Brunninger: <a href="tel:+43 664 42 48 075">0664/42 48 075</a><br/>
+            E-Mail: <a href="mailto:basar@neufelden.at">basar@neufelden.at</a><br/>
+            <a href="https://www.facebook.com/search/top?q=basar%20neufelden" target="_blank">Facebook</a>
         </p>
     </div>
+</div>
+
+
+<div class="columns mt-5">
+    @for (var i = 1; i <= 5; i++)
+    {
+        <div class="column is-one-fifth">
+            <a href="~/images/photo0@(i).jpg">
+                <img src="~/images/photo0@(i).jpg" alt="" class="is-fullwidth"/>
+            </a>
+        </div>
+    }
 </div>
