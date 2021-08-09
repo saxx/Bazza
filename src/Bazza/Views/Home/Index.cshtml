@@ -19,7 +19,7 @@
 </div>
 
 <div class="columns mt-5">
-    <div class="column is-half">
+    <div class="column">
         <h3 class="is-title is-size-5">
             Annahme der vorab eingeschriebenen Artikel
         </h3>
@@ -27,12 +27,11 @@
             Donnerstag, 9. September 2021 von 17 bis 19:30 Uhr
         </p>
     </div>
-    <div class="column is-half"></div>
 </div>
 
 
 <div class="columns mt-5">
-    <div class="column is-half">
+    <div class="column">
         <h3 class="is-title is-size-5">
             Verkauf
         </h3>
@@ -41,12 +40,11 @@
             Samstag, 11. September 2021 von 9 bis 11 Uhr
         </p>
     </div>
-    <div class="column is-half"></div>
 </div>
 
 
 <div class="columns mt-5">
-    <div class="column is-half">
+    <div class="column">
         <h3 class="is-title is-size-5">
             Abholung der nicht verkauften Waren
         </h3>
@@ -54,7 +52,7 @@
             Samstag, 11. September 2021 von 16 bis 17 Uhr
         </p>
     </div>
-    <div class="column is-half">
+    <div class="column">
         <h3 class="is-title is-size-5">
             Derzeitige Corona-Maßnahmen
         </h3>
@@ -65,10 +63,10 @@
 </div>
 
 <div class="columns">
-    <div class="column is-half">
+    <div class="column">
         <img src="~/images/logo.jpg" alt="Mütterrunde Logo" style="width:100%; max-width:200px; margin:2rem auto; display:block;"/>
     </div>
-    <div class="column is-half">
+    <div class="column">
         <h3 class="is-title is-size-5">
             Diesen Artikeln geben wir gerne eine 2. Chance
         </h3>
@@ -90,21 +88,29 @@
     </div>
 </div>
 
-<div class="columns pt-5 pb-5">
-    <div class="column is-two-thirds">
-        <p class="notification is-warning">
-            Die Onlineeinschreibung ist von Montag, 23. August 2021 bis Dienstag, 7. September 2021 möglich
-        </p>
-    </div>
-    @if (DateTime.UtcNow.Date >= startDate && DateTime.UtcNow.Date <= endDate)
-    {
+@if (DateTime.UtcNow.Date >= startDate && DateTime.UtcNow.Date <= endDate)
+{
+    <div class="columns pt-5 pb-5">
+        <div class="column is-two-thirds">
+            <p>
+                Die Onlineeinschreibung ist von Montag, 23. August 2021 bis Dienstag, 7. September 2021 möglich
+            </p>
+        </div>
         <div class="column is-one-third">
             <p>
                 <a asp-action="Register" asp-controller="Home" class="button is-info is-large is-fullwidth">Jetzt online einschreiben</a>
             </p>
         </div>
-    }
-</div>
+    </div>
+} else {
+    <div class="columns pt-5 pb-5">
+        <div class="column">
+            <p class="notification is-warning">
+                Die Onlineeinschreibung ist von Montag, 23. August 2021 bis Dienstag, 7. September 2021 möglich
+            </p>
+        </div>
+    </div>
+}
 
 
 <div class="columns">
