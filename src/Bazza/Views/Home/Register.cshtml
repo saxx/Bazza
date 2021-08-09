@@ -15,7 +15,7 @@ else if (Model.DisplaySubsequentSuccess)
 else
 {
     <partial name="_Register_Intro"/>
-    <form method="post" asp-action="Register" asp-controller="Home">
+    <form method="post" asp-action="Register" asp-controller="Home" asp-route-accessToken="">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="AccessToken"/>
         <section class="section">
