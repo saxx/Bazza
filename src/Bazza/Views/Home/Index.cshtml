@@ -22,14 +22,6 @@
 <div class="columns mt-5">
     <div class="column is-half">
         <h3 class="is-title is-size-5">
-            Annahme der vorab eingeschriebenen Artikel
-        </h3>
-        <p>
-            Donnerstag, 9. September 2021 von 17 bis 19:30 Uhr
-        </p>
-    </div>
-    <div class="column is-half">
-        <h3 class="is-title is-size-5">
             Verkauf
         </h3>
         <p>
@@ -37,6 +29,20 @@
             Samstag, 11. September 2021 von 9 bis 11 Uhr
         </p>
     </div>
+    <div class="column is-half"></div>
+</div>
+
+
+<div class="columns mt-5">
+    <div class="column is-half">
+        <h3 class="is-title is-size-5">
+            Annahme der vorab eingeschriebenen Artikel
+        </h3>
+        <p>
+            Donnerstag, 9. September 2021 von 17 bis 19:30 Uhr
+        </p>
+    </div>
+    <div class="column is-half"></div>
 </div>
 
 
@@ -54,7 +60,6 @@
             Derzeitige Corona-Maßnahmen
         </h3>
         <p>
-            Eintritt für max. 99 Personen gleichzeitig<br/>
             3-G-Regel
         </p>
     </div>
@@ -62,7 +67,7 @@
 
 <div class="columns">
     <div class="column is-half">
-        <img src="~/images/logo.jpg" alt="Mütterrunde Logo" style="width:100%; max-width:200px; margin:0 auto; display:block;"/>
+        <img src="~/images/logo.jpg" alt="Mütterrunde Logo" style="width:100%; max-width:200px; margin:2rem auto; display:block;"/>
     </div>
     <div class="column is-half">
         <h3 class="is-title is-size-5">
@@ -73,6 +78,7 @@
             <li>&#x2713; Spielsachen</li>
             <li>&#x2713; Wintersportartikel</li>
             <li>&#x2713; Kinderbekleidung bis Größe 164</li>
+            <li>&#x2713; Schuhe</li>
             <li>&#x2713; Bücher</li>
             <li>&#x2713; Kinderwägen</li>
             <li>&#x2713; Umstandsmode</li>
@@ -81,7 +87,6 @@
             <li>&#x2713; Faschingsbekleidung</li>
             <li>&#x2713; Schaukelpferde</li>
             <li>&#x2713; Hochstühle</li>
-            <li>&#x2713; Schuhe</li>
         </ul>
     </div>
 </div>
@@ -92,14 +97,14 @@
             Die Onlineeinschreibung ist von Montag, 23. August 2021 bis Dienstag, 7. September 2021 möglich
         </p>
     </div>
-    <div class="column is-one-third">
-        @if (DateTime.UtcNow.Date >= startDate && DateTime.UtcNow.Date <= endDate)
-        {
+    @if (DateTime.UtcNow.Date >= startDate && DateTime.UtcNow.Date <= endDate)
+    {
+        <div class="column is-one-third">
             <p>
                 <a asp-action="Register" asp-controller="Home" class="button is-info is-large is-fullwidth">Jetzt online einschreiben</a>
             </p>
-        }
-    </div>
+        </div>
+    }
 </div>
 
 
@@ -124,7 +129,7 @@
             Ursula Pühringer: <a href="tel:+43 664 14 58 265">0664/14 58 265</a><br/>
             Sandra Brunninger: <a href="tel:+43 664 42 48 075">0664/42 48 075</a><br/>
             E-Mail: <a href="mailto:basar@neufelden.at">basar@neufelden.at</a><br/>
-            <a href="https://www.facebook.com/search/top?q=basar%20neufelden" target="_blank">Facebook</a>
+            <a href="https://www.facebook.com/Basar-Neufelden-101183602264571" target="_blank">Facebook</a>
         </p>
     </div>
 </div>
@@ -134,7 +139,7 @@
     @for (var i = 1; i <= 5; i++)
     {
         <div class="column is-one-fifth">
-            <a href="~/images/photo0@(i).jpg">
+            <a href="~/images/photo0@(i).jpg" target="_blank">
                 <img src="~/images/photo0@(i).jpg" alt="" class="is-fullwidth"/>
             </a>
         </div>
