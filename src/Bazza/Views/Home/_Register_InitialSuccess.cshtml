@@ -21,7 +21,7 @@
     </p>
     <p>
         Du kannst deine Registrierung beziehungsweise deine Artikel noch anpassen, indem du diese Adresse aufrufst:<br/>
-        @{ var url = Url.Action("Index", "Home", null, "https") + Model.AccessToken; }
+        @{ var url = Url.Action("Register", "Home", null, "https") + "/" + Model.AccessToken; }
         <a href="@url">@url</a><br/><br/>
     </p>
     <p>
