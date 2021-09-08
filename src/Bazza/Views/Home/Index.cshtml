@@ -1,6 +1,8 @@
 ﻿@{
     var startDate = new DateTime(2021, 08, 23).Date;
     var endDate = new DateTime(2021, 09, 07).Date;
+
+    var qrDate = new DateTime(2021, 09, 10).Date;
 }
 
 <div style="background-image: url('/images/title.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center; padding-top: 300px; margin: 0 -.5rem;">
@@ -57,8 +59,20 @@
             Derzeitige Corona-Maßnahmen
         </h3>
         <p>
-            3-G-Regel
+            Gültiger 3-G-Nachweis (vor Ort gibt es KEINE Testmöglichkeit!)
         </p>
+
+        @if (DateTime.UtcNow.Date >= qrDate)
+        {
+            <h3 class="is-title is-size-5 mt-5">
+                Gästeregistrierung
+            </h3>
+            <p>
+                Die Gästeregistrierung ist bereits vor Eintreffen unter <a href="https://ooe.myvisit-pass.com/c517827">https://ooe.myvisit-pass.com/c517827</a> möglich -
+                einfach einen Screenshot machen und diesen beim Eingang vorweisen.<br/>
+                Bitte für jeden Tag neu registrieren!
+            </p>
+        }
     </div>
 </div>
 
@@ -102,7 +116,9 @@
             </p>
         </div>
     </div>
-} else {
+}
+else
+{
     <div class="columns pt-5 pb-5">
         <div class="column">
             <p class="notification is-warning">
