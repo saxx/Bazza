@@ -1,17 +1,11 @@
-﻿@{
-    var startDate = new DateTime(2021, 08, 23).Date;
-    var endDate = new DateTime(2021, 09, 07).Date;
-
-    var qrDate = new DateTime(2021, 09, 10).Date;
-}
-
+﻿@using Bazza
 <div style="background-image: url('/images/title.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center; padding-top: 300px; margin: 0 -.5rem;">
     <div style="background-color: rgba(255,255,255,0.75); ">
         <h1 class="is-title is-size-1 has-text-centered mt-5">Kinder&shy;waren&shy;basar Neufelden</h1>
 
         <div class="columns mt-5">
             <div class="column is-half has-text-centered">
-                <h2 class="is-title is-size-3">10. – 11. September 2021</h2>
+                <h2 class="is-title is-size-3">@Settings.StartDate.ToString("d.") – @Settings.EndDate.ToString("d. MMMM yyyy")</h2>
             </div>
             <div class="column is-half has-text-centered">
                 <h2 class="is-title is-size-3">Turnsaal der Volksschule Neufelden<br/>Marktplatz 12, 4120 Neufelden</h2>
@@ -26,7 +20,7 @@
             Annahme der vorab eingeschriebenen Artikel
         </h3>
         <p>
-            Donnerstag, 9. September 2021 von 17 bis 19:30 Uhr
+            Donnerstag, @Settings.BringArticlesDate.ToString("d. MMMM yyyy") von 17 bis 19:30 Uhr
         </p>
     </div>
 </div>
@@ -38,8 +32,8 @@
             Verkauf
         </h3>
         <p>
-            Freitag, 10. September 2021 von 18 bis 21 Uhr<br/>
-            Samstag, 11. September 2021 von 9 bis 11 Uhr
+            @Settings.StartDate.ToString("dddd, d. MMMM yyyy") von 18 bis 21 Uhr<br/>
+            @Settings.EndDate.ToString("dddd, d. MMMM yyyy") von 9 bis 11 Uhr
         </p>
     </div>
 </div>
@@ -51,7 +45,7 @@
             Abholung der nicht verkauften Waren
         </h3>
         <p>
-            Samstag, 11. September 2021 von 16 bis 17 Uhr
+            @Settings.EndDate.ToString("dddd, dd. MMMM yyyy") von 16 bis 17 Uhr
         </p>
     </div>
     <div class="column">
@@ -62,8 +56,7 @@
             Gültiger 3-G-Nachweis (vor Ort gibt es KEINE Testmöglichkeit!)
         </p>
 
-        @if (DateTime.UtcNow.Date >= qrDate)
-        {
+        <!--
             <h3 class="is-title is-size-5 mt-5">
                 Gästeregistrierung
             </h3>
@@ -72,7 +65,7 @@
                 einfach einen Screenshot machen und diesen beim Eingang vorweisen.<br/>
                 Bitte für jeden Tag neu registrieren!
             </p>
-        }
+        -->
     </div>
 </div>
 
@@ -87,7 +80,6 @@
         <ul>
             <li>&#x2713; Alles rund ums Baby</li>
             <li>&#x2713; Spielsachen</li>
-            <li>&#x2713; Wintersportartikel</li>
             <li>&#x2713; Kinderbekleidung bis Größe 164</li>
             <li>&#x2713; Schuhe</li>
             <li>&#x2713; Bücher</li>
@@ -95,19 +87,19 @@
             <li>&#x2713; Umstandsmode</li>
             <li>&#x2713; Kinderfahrzeuge</li>
             <li>&#x2713; Autositze</li>
-            <li>&#x2713; Faschingsbekleidung</li>
             <li>&#x2713; Schaukelpferde</li>
             <li>&#x2713; Hochstühle</li>
         </ul>
     </div>
 </div>
 
-@if (DateTime.UtcNow.Date >= startDate && DateTime.UtcNow.Date <= endDate)
+@if (DateTime.UtcNow.Date >= Settings.OnlineStartDate && DateTime.UtcNow.Date <= Settings.OnlineEndDate)
 {
     <div class="columns pt-5 pb-5">
         <div class="column is-two-thirds">
             <p>
-                Die Onlineeinschreibung ist von Montag, 23. August 2021 bis Dienstag, 7. September 2021 möglich
+                Die Onlineeinschreibung ist von @Settings.OnlineStartDate.ToString("dddd, dd. MMMM yyyy") bis @Settings.OnlineEndDate.ToString("dddd, dd. MMMM yyyy") möglich. 
+                Um alle Artikel übersichtlich präsentieren zu können, ist die Anzahl insgesamt mit @Settings.MaxNumberOfArticles Stück begrenzt. 
             </p>
         </div>
         <div class="column is-one-third">
@@ -122,7 +114,8 @@ else
     <div class="columns pt-5 pb-5">
         <div class="column">
             <p class="notification is-warning">
-                Die Onlineeinschreibung ist von Montag, 23. August 2021 bis Dienstag, 7. September 2021 möglich
+                Die Onlineeinschreibung ist von @Settings.OnlineStartDate.ToString("dddd, dd. MMMM yyyy") bis @Settings.OnlineEndDate.ToString("dddd, dd. MMMM yyyy") möglich. 
+                Um alle Artikel übersichtlich präsentieren zu können, ist die Anzahl insgesamt mit @Settings.MaxNumberOfArticles Stück begrenzt.
             </p>
         </div>
     </div>
@@ -148,7 +141,7 @@ else
         </h3>
         <p>
             Ursula Pühringer: <a href="tel:+43 664 14 58 265">0664/14 58 265</a><br/>
-            Sandra Brunninger: <a href="tel:+43 664 42 48 075">0664/42 48 075</a><br/>
+            Daniela Haslmaier: <a href="tel:+43 699 12 51 71 15">0699/12 51 71 15</a><br/>
             E-Mail: <a href="mailto:basar@neufelden.at">basar@neufelden.at</a><br/>
             <a href="https://www.facebook.com/Basar-Neufelden-101183602264571" target="_blank">Facebook</a>
         </p>
