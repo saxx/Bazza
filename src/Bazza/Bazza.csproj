@@ -3,8 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Version>0.0.0</Version>
+    <LangVersion>default</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Adliance.AspNetCore.Buddy" Version="6.0.8" />
     <PackageReference Include="Adliance.AspNetCore.Buddy.Email.Mailjet" Version="6.0.8" />
