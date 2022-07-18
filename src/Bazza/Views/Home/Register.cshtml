@@ -1,7 +1,7 @@
 ﻿@model Bazza.ViewModels.Home.RegisterViewModel
 
 <div>
-    <img src="~/images/logo.jpg" alt="" style="max-width:200px; display: block; margin: 1rem auto;" />
+    <img src="~/images/logo.jpg" alt="" style="max-width:200px; display: block; margin: 1rem auto;"/>
 </div>
 
 @if (Model.DisplayInitialSuccess)
@@ -138,6 +138,7 @@ else
 
         <section class="section">
             <div class="field">
+                <label asp-for="Privacy" class="label">Datenschutzhinweis:</label>
                 <label class="checkbox">
                     <input type="checkbox" asp-for="Privacy" value="true">
                     Ich stimme zu, dass meine Daten zur Organisation und Abwicklung des Basars verwendet werden dürfen.
@@ -150,13 +151,34 @@ else
                     Es wird darauf hingewiesen, dass alle bis zum Widerruf vorgenommenen Verarbeitungen weiterhin rechtmäßig bleiben.
                 </div>
             </div>
+        </section>
+        <section class="section">
+            <div class="field">
+                <input type="hidden" asp-for="CaptchaExpectedResultHash"/>
 
+                <div class="field">
+                    <label asp-for="CaptchaResult" class="label">Sicherheitsfrage:</label>
+                    <div class="control">
+                        <div class="form-text" style="display: inline-block; padding-top: 6px;">
+                            @Model.CaptchaFirstValue + @Model.CaptchaSecondValue =
+                        </div>
+                        <input asp-for="CaptchaResult" class="input" type="text" style="width:40px;" value="">
+                    </div>
+                    <span asp-validation-for="CaptchaResult" class="help is-danger"></span>
+                </div>
+
+                <div class="help">
+                    Wir haben leider mit sehr vielen falschen, automatisierten Eintragungen und Spam zu kämpfen, daher müssen wir mit dieser einfachen Berechnung sicher gehen, dass du kein Bot bist ;)
+                </div>
+            </div>
+        </section>
+        <section class="section">
             <div class="field">
                 <div style="display: none;">
-             
+                    <input type="text" asp-for="CaptchaText"/>
                 </div>
-                
-                <button type="submit" class="button is-link"><i class="fad fa-save"></i>&nbsp;Speichern und verbindlich registrieren</button>
+
+                <button type="submit" class="button is-link" onclick="setButtonWorking(this);"><i class="fad fa-save"></i>&nbsp;Speichern und verbindlich registrieren</button>
             </div>
         </section>
     </form>

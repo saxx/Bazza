@@ -33,3 +33,11 @@ $(document).ready(function() {
       $("body input#Name").focus();
    }
 });
+
+function setButtonWorking(button) {
+   console.log("Setting button working ...", button);
+   setTimeout(function() {
+      button.disabled = true;
+      button.innerText = "Bitte warten ..."
+   }, 100);
+}

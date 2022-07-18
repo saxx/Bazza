@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy;
@@ -32,9 +33,28 @@ public class RegisterViewModelFactory
         _context = context;
     }
 
+    public void ArmCaptcha(RegisterViewModel viewModel)
+    {
+        var random = new Random();
+        viewModel.CaptchaFirstValue = random.Next(1, 9);
+        viewModel.CaptchaSecondValue = random.Next(1, 9);
+        viewModel.CaptchaResult = null;
+        viewModel.CaptchaText = null;
+        viewModel.CaptchaExpectedResultHash = Crypto.Hash((viewModel.CaptchaFirstValue + viewModel.CaptchaSecondValue).ToString(CultureInfo.InvariantCulture), "salt");
+    }
+
+    public bool IsCaptchaValid(RegisterViewModel viewModel)
+    {
+        if (viewModel.CaptchaText != null) return false;
+        if (viewModel.CaptchaResult == null) return false;
+        if (Crypto.Hash(viewModel.CaptchaResult.Value.ToString(CultureInfo.InvariantCulture), "salt") != viewModel.CaptchaExpectedResultHash) return false;
+        return true;
+    }
+
     public async Task<RegisterViewModel> Fill(string? accessToken = null)
     {
         var result = new RegisterViewModel();
+        ArmCaptcha(result);
 
         if (!string.IsNullOrWhiteSpace(accessToken))
         {
@@ -59,7 +79,7 @@ public class RegisterViewModelFactory
 
         return result;
     }
-        
+
     public async Task SaveToDatabase(RegisterViewModel viewModel)
     {
         var sendMail = false;
@@ -82,9 +102,9 @@ public class RegisterViewModelFactory
         }
 
         person.Address = viewModel.Address;
-        person.Email = viewModel.Email ;
-        person.Phone = viewModel.Phone ;
-        person.Name = viewModel.Name ;
+        person.Email = viewModel.Email;
+        person.Phone = viewModel.Phone;
+        person.Name = viewModel.Name;
         person.AccessToken = string.IsNullOrWhiteSpace(person.AccessToken) ? Crypto.RandomString(20) : person.AccessToken;
         _db.Articles.RemoveRange(_db.Articles.Where(x => x.PersonId == person.PersonId));
         await _db.SaveChangesAsync();
@@ -94,9 +114,9 @@ public class RegisterViewModelFactory
         {
             _db.Articles.Add(new Article
             {
-                Name = a.Name ,
+                Name = a.Name,
                 Price = a.Price ?? 0,
-                Size = a.Size ,
+                Size = a.Size,
                 ArticleId = articleId++,
                 PersonId = person.PersonId
             });
@@ -175,8 +195,10 @@ public class RegisterViewModel
     [BindNever] public bool DisplaySubsequentSuccess { get; set; }
 
     public string? CaptchaText { get; set; }
+    [BindNever] public int CaptchaFirstValue { get; set; }
+    [BindNever] public int CaptchaSecondValue { get; set; }
     public int? CaptchaResult { get; set; }
-    [BindNever] public int CaptchaExpectedResult { get; set; }
+    public string CaptchaExpectedResultHash { get; set; } = "";
 
     public class Article
     {
