@@ -6,19 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Adliance.AspNetCore.Buddy" Version="5.4.10" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Email.Mailjet" Version="5.4.10" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy" Version="6.0.8" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Email.Mailjet" Version="6.0.8" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
-    <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.311" />
-    <PackageReference Include="LigerShark.WebOptimizer.Sass" Version="3.0.58-beta" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
+    <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.365" />
+    <PackageReference Include="LigerShark.WebOptimizer.Sass" Version="3.0.84" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="6.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="6.0.2" />
-    <PackageReference Include="EPPlus" Version="5.8.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="6.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="6.0.7" />
+    <PackageReference Include="EPPlus" Version="6.0.6" />
   </ItemGroup>
 
 </Project>
