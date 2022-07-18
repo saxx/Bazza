@@ -33,7 +33,7 @@ else
                     <div class="field">
                         <label asp-for="Address" class="label">Deine Adresse:</label>
                         <div class="control">
-                            <textarea asp-for="Address" class="input" type="text" placeholder="Straße 12&#10;4120 Neufelden" style="height: 4rem"></textarea>
+                            <textarea asp-for="Address" class="input" type="text" placeholder="Straße 12, 4120 Neufelden" style="height: 4rem"></textarea>
                         </div>
                         <span asp-validation-for="Address" class="help is-danger"></span>
                     </div>
@@ -154,7 +154,7 @@ else
         </section>
         <section class="section">
             <div class="field">
-                <input type="hidden" asp-for="CaptchaExpectedResultHash"/>
+                <input type="hidden" asp-for="CaptchaExpectedResultHash" value="@Model.CaptchaExpectedResultHash"/>
 
                 <div class="field">
                     <label asp-for="CaptchaResult" class="label">Sicherheitsfrage:</label>
