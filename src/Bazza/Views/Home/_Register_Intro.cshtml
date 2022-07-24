@@ -1,4 +1,5 @@
-﻿@model Bazza.ViewModels.Home.RegisterViewModel
+﻿@using Bazza.Models
+@model Bazza.ViewModels.Home.RegisterViewModel
 
 @if (string.IsNullOrWhiteSpace(Model.AccessToken))
 {
@@ -10,7 +11,7 @@
 
     <div class="columns">
         <div class="column">
-            <b>Willkommen</b> bei der Registrierung für den Basar am @Settings.StartDate.ToString("d.") – @Settings.EndDate.ToString("d. MMMM yyyy") im Turnsaal der Volksschule Neufelden.
+            <b>Willkommen</b> bei der Registrierung für den Basar am @Settings.EventStartDate.ToString("d.") – @Settings.EventEndDate.ToString("d. MMMM yyyy") im Turnsaal der Volksschule Neufelden.
         </div>
     </div>
 
@@ -44,7 +45,7 @@
                 Deadline
             </h3>
             <p>
-                Die Eingabe der Artikel ist bis @Settings.OnlineEndDate.ToString("dddd, d. MMMM yyyy") möglich.
+                Die Eingabe der Artikel ist bis @Settings.RegistrationEndDate.ToString("dddd, d. MMMM yyyy") möglich.
             </p>
         </div>
 

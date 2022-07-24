@@ -1,13 +1,17 @@
+using System;
 using System.Globalization;
 using Adliance.AspNetCore.Buddy.Abstractions.Extensions;
 using Adliance.AspNetCore.Buddy.Email.Mailjet.Extensions;
+using Bazza.Models;
 using Bazza.Models.Database;
 using Bazza.Services;
-using Bazza.ViewModels.Home;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +30,21 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddApplicationInsightsTelemetry();
+
+        services.AddScoped<Settings>();
+        services.AddTransient<ExcelExportService>();
+        services.AddTransient<ViewModels.Admin.IndexViewModelFactory>();
+        services.AddTransient<ViewModels.Admin.SettingsViewModelFactory>();
+        services.AddTransient<ViewModels.Home.RegisterViewModelFactory>();
+        services.AddTransient<ViewModels.User.LoginViewModelFactory>();
+        services.AddTransient<ViewModels.User.ResetPasswordViewModelFactory>();
+
         services.AddDbContext<Db>(options => options.UseSqlServer(_configuration.GetValue<string>("DbConnectionString")));
-        services.AddControllersWithViews(options => { options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((a, b) => "Ungültige Angabe."); });
+        services.AddControllersWithViews(options =>
+        {
+            options.Filters.Add(new AuthorizeFilter());
+            options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((_, _) => "Ungültige Angabe.");
+        });
         services.AddWebOptimizer(pipeline =>
         {
             pipeline.AddScssBundle(
@@ -41,13 +58,27 @@ public class Startup
         services.AddHealthChecks()
             .AddMailjetCheck()
             .AddDbContextCheck<Db>();
+        services.AddAuthorization();
+        services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(options =>
+                {
+                    options.Cookie.SameSite = SameSiteMode.None;
+                    options.Cookie.Name = "auth";
+                    options.LoginPath = "/user/login";
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                    options.SlidingExpiration = true;
+                    options.AccessDeniedPath = "/error/403";
+                }
+            );
 
         services.AddBuddy()
             .AddMailjet(_configuration.GetSection("Email"), _configuration.GetSection("Mailjet"));
         services.AddHttpContextAccessor();
-        services.AddTransient<RegisterViewModelFactory>();
-        services.AddTransient<ExcelExportService>();
-
         services.Configure<ForwardedHeadersOptions>(options =>
         {
             options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
@@ -62,15 +93,18 @@ public class Startup
         app.UseHttpsRedirection();
         app.UseHsts();
         app.UseStatusCodePages();
+        app.UseExceptionHandler("/error/500");
         app.UseStaticFiles();
         app.UseRequestLocalization(options =>
         {
             options.DefaultRequestCulture = new RequestCulture("de-DE", "de-DE");
-            options.SupportedCultures = new[] {new CultureInfo("de-DE")};
-            options.SupportedUICultures = new[] {new CultureInfo("de-DE")};
+            options.SupportedCultures = new[] { new CultureInfo("de-DE") };
+            options.SupportedUICultures = new[] { new CultureInfo("de-DE") };
         });
         app.UseRouting();
         app.UseWebOptimizer();
+        app.UseAuthentication();
+        app.UseAuthorization();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");

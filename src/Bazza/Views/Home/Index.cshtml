@@ -1,11 +1,12 @@
 ﻿@using System.Globalization
+@using Bazza.Models
 <div style="background-image: url('/images/title.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center; padding-top: 300px; margin: 0 -.5rem;">
     <div style="background-color: rgba(255,255,255,0.75); ">
         <h1 class="is-title is-size-1 has-text-centered mt-5">Kinder&shy;waren&shy;basar Neufelden</h1>
 
         <div class="columns mt-5">
             <div class="column is-half has-text-centered">
-                <h2 class="is-title is-size-3">@Settings.StartDate.ToString("d.") – @Settings.EndDate.ToString("d. MMMM yyyy")</h2>
+                <h2 class="is-title is-size-3">@Settings.EventStartDate.ToString("d.") – @Settings.EventEndDate.ToString("d. MMMM yyyy")</h2>
             </div>
             <div class="column is-half has-text-centered">
                 <h2 class="is-title is-size-3">Turnsaal der Volksschule Neufelden<br/>Marktplatz 12, 4120 Neufelden</h2>
@@ -20,7 +21,7 @@
             Annahme der vorab eingeschriebenen Artikel
         </h3>
         <p>
-            Donnerstag, @Settings.BringArticlesDate.ToString("d. MMMM yyyy") von 17 bis 19:30 Uhr
+            Donnerstag, @Settings.ArticlesDropOffDate.ToString("d. MMMM yyyy") von 17 bis 19:30 Uhr
         </p>
     </div>
 </div>
@@ -32,8 +33,8 @@
             Verkauf
         </h3>
         <p>
-            @Settings.StartDate.ToString("dddd, d. MMMM yyyy") von 18 bis 21 Uhr<br/>
-            @Settings.EndDate.ToString("dddd, d. MMMM yyyy") von 9 bis 11 Uhr
+            @Settings.EventStartDate.ToString("dddd, d. MMMM yyyy") von 18 bis 21 Uhr<br/>
+            @Settings.EventEndDate.ToString("dddd, d. MMMM yyyy") von 9 bis 11 Uhr
         </p>
     </div>
 </div>
@@ -45,7 +46,7 @@
             Abholung der nicht verkauften Waren
         </h3>
         <p>
-            @Settings.EndDate.ToString("dddd, dd. MMMM yyyy") von 16 bis 17 Uhr
+            @Settings.EventEndDate.ToString("dddd, dd. MMMM yyyy") von 16 bis 17 Uhr
         </p>
     </div>
     <div class="column">
@@ -53,19 +54,8 @@
             Derzeitige Corona-Maßnahmen
         </h3>
         <p>
-            Es gelten die aktuellen Coronaregeln.
+            @Html.Raw(Settings.CoronaText)
         </p>
-
-        <!--
-        <h3 class="is-title is-size-5 mt-5">
-            Gästeregistrierung
-        </h3>
-        <p>
-            Die Gästeregistrierung ist bereits vor Eintreffen unter <a href="https://ooe.myvisit-pass.com/c517827">https://ooe.myvisit-pass.com/c517827</a> möglich -
-            einfach einen Screenshot machen und diesen beim Eingang vorweisen.<br/>
-            Bitte für jeden Tag neu registrieren!
-        </p>
-        -->
     </div>
 </div>
 
@@ -77,36 +67,28 @@
         <h3 class="is-title is-size-5">
             Diesen Artikeln geben wir gerne eine 2. Chance
         </h3>
-        <ul>
-            <li>&#x2713; Alles rund ums Baby</li>
-            <li>&#x2713; Spielsachen</li>
-            <li>&#x2713; Kinderbekleidung bis Größe 164</li>
-            <li>&#x2713; Schuhe</li>
-            <li>&#x2713; Bücher</li>
-            <li>&#x2713; Kinderwägen</li>
-            <li>&#x2713; Umstandsmode</li>
-            <li>&#x2713; Kinderfahrzeuge</li>
-            <li>&#x2713; Autositze</li>
-            <li>&#x2713; Schaukelpferde</li>
-            <li>&#x2713; Hochstühle</li>
-            <li>&#x2713; Wintersportartikel</li>
-            <li>&#x2713; Faschingsbekleidung</li>
-        </ul>
+        @Html.Raw(Settings.AllowedArticleTypes)
     </div>
 </div>
 
-@if (DateTime.UtcNow.Date >= Settings.OnlineStartDate && DateTime.UtcNow.Date <= Settings.OnlineEndDate)
+@if (DateTime.UtcNow.Date < Settings.RegistrationStartDate.Date)
 {
     <div class="columns pt-5 pb-5">
-        <div class="column is-two-thirds">
-            <p>
-                Die Onlineeinschreibung ist von @Settings.OnlineStartDate.ToString("dddd, dd. MMMM yyyy") bis @Settings.OnlineEndDate.ToString("dddd, dd. MMMM yyyy") möglich.
-                Um alle Artikel übersichtlich präsentieren zu können, ist die Anzahl insgesamt mit @Settings.MaxNumberOfArticles Stück begrenzt.
+        <div class="column">
+            <p class="notification is-warning">
+                Die Onlineeinschreibung ist von @Settings.RegistrationStartDate.ToString("dddd, dd. MMMM yyyy") bis @Settings.RegistrationEndDate.ToString("dddd, dd. MMMM yyyy") möglich.
+                Um alle Artikel übersichtlich präsentieren zu können, ist die Anzahl insgesamt mit @Settings.MaxNumberOfArticles.ToString("N0", new CultureInfo("de-DE")) Stück begrenzt.
             </p>
         </div>
-        <div class="column is-one-third">
-            <p>
-                <a asp-action="Register" asp-controller="Home" class="button is-info is-large is-fullwidth">Jetzt online einschreiben</a>
+    </div>
+}
+else if (DateTime.UtcNow.Date > Settings.RegistrationEndDate.Date)
+{
+    <div class="columns pt-5 pb-5">
+        <div class="column">
+            <p class="notification is-warning">
+                Die Onlineeinschreibung war bis @Settings.RegistrationEndDate.ToString("dddd, dd. MMMM yyyy") möglich.
+                Um alle Artikel übersichtlich präsentieren zu können, ist die Anzahl insgesamt mit @Settings.MaxNumberOfArticles Stück begrenzt.
             </p>
         </div>
     </div>
@@ -114,10 +96,15 @@
 else
 {
     <div class="columns pt-5 pb-5">
-        <div class="column">
-            <p class="notification is-warning">
-                Die Onlineeinschreibung ist von @Settings.OnlineStartDate.ToString("dddd, dd. MMMM yyyy") bis @Settings.OnlineEndDate.ToString("dddd, dd. MMMM yyyy") möglich.
-                Um alle Artikel übersichtlich präsentieren zu können, ist die Anzahl insgesamt mit @Settings.MaxNumberOfArticles.ToString("N0", new CultureInfo("de-DE")) Stück begrenzt.
+        <div class="column is-two-thirds">
+            <p class="notification">
+                Die Onlineeinschreibung ist von @Settings.RegistrationStartDate.ToString("dddd, dd. MMMM yyyy") bis @Settings.RegistrationEndDate.ToString("dddd, dd. MMMM yyyy") möglich.
+                Um alle Artikel übersichtlich präsentieren zu können, ist die Anzahl insgesamt mit @Settings.MaxNumberOfArticles Stück begrenzt.
+            </p>
+        </div>
+        <div class="column is-one-third">
+            <p>
+                <a asp-action="Register" asp-controller="Home" class="button is-info is-large is-fullwidth">Jetzt online einschreiben</a>
             </p>
         </div>
     </div>

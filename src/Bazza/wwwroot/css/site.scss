@@ -1,7 +1,8 @@
-﻿$fa-font-path: "/lib/fontawesome/webfonts";
+﻿$fa-font-path: "/lib/fontawesome/webfonts"; // note the / at the start, this is because this avoids a NRE in WebOptimizer (tries to adjust paths and fails miserably)
 @import "../lib/fontawesome/scss/fontawesome.scss";
+@import "../lib/fontawesome/scss/brands.scss";
 @import "../lib/fontawesome/scss/duotone.scss";
-
+@import "../lib/fontawesome/scss/duotone-icons.scss";
 @import "../lib/bulma/bulma.sass";
 
 .footer {
@@ -16,4 +17,9 @@
 ::placeholder {
   color: $grey-light !important;
   opacity: 1 !important;
+}
+
+label.label {
+  font-size: 80%;
+  margin-bottom: 0 !important;
 }

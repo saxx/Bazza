@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Bazza.Models.Database;
+using Humanizer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,9 +23,10 @@ public class Program
             var context = services.GetRequiredService<Db>();
             try
             {
+                var pendingMigrationsCount = context.Database.GetPendingMigrations().Count();
                 if (context.Database.GetPendingMigrations().Any())
                 {
-                    logger.LogInformation("Applying migrations ...");
+                    logger.LogWarning($"Applying {pendingMigrationsCount} {"migration".ToQuantity(pendingMigrationsCount)} ...");
                     context.Database.SetCommandTimeout(60 * 10); // 10m timeout
                     context.Database.Migrate();
                 }
@@ -47,7 +49,9 @@ public class Program
                     var instrumentationKey = context.Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"];
                     if (!string.IsNullOrWhiteSpace(instrumentationKey))
                     {
+#pragma warning disable CS0618
                         builder.AddApplicationInsights(instrumentationKey);
+#pragma warning restore CS0618
                     }
                 });
                 webBuilder.UseStartup<Startup>();

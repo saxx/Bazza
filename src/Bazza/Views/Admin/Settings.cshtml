@@ -1,0 +1,56 @@
+﻿@using Bazza.Controllers
+@model Bazza.ViewModels.Admin.SettingsViewModel
+
+@if (Model.Success)
+{
+    <div class="mt-3 mb-6 notification is-success">
+        Deine Änderungen wurden gespeichert.
+    </div>
+}
+else
+{
+    <div class="mt-3 mb-6 notification is-warning">
+        Alle Änderungen an Einstellungen werden sofort gültig.
+    </div>
+}
+
+<form method="post" class="mt-6">
+    <div class="columns">
+        <div class="column">
+            <field asp-for="EventStartDate" label="Start des Basars:" help="Der erste Tag, an dem der Basar stattfindet."/>
+        </div>
+        <div class="column">
+            <field asp-for="EventEndDate" label="Ende des Basars:" help="Der zweite Tag, an dem der Basar stattfindet."/>
+        </div>
+        <div class="column">
+            <field asp-for="ArticlesDropOffDate" label="Abgabe der Artikel:" help="Der Tag, an dem die Artikel abgegeben werden können."/>
+        </div>
+        <div class="column"></div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <field asp-for="RegistrationStartDate" label="Start des Online-Registrierung:" help="Der Tag, an dem die Online-Registrierung freigeschalten wird."/>
+        </div>
+        <div class="column">
+            <field asp-for="RegistrationEndDate" label="Ende der Online-Registrierung:" help="Der Tag, an dem die Online-Registrierung gesperrt wird."/>
+        </div>
+        <div class="column">
+            <field asp-for="MaxNumberOfArticles" label="Max. Anzahl an Artikel:" help="Die maximale Zahl der Artikel wird nur für die Anzeige verwendet, es erfolgt daher keine automatische Deaktivierung der Registrierung bei Überschreiten der Anzahl. Für eine tatsächliche Sperre bitte das Datum der Online-Registrierung im Bedarfsfall anpassen."/>
+        </div>
+        <div class="column"></div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <field asp-for="CoronaText" label="Corona-Maßnahmen:" help="Text (HTML) auf der Startseite zur den Corona-Maßnahmen." multi-line rows="10"/>
+        </div>
+        <div class="column">
+            <field asp-for="AllowedArticleTypes" label="Erlaubte Artikel:" help="Text (HTML) auf der Startseite zu den erlaubten Artikeln." multi-line rows="10"/>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <button type="submit" class="button is-primary">Speichern</button>
+            <a asp-action="@nameof(AdminController.Index)" class="button">Abbrechen</a>
+        </div>
+    </div>
+</form>

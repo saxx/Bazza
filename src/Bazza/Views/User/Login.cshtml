@@ -1,0 +1,28 @@
+﻿@model Bazza.ViewModels.User.LoginViewModel
+
+<form method="post" class="mt-6">
+    <div class="columns">
+        <div class="column is-one-quarter"></div>
+        <div class="column is-half">
+
+            @if (Model.Error)
+            {
+                <div class="notification is-danger mb-6">
+                    Bitte prüfe deine Zugangsdaten.
+                </div>
+            }
+
+            <div>
+                <field asp-for="Username" label="Dein Benutzername:"/>
+            </div>
+            <div class="mt-3">
+                <field asp-for="Password" label="Dein Passwort:" password/>
+            </div>
+            <div class="mt-3">
+                <button type="submit" class="button is-primary">Einloggen</button>
+            </div>
+        </div>
+
+        <div class="column is-one-quarter"></div>
+    </div>
+</form>
