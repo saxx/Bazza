@@ -25,7 +25,8 @@ public class IndexViewModelFactory
             Id = x.PersonId,
             Name = x.Name,
             AccessToken = x.AccessToken,
-            ArticlesCount = _db.Articles.Count(y => y.PersonId == x.PersonId)
+            ArticlesCount = _db.Articles.Count(y => y.PersonId == x.PersonId),
+            IsInternal = x.PersonId > 1000
         }).ToListAsync();
         return result;
     }
@@ -43,5 +44,6 @@ public class IndexViewModel
         public string? Email { get; set; }
         public string? Address { get; set; }
         public int ArticlesCount { get; set; }
+        public bool IsInternal { get; set; }
     }
 }

@@ -15,6 +15,7 @@
             <th class="has-text-right" style="width:1px;">Artikel</th>
             <th style="width: 1px;"></th>
             <th style="width: 1px;"></th>
+            <th style="width: 1px;"></th>
         </tr>
         </thead>
         <tbody>
@@ -28,11 +29,33 @@
                 <td class="has-text-right">@p.ArticlesCount</td>
                 <td>
                     <form asp-action="@nameof(AdminController.DeletePerson)" asp-route-id="@p.Id">
-                        <button type="submit" class="button is-small is-danger is-outlined" onclick="return confirm('Bist du sicher, dass du diese Registrierung löschen möchtest? Du kannst das nicht mehr rückgängig machen!');"><i class="fad fa-trash"></i></button>
+                        <button type="submit" class="button is-small is-danger is-outlined" onclick="return confirm('Bist du sicher, dass du diese Registrierung löschen möchtest? Du kannst das nicht mehr rückgängig machen!');" title="Löschen">
+                            <i class="fad fa-trash"></i>
+                        </button>
                     </form>
                 </td>
+                <td>
+                    @if (!p.IsInternal)
+                    {
+                        <form asp-action="@nameof(AdminController.MakeInternal)" asp-route-id="@p.Id">
+                            <button type="submit" class="button is-small is-outlined" onclick="return confirm('Bist du sicher, dass du diese Registrierung als Mütterrunde setzen möchtest?');" title="Als Mütterrunde setzen">
+                                <i class="fad fa-arrows-repeat"></i>
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="@nameof(AdminController.MakeNormal)" asp-route-id="@p.Id">
+                            <button type="submit" class="button is-small is-outlined" onclick="return confirm('Bist du sicher, dass du diese Registrierung nicht mehr als Mütterrunde setzen möchtest?');" title="Nicht als Mütterrunde setzen">
+                                <i class="fad fa-arrows-cross"></i>
+                            </button>
+                        </form>
+                    }
+                </td>
                 <td class="has-text-right">
-                    <a asp-action="@nameof(HomeController.Register)" asp-controller="Home" asp-route-accessToken="@p.AccessToken" class="button is-outlined is-small"><i class="fad fa-pencil"></i></a>
+                    <a asp-action="@nameof(HomeController.Register)" asp-controller="Home" asp-route-accessToken="@p.AccessToken" class="button is-outlined is-small" title="Bearbeiten">
+                        <i class="fad fa-pencil"></i>
+                    </a>
                 </td>
             </tr>
         }
