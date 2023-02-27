@@ -71,7 +71,7 @@
     </div>
 </div>
 
-@if (DateTime.UtcNow.Date < Settings.RegistrationStartDate.Date)
+@if (!Settings.RegistrationHasStarted)
 {
     <div class="columns pt-5 pb-5">
         <div class="column">
@@ -82,7 +82,7 @@
         </div>
     </div>
 }
-else if (DateTime.UtcNow.Date > Settings.RegistrationEndDate.Date)
+else if (Settings.RegistrationHasEnded)
 {
     <div class="columns pt-5 pb-5">
         <div class="column">
@@ -93,7 +93,7 @@ else if (DateTime.UtcNow.Date > Settings.RegistrationEndDate.Date)
         </div>
     </div>
 }
-else
+else if (Settings.RegistrationIsActive)
 {
     <div class="columns pt-5 pb-5">
         <div class="column is-two-thirds">
@@ -109,7 +109,6 @@ else
         </div>
     </div>
 }
-
 
 <div class="columns">
     <div class="column">

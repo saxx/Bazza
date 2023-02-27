@@ -39,7 +39,7 @@ public class Startup
         services.AddTransient<ViewModels.User.LoginViewModelFactory>();
         services.AddTransient<ViewModels.User.ResetPasswordViewModelFactory>();
 
-        services.AddDbContext<Db>(options => options.UseSqlServer(_configuration.GetValue<string>("DbConnectionString")));
+        services.AddDbContext<Db>(options => options.UseSqlServer(_configuration.GetValue<string>("DbConnectionString") ?? ""));
         services.AddControllersWithViews(options =>
         {
             options.Filters.Add(new AuthorizeFilter());

@@ -67,6 +67,10 @@ public class Settings
         set => Set("registration_end_date", value);
     }
 
+    public bool RegistrationHasStarted => DateTime.UtcNow.Date >= RegistrationStartDate.Date;
+    public bool RegistrationHasEnded => DateTime.UtcNow.Date > RegistrationEndDate;
+    public bool RegistrationIsActive => RegistrationHasStarted && !RegistrationHasEnded;
+
     public DateTime ArticlesDropOffDate
     {
         get => Get("articles_drop_off_date", new DateTime(2022, 09, 08));

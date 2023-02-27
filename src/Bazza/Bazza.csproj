@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Version>0.0.0</Version>
     <LangVersion>default</LangVersion>
     <Nullable>enable</Nullable>
@@ -9,112 +9,21 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Adliance.AspNetCore.Buddy" Version="6.0.11" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Bulma" Version="6.0.11" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Email.Mailjet" Version="6.0.11" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy" Version="7.0.0.5" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Bulma" Version="7.0.0.3" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Email.Mailjet" Version="7.0.0.10" />
     <PackageReference Include="Humanizer" Version="2.14.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
-    <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.368" />
+    <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.378" />
     <PackageReference Include="LigerShark.WebOptimizer.Sass" Version="3.0.91" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.7" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="6.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="6.0.7" />
-    <PackageReference Include="EPPlus" Version="6.0.6" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\brands.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\duotone.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\fontawesome.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\light.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\regular.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\solid.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\v4-shims.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_animated.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_bordered-pulled.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_core.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_fixed-width.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_icons.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_larger.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_list.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_mixins.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_rotated-flipped.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_screen-reader.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_shims.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_stacked.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\fontawesome\scss\_variables.scss" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\base\animations.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\base\generic.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\base\helpers.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\base\minireset.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\base\_all.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\breadcrumb.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\card.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\dropdown.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\level.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\media.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\menu.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\message.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\modal.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\navbar.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\pagination.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\panel.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\tabs.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\components\_all.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\box.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\button.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\container.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\content.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\form.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\icon.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\image.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\notification.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\other.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\progress.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\table.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\tag.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\title.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\elements\_all.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\form\checkbox-radio.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\form\file.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\form\input-textarea.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\form\select.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\form\shared.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\form\tools.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\form\_all.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\grid\columns.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\grid\tiles.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\grid\_all.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\helpers\color.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\helpers\flexbox.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\helpers\float.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\helpers\other.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\helpers\overflow.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\helpers\position.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\helpers\spacing.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\helpers\typography.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\helpers\visibility.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\helpers\_all.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\layout\footer.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\layout\hero.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\layout\section.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\layout\_all.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\utilities\animations.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\utilities\controls.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\utilities\derived-variables.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\utilities\extends.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\utilities\functions.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\utilities\initial-variables.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\utilities\mixins.sass" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\bulma\sass\utilities\_all.sass" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="wwwroot\lib\fontawesome" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="7.0.3" />
+    <PackageReference Include="EPPlus" Version="6.1.3" />
   </ItemGroup>
 
 </Project>

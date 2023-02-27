@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Bazza.Services;
+using Bazza.Models;
 using Bazza.ViewModels.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace Bazza.Controllers;
 
@@ -18,8 +17,9 @@ public class HomeController : Controller
     }
 
     [AllowAnonymous, HttpGet("/register")]
-    public async Task<IActionResult> Register([FromServices] RegisterViewModelFactory factory)
+    public async Task<IActionResult> Register([FromServices] RegisterViewModelFactory factory, [FromServices] Settings settings)
     {
+        if (!settings.RegistrationIsActive) return RedirectToAction(nameof(Index));
         return await Register(factory, (string?)null);
     }
 
