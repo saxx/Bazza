@@ -1,0 +1,64 @@
+﻿@using Bazza.Controllers
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <nav class="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a asp-action="@nameof(AdminController.Index)" asp-controller="Admin" class="navbar-item">
+                    Dashboard
+                </a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+                            Verkäufer
+                        </a>
+                        <div class="navbar-dropdown">
+                            <a asp-action="@nameof(AdminController.Persons)" asp-controller="Admin" class="navbar-item">
+                                Übersicht
+                            </a>
+                            <a asp-action="@nameof(HomeController.Register)" asp-controller="Home" class="navbar-item">
+                                Neue Registrierung
+                            </a>
+                            <a asp-action="@nameof(AdminController.Download)" asp-controller="Admin" class="navbar-item">
+                                Excel-Datei herunterladen
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+                            Administration
+                        </a>
+                        <div class="navbar-dropdown">
+                            <a asp-action="@nameof(AdminController.Settings)" asp-controller="Admin" class="navbar-item">
+                                Einstellungen
+                            </a>
+                            <a asp-action="@nameof(AdminController.ClearData)" asp-controller="Admin" class="navbar-item">
+                                Daten löschen
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a asp-action="@nameof(UserController.Logout)" asp-controller="User" class="button is-light">
+                                Ausloggen
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+}

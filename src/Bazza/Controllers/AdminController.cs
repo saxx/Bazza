@@ -16,6 +16,12 @@ public class AdminController : Controller
     {
         return View(await factory.Build());
     }
+    
+    [HttpGet("/admin/persons")]
+    public async Task<IActionResult> Persons([FromServices] PersonsViewModelFactory factory)
+    {
+        return View(await factory.Build());
+    }
 
     [HttpGet("/admin/settings")]
     public async Task<IActionResult> Settings([FromServices] SettingsViewModelFactory factory)
@@ -102,12 +108,17 @@ public class AdminController : Controller
         await db.SaveChangesAsync();
     }
 
-    [HttpPost("/admin/clear-data")]
-    public async Task<IActionResult> ClearData([FromServices] Db db)
+    [HttpGet("/admin/clear-data")]
+    public IActionResult ClearData([FromServices] Db db)
     {
-        db.Articles.RemoveRange(db.Articles);
-        db.Persons.RemoveRange(db.Persons);
-        await db.SaveChangesAsync();
+        return View();
+    }
+
+    [HttpPost("/admin/clear-data")]
+    public async Task<IActionResult> ClearDataConfirm([FromServices] Db db)
+    {
+        await db.Articles.ExecuteDeleteAsync();
+        await db.Persons.ExecuteDeleteAsync();
         return RedirectToAction(nameof(Index));
     }
 }

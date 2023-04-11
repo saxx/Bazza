@@ -34,6 +34,7 @@ public class Startup
         services.AddScoped<Settings>();
         services.AddTransient<ExcelExportService>();
         services.AddTransient<ViewModels.Admin.IndexViewModelFactory>();
+        services.AddTransient<ViewModels.Admin.PersonsViewModelFactory>();
         services.AddTransient<ViewModels.Admin.SettingsViewModelFactory>();
         services.AddTransient<ViewModels.Home.RegisterViewModelFactory>();
         services.AddTransient<ViewModels.User.LoginViewModelFactory>();
