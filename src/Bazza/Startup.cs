@@ -7,6 +7,8 @@ using Adliance.AspNetCore.Buddy.Template.Razor.Extensions;
 using Bazza.Models;
 using Bazza.Models.Database;
 using Bazza.Services;
+using Bazza.ViewModels.AdminPersons;
+using Bazza.ViewModels.AdminUsers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,14 +38,16 @@ public class Startup
         services.AddScoped<Settings>();
         services.AddTransient<ExcelExportService>();
         services.AddTransient<ViewModels.Admin.IndexViewModelFactory>();
-        services.AddTransient<ViewModels.Admin.PersonsViewModelFactory>();
         services.AddTransient<ViewModels.Admin.SettingsViewModelFactory>();
+        services.AddTransient<ViewModels.AdminPersons.DeletePersonViewModelFactory>();
+        services.AddTransient<ViewModels.AdminPersons.PersonsViewModelFactory>();
+        services.AddTransient<ViewModels.AdminPersons.EditPersonViewModelFactory>();
         services.AddTransient<ViewModels.AdminSales.DeleteSaleViewModelFactory>();
         services.AddTransient<ViewModels.AdminSales.SalesViewModelFactory>();
         services.AddTransient<ViewModels.AdminSales.SaleViewModelFactory>();
-        services.AddTransient<ViewModels.AdminUser.DeleteUserViewModelFactory>();
-        services.AddTransient<ViewModels.AdminUser.EditUserViewModelFactory>();
-        services.AddTransient<ViewModels.AdminUser.UsersViewModelFactory>();
+        services.AddTransient<DeleteUserViewModelFactory>();
+        services.AddTransient<EditUserViewModelFactory>();
+        services.AddTransient<UsersViewModelFactory>();
         services.AddTransient<ViewModels.Home.RegisterViewModelFactory>();
         services.AddTransient<ViewModels.User.LoginViewModelFactory>();
         services.AddTransient<ViewModels.User.ResetPasswordViewModelFactory>();
@@ -82,6 +86,7 @@ public class Startup
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                     options.SlidingExpiration = true;
                     options.AccessDeniedPath = "/error/403";
+                    options.LoginPath = "/user/login";
                 }
             );
 

@@ -1,4 +1,4 @@
-﻿@model Bazza.ViewModels.AdminUser.DeleteUserViewModel
+﻿@model Bazza.ViewModels.AdminUsers.DeleteUserViewModel
 
 <h1 class="title">Benutzer löschen</h1>
 
@@ -7,7 +7,7 @@
     <div class="columns mt-6">
         <div class="column">
             <button type="submit" class="button is-danger">Benutzer löschen</button>
-            <a asp-action="@nameof(AdminUserController.EditUser)" asp-route-username="@Model.Username" class="button">Abbrechen</a>
+            <a asp-action="@nameof(AdminUsersController.EditUser)" asp-route-username="@Model.Username" class="button">Abbrechen</a>
         </div>
     </div>
 </form>

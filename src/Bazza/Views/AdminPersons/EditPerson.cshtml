@@ -1,0 +1,127 @@
+﻿@using Microsoft.EntityFrameworkCore.Scaffolding
+@model Bazza.ViewModels.AdminPersons.EditPersonViewModel
+
+@if (Model.Id.HasValue)
+{
+    <h1 class="title">Registrierung #@Model.Id bearbeiten</h1>
+}
+else
+{
+    <h1 class="title">Registrierung erstellen</h1>
+}
+
+<form method="post">
+    <div class="columns">
+        <div class="column">
+            <field asp-for="Name" label="Name:"/>
+        </div>
+        <div class="column">
+            <field asp-for="Email" label="E-Mail-Adresse:"/>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <field asp-for="Address" label="Adresse:" multi-line/>
+        </div>
+        <div class="column">
+            <field asp-for="Phone" label="Telefonnummer:"/>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <field label="Anzahl verkaufter Artikel:">@Model.ArticlesSold</field>
+        </div>
+        <div class="column">
+            <field label="Erlös:">@Model.ArticlesSoldPrice.ToString("N2")&nbsp;€</field>
+        </div>
+        <div class="column">
+            <field label="10% vom Umsatz:">-@Model.ArticlesPercentage.ToString("N2")&nbsp;€</field>
+        </div>
+        <div class="column">
+            <field label="Einschreibgebühr:">-@Model.ArticlesFee.ToString("N2")&nbsp;€</field>
+        </div>
+        <div class="column">
+            <field label="Auszahlungsbetrag:">@Model.Payout.ToString("N2")&nbsp;€</field>
+        </div>
+    </div>
+
+    <table class="table is-striped is-fullwidth">
+        <thead>
+        <tr>
+            <th style="width:1px;"></th>
+            <th style="width:1px;"></th>
+            <th>Artikel</th>
+            <th style="width:120px;">Größe</th>
+            <th style="width:90px;">Preis</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (var i = 0; i < Model.Articles.Count; i++)
+        {
+            <tr>
+                <td>
+                    @(i + 1)
+                    <input type="hidden" asp-for="@Model.Articles[i].SaleId"/>
+                    <input type="hidden" asp-for="@Model.Articles[i].SaleUtc"/>
+                    <input type="hidden" asp-for="@Model.Articles[i].SaleUsername"/>
+                </td>
+                <td>
+                    @if (Model.Articles[i].IsSold)
+                    {
+                        <a asp-action="@nameof(AdminSalesController.Sale)" asp-controller="AdminSales" asp-route-id="@Model.Articles[i].SaleId">
+                            <i class="fad fa-euro-sign" title="Verkauft am @Model.Articles[i].SaleUtc.FormatUtcAsCetDateTime() durch @Model.Articles[i].SaleUsername"></i>
+                        </a>
+                    }
+                </td>
+                <td>
+                    <input asp-for="@Model.Articles[i].Name" class="input is-small" style="width:100%;"/>
+                </td>
+                <td>
+                    <input asp-for="@Model.Articles[i].Size" class="input is-small" style="width:100px;"/>
+                </td>
+                <td>
+                    <input asp-for="@Model.Articles[i].Price" class="input is-small" style="width:50px;"/> €
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <div class="columns mt-6">
+        <div class="column">
+            <button type="submit" class="button is-primary">Speichern</button>
+            <a asp-action="@nameof(AdminPersonsController.Persons)" class="button">Abbrechen</a>
+        </div>
+    </div>
+</form>
+
+@if (Model.Id.HasValue)
+{
+    <div class="columns mt-6">
+        <div class="column">
+            <a asp-action="@nameof(AdminPersonsController.Pdf)" asp-route-id="@Model.Id" class="button is-light" download>
+                PDF herunterladen
+            </a>
+        </div>
+        <div class="column has-text-centered">
+            @if (Model.IsInternal)
+            {
+                <form method="post" asp-action="@nameof(AdminPersonsController.MakeNormal)" asp-route-id="@Model.Id">
+                    <button type="submit" class="button is-light">Zu "externer" Registrierung machen</button>
+                </form>
+            }
+            else
+            {
+                <form method="post" asp-action="@nameof(AdminPersonsController.MakeInternal)" asp-route-id="@Model.Id">
+                    <button type="submit" class="button is-light">Zu "interner" Registrierung machen</button>
+                </form>
+            }
+        </div>
+        <div class="column has-text-right">
+            <a asp-action="@nameof(AdminPersonsController.DeletePerson)" asp-route-id="@Model.Id" class="button is-danger">
+                Registrierung löschen
+            </a>
+        </div>
+    </div>
+}

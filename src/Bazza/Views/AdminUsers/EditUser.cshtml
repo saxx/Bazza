@@ -1,4 +1,4 @@
-﻿@model Bazza.ViewModels.AdminUser.EditUserViewModel
+﻿@model Bazza.ViewModels.AdminUsers.EditUserViewModel
 
 <h1 class="title">Benutzer bearbeiten</h1>
 
@@ -28,7 +28,7 @@
     <div class="columns">
         <div class="column">
             <button type="submit" class="button is-primary">Speichern</button>
-            <a asp-action="@nameof(AdminUserController.Users)" class="button">Abbrechen</a>
+            <a asp-action="@nameof(AdminUsersController.Users)" class="button">Abbrechen</a>
         </div>
     </div>
 </form>
@@ -53,7 +53,7 @@
         }
 
         <div class="column has-text-right">
-            <a asp-action="@nameof(AdminUserController.DeleteUser)" asp-route-username="@Model.Username" class="button is-danger">
+            <a asp-action="@nameof(AdminUsersController.DeleteUser)" asp-route-username="@Model.Username" class="button is-danger">
                 Benutzer löschen
             </a>
         </div>

@@ -5,7 +5,7 @@ using Bazza.Models.Database;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bazza.ViewModels.AdminUser;
+namespace Bazza.ViewModels.AdminUsers;
 
 public class EditUserViewModelFactory
 {

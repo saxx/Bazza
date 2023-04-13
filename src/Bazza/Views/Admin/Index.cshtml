@@ -31,13 +31,51 @@
         <div class="card">
             <div class="card-content has-text-centered">
                 <p class="title">
-                    @Model.Users
+                    @Model.ArticlesPrice.ToString("N2") €
                 </p>
                 <p class="subtitle">
-                    Benutzer
+                    Artikelwert
                 </p>
             </div>
         </div>
+    </div>
+</div>
 
+<div class="columns">
+    <div class="column">
+        <div class="card">
+            <div class="card-content has-text-centered">
+                <p class="title">
+                    @Model.Sales
+                </p>
+                <p class="subtitle">
+                    Verkäufe
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="card">
+            <div class="card-content has-text-centered">
+                <p class="title">
+                    @Model.ArticlesSold
+                </p>
+                <p class="subtitle">
+                    verkaufte Artikel
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="card">
+            <div class="card-content has-text-centered">
+                <p class="title">
+                    @Model.ArticlesPriceSold.ToString("N2") €
+                </p>
+                <p class="subtitle">
+                    eingenommen
+                </p>
+            </div>
+        </div>
     </div>
 </div>

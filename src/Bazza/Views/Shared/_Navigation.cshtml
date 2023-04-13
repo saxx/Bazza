@@ -19,36 +19,16 @@
 
                     @if (User.IsInRole(Roles.CanManagePersons))
                     {
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link">
-                                Registrierungen
-                            </a>
-                            <div class="navbar-dropdown">
-                                <a asp-action="@nameof(AdminController.Persons)" asp-controller="Admin" class="navbar-item">
-                                    Übersicht
-                                </a>
-                                <a asp-action="@nameof(HomeController.Register)" asp-controller="Home" class="navbar-item">
-                                    Neue Registrierung
-                                </a>
-                                <a asp-action="@nameof(AdminController.Download)" asp-controller="Admin" class="navbar-item">
-                                    Excel-Datei herunterladen
-                                </a>
-                            </div>
-                        </div>
+                        <a asp-action="@nameof(AdminPersonsController.Persons)" asp-controller="AdminPersons" class="navbar-item">
+                            Registrierungen
+                        </a>
                     }
 
                     @if (User.IsInRole(Roles.CanManageSales))
                     {
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link">
-                                Verkäufe
-                            </a>
-                            <div class="navbar-dropdown">
-                                <a asp-action="@nameof(AdminSalesController.Sales)" asp-controller="AdminSales" class="navbar-item">
-                                    Übersicht
-                                </a>
-                            </div>
-                        </div>
+                        <a asp-action="@nameof(AdminSalesController.Sales)" asp-controller="AdminSales" class="navbar-item">
+                            Verkäufe
+                        </a>
                     }
 
                     @if (User.IsInRole(Roles.CanManageAdmin))
@@ -58,7 +38,7 @@
                                 Administration
                             </a>
                             <div class="navbar-dropdown">
-                                <a asp-action="@nameof(AdminUserController.Users)" asp-controller="AdminUser" class="navbar-item">
+                                <a asp-action="@nameof(AdminUsersController.Users)" asp-controller="AdminUsers" class="navbar-item">
                                     Benutzer
                                 </a>
                                 <a asp-action="@nameof(AdminController.Settings)" asp-controller="Admin" class="navbar-item">

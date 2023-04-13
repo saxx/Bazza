@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Bazza.Models.Database;
 using Microsoft.EntityFrameworkCore;
@@ -19,14 +20,20 @@ public class IndexViewModelFactory
         {
             Articles = await _db.Articles.CountAsync(),
             Persons = await _db.Persons.CountAsync(),
-            Users = await _db.Users.CountAsync()
+            ArticlesPrice = await _db.Articles.SumAsync(x => x.Price),
+            ArticlesSold = await _db.Articles.CountAsync(x => x.SaleId.HasValue),
+            ArticlesPriceSold = await _db.Articles.Where(x => x.SaleId.HasValue).SumAsync(x => x.Price),
+            Sales = await _db.Sales.CountAsync()
         };
     }
 }
 
 public class IndexViewModel
 {
-    public int Persons { get; set; }
-    public int Articles { get; set; }
-    public int Users { get; set; }
+    public int Persons { get; init; }
+    public int Articles { get; init; }
+    public double ArticlesPrice { get; init; }
+    public int Sales { get; init; }
+    public int ArticlesSold { get; init; }
+    public double ArticlesPriceSold { get; init; }
 }

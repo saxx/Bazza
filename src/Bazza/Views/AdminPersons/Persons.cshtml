@@ -1,0 +1,48 @@
+﻿@model Bazza.ViewModels.AdminPersons.PersonsViewModel
+
+<h1 class="title">Registrierungen</h1>
+
+<div class="mb-4">
+    <a asp-action="@nameof(AdminPersonsController.CreatePerson)" class="button is-light">Neue Registrierung erstellen</a>&nbsp;
+    <a asp-action="@nameof(AdminPersonsController.Excel)" class="button is-light">Als Excel-Datei herunterladen</a>
+</div>
+
+
+@if (Model.Persons.Any())
+{
+    <table class="table is-striped is-fullwidth">
+        <thead>
+        <tr>
+            <th style="width: 1px;">Nummer</th>
+            <th>Name</th>
+            <th>E-Mail</th>
+            <th>Adresse</th>
+            <th class="has-text-right" style="width:1px;">Artikel</th>
+            <th class="has-text-right" style="width:1px;">Artikelwert</th>
+            <th class="has-text-right" style="width:1px;">Verkauft</th>
+            <th class="has-text-right" style="width:1px;">Verkaufswert</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var p in Model.Persons)
+        {
+            <tr>
+                <td>
+                    <a asp-action="@nameof(AdminPersonsController.EditPerson)" asp-route-id="@p.Id">@p.Id</a>
+                </td>
+                <td>@p.Name</td>
+                <td>@p.Email</td>
+                <td style="white-space: pre-wrap">@p.Address</td>
+                <td class="has-text-right">@p.ArticlesCount</td>
+                <td class="has-text-right">@p.ArticlesPrice.ToString("N2")&nbsp;€</td>
+                <td class="has-text-right">@p.ArticlesSoldCount</td>
+                <td class="has-text-right">@p.ArticlesSoldPrice.ToString("N2")&nbsp;€</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="notification is-danger">Es gibt noch keine Registrierungen.</div>
+}

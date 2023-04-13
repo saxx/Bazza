@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Bazza.Models.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bazza.ViewModels.AdminUser;
+namespace Bazza.ViewModels.AdminUsers;
 
 public class DeleteUserViewModelFactory
 {

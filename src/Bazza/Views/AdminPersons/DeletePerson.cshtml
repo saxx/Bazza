@@ -1,0 +1,13 @@
+﻿@model Bazza.ViewModels.AdminPersons.DeletePersonViewModel
+
+<h1 class="title">Registrierung löschen</h1>
+
+<form method="post">
+    Bist du sicher, dass die die Registrierung von <code>@Model.Name</code> löschen möchtest. Dies ist nicht rückgängig zu machen und betrifft @Model.Articles Artikel.
+    <div class="columns mt-6">
+        <div class="column">
+            <button type="submit" class="button is-danger">Registrierung löschen</button>
+            <a asp-action="@nameof(AdminPersonsController.EditPerson)" asp-route-id="@Model.Id" class="button">Abbrechen</a>
+        </div>
+    </div>
+</form>

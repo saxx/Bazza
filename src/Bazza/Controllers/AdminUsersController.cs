@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 using Bazza.Models.Database;
 using Bazza.Services;
 using Bazza.ViewModels.Admin;
-using Bazza.ViewModels.AdminUser;
+using Bazza.ViewModels.AdminUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.Controllers;
 
-public class AdminUserController : Controller
+public class AdminUsersController : Controller
 {
     [Authorize(Roles = Roles.CanManageAdmin), HttpGet("/admin/users")]
     public async Task<IActionResult> Users([FromServices] UsersViewModelFactory factory)

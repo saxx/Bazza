@@ -1,0 +1,69 @@
+﻿@model Bazza.ViewModels.AdminPersons.EditPersonViewModel
+@{
+    Layout = "_PdfLayout";
+}
+
+<h1 class="title">Registrierung #@Model.Id</h1>
+
+<div class="mb-6">
+    <div class="columns">
+        <div class="column">
+            <field label="Name:">@Model.Name</field>
+        </div>
+        <div class="column">
+            <field label="E-Mail-Adresse:">@Model.Email</field>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <field label="Adresse:">
+                <div style="white-space: pre-wrap;">@Model.Address</div>
+            </field>
+        </div>
+        <div class="column">
+            <field label="Telefonnummer:">@Model.Phone</field>
+        </div>
+    </div>
+</div>
+
+<div class="mb-6">
+    <div class="columns">
+        <div class="column">
+            <field label="Anzahl verkaufte Artikel:">@Model.ArticlesSold</field>
+        </div>
+        <div class="column">
+            <field label="Erlös:">@Model.ArticlesSoldPrice.ToString("N2")&nbsp;€</field>
+        </div>
+        <div class="column">
+            <field label="10% vom Umsatz:">-@Model.ArticlesPercentage.ToString("N2")&nbsp;€</field>
+        </div>
+        <div class="column">
+            <field label="Einschreibgebühr:">-@Model.ArticlesFee.ToString("N2")&nbsp;€</field>
+        </div>
+        <div class="column">
+            <field label="Auszahlungsbetrag:">@Model.Payout.ToString("N2")&nbsp;€</field>
+        </div>
+    </div>
+</div>
+
+<table class="table is-striped is-fullwidth">
+    <thead>
+    <tr>
+        <th style="width:1px;">Nummer</th>
+        <th>Artikel</th>
+        <th class="has-text-right">Größe</th>
+        <th class="has-text-right">Preis</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (var i = 0; i < Model.Articles.Count; i++)
+    {
+        <tr style="text-decoration:@(Model.Articles[i].IsSold ? "line-through" : "");">
+            <td>@(i + 1)</td>
+            <td>@Model.Articles[i].Name</td>
+            <td class="has-text-right">@Model.Articles[i].Size</td>
+            <td class="has-text-right">@Model.Articles[i].Price?.ToString("N2")&nbsp;€</td>
+        </tr>
+    }
+    </tbody>
+</table>
