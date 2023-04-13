@@ -1,11 +1,10 @@
-﻿@using Bazza.Controllers
-@using Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 
 <h1 class="title">Alle Registrierungen löschen</h1>
 
 <form method="post" asp-action="@nameof(AdminController.ClearData)">
     <button type="submit" class="button is-danger is-fullwidth is-small is-outlined" onclick="return confirm('Bist du sicher, dass du alle Registrierungen löschen möchtest? Du kannst das nicht mehr rückgängig machen!');">Alle Daten löschen</button>
     <div class="help">
-        Achtung, das löscht wirklich und dauerhaft alle Registrierungen (Verkäufer) und Artikel. Diese Funktion nur dann einsetzen, wenn der Basar vorbei ist und alle Daten entfernt werden sollen.
+        Achtung, das löscht wirklich und dauerhaft alle Registrierungen und Artikel. Diese Funktion nur dann einsetzen, wenn der Basar vorbei ist und alle Daten entfernt werden sollen.
     </div>
 </form>

@@ -1,10 +1,12 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
+using Bazza.Models.Database;
 using Bazza.ViewModels.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.Controllers;
 
@@ -25,7 +27,7 @@ public class UserController : Controller
     }
 
     [AllowAnonymous, HttpPost("/user/login")]
-    public async Task<IActionResult> Login([FromServices] LoginViewModelFactory factory, LoginViewModel viewModel)
+    public async Task<IActionResult> Login([FromServices] LoginViewModelFactory factory, [FromServices] Db db, LoginViewModel viewModel)
     {
         if (!ModelState.IsValid) return View(viewModel);
         viewModel = await factory.Login(viewModel);
@@ -33,6 +35,11 @@ public class UserController : Controller
         if (!viewModel.Error)
         {
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var user = await db.Users.SingleAsync(x => x.Username.ToLower() == viewModel.Username.ToLower());
+            if (user.CanManageAdmin) identity.AddClaim(new Claim(ClaimTypes.Role, Roles.CanManageAdmin));
+            if (user.CanManagePersons) identity.AddClaim(new Claim(ClaimTypes.Role, Roles.CanManagePersons));
+            if (user.CanManageSales) identity.AddClaim(new Claim(ClaimTypes.Role, Roles.CanManageSales));
             identity.AddClaim(new Claim(ClaimTypes.Name, viewModel.Username));
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 

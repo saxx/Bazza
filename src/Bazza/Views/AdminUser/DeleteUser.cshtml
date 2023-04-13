@@ -1,0 +1,14 @@
+﻿@model Bazza.ViewModels.AdminUser.DeleteUserViewModel
+
+<h1 class="title">Benutzer löschen</h1>
+
+<form method="post">
+    Bist du sicher, dass die den Benutzer <code>@Model.Username</code> löschen möchtest. Dies ist nicht rückgängig zu machen und entfernt die Benutzer-Information bei @Model.Sales Verkäufen.
+    <div class="columns mt-6">
+        <div class="column">
+            <button type="submit" class="button is-danger">Benutzer löschen</button>
+            <a asp-action="@nameof(AdminUserController.EditUser)" asp-route-username="@Model.Username" class="button">Abbrechen</a>
+        </div>
+    </div>
+</form>
+

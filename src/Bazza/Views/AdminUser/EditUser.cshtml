@@ -1,0 +1,69 @@
+﻿@model Bazza.ViewModels.AdminUser.EditUserViewModel
+
+<h1 class="title">Benutzer bearbeiten</h1>
+
+<form method="post">
+    <div class="columns">
+        <div class="column">
+            <field asp-for="Username" label="Benutzername:" help="Muss eindeutig sein, zB die E-Mail-Adresse. Kann nicht mehr geändert werden, sobald einmal vergebern." readonly="@(!string.IsNullOrWhiteSpace(Model.Username))"/>
+        </div>
+        <div class="column">
+            <field asp-for="Password" label="Passwort:" help="Nur dann angeben, wenn du das Passwort ändern möchtest, ansonsten leer lassen."/>
+        </div>
+        <div class="column">
+            <field asp-for="RequirePasswordReset" label="Passwort zurücksetzen erzwingen" help="Wenn dies aktiv ist, muss der Benutzer das Passwort neu setzen."/>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <field asp-for="CanManageAdmin" label="Administrator" help="Darf Benutzer und Einstellungen verwalten."/>
+        </div>
+        <div class="column">
+            <field asp-for="CanManagePersons" label="Registrierungen verwalten" help="Darf Registrierungen einsehen und verwalten."/>
+        </div>
+        <div class="column">
+            <field asp-for="CanManageSales" label="Verkäufe verwalten" help="Darf Verkäufe einsehen und durchführen."/>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <button type="submit" class="button is-primary">Speichern</button>
+            <a asp-action="@nameof(AdminUserController.Users)" class="button">Abbrechen</a>
+        </div>
+    </div>
+</form>
+
+@if (!string.IsNullOrWhiteSpace(Model.Username))
+{
+    <div class="columns mt-6">
+        @if (!Model.RequirePasswordReset)
+        {
+            <div class="column">
+                Aktiviere die Einstellung "Passwort zurücksetzen erzwingen", dann findest du an dieser Stelle die URL zum Setzen des Passworts für den Benutzer.<br/>
+            </div>
+        }
+        else
+        {
+            <div class="column">
+                Zum Setzen eines Passworts bitte die folgende URL an den Benutzer weitergeben. Damit das funktioniert, muss oben aber "Passwort zurücksetzen erzwingen" aktiviert sein. <br/>
+                <a asp-action="@nameof(UserController.ResetPassword)" asp-controller="User" asp-route-username="@Model.Username">
+                    @Url.Action(nameof(UserController.ResetPassword), "User", new { username = Model.Username }, "https")
+                </a>
+            </div>
+        }
+
+        <div class="column has-text-right">
+            <a asp-action="@nameof(AdminUserController.DeleteUser)" asp-route-username="@Model.Username" class="button is-danger">
+                Benutzer löschen
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="columns mt-6">
+        <div class="column">
+            Bitte speichere den Benutzer, dann findest du an dieser Stelle die URL zum Setzen des Passworts für den Benutzer.
+        </div>
+    </div>
+}

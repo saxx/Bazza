@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy;
 using Bazza.Models.Database;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.ClearScript.Util.Web;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.User;

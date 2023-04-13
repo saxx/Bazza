@@ -1,0 +1,42 @@
+﻿@model Bazza.ViewModels.AdminSales.SalesViewModel
+
+<h1 class="title">Verkäufe</h1>
+
+<div class="mb-4">
+    <form method="post" asp-action="@nameof(AdminSalesController.CreateSale)">
+        <button type="submit" class="button is-primary">Neuen Verkauf erstellen</button>
+    </form>
+</div>
+
+@if (Model.Sales.Any())
+{
+    <table class="table is-striped is-fullwidth">
+        <thead>
+        <tr>
+            <th>Nummer</th>
+            <th>Benutzer</th>
+            <th>Erstellt</th>
+            <th class="has-text-right">Artikel</th>
+            <th class="has-text-right">Summe</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var s in Model.Sales)
+        {
+            <tr>
+                <td>
+                    <a asp-action="@nameof(AdminSalesController.Sale)" asp-route-id="@s.Id">@s.Id</a>
+                </td>
+                <td>@s.Username</td>
+                <td>@s.CreatedUtc.FormatUtcAsCetDateTime()</td>
+                <td class="has-text-right">@s.ArticlesCount.ToString("N0")</td>
+                <td class="has-text-right">@s.ArticlesSum.ToString("N2")&nbsp;€</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="notification is-warning">Es gibt keine Verkäufe.</div>
+}

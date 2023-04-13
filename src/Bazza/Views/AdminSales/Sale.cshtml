@@ -1,0 +1,91 @@
+﻿@model Bazza.ViewModels.AdminSales.SaleViewModel
+
+<h1 class="title">Verkauf #@Model.Id</h1>
+
+<div class="columns mb-6">
+    <a asp-action="@nameof(AdminSalesController.Sales)" class="button is-light">
+        Zurück zur Übersicht
+    </a>
+</div>
+
+<div class="mb-6">
+    <div class="columns">
+        <div class="column">
+            <field label="Datum:">@Model.CreatedUtc.FormatUtcAsCetDateTime()</field>
+        </div>
+        <div class="column">
+            <field label="Benutzer:">@Model.Username</field>
+        </div>
+        <div class="column">
+            <field label="Anzahl Artikel:">@Model.ArticlesCount</field>
+        </div>
+        <div class="column">
+            <field label="Summe:">@Model.ArticlesPriceSum.ToString("N2")&nbsp;€</field>
+        </div>
+    </div>
+</div>
+
+<div class="mb-4">
+    <form method="post" asp-action="@nameof(AdminSalesController.AddArticle)" asp-route-id="@Model.Id">
+        <div class="field has-addons has-addon-right">
+            <p class="control">
+                <input class="input" autofocus type="text" name="article" placeholder="zB 3-45">
+            </p>
+            <p class="control">
+                <button type="submit" class="button is-primary">
+                    Artikel hinzufügen
+                </button>
+            </p>
+        </div>
+    </form>
+</div>
+
+@if (Model.Articles.Any())
+{
+    <table class="table is-striped is-fullwidth">
+        <thead>
+        <tr>
+            <th style="width:1px;">Nummer</th>
+            <th>Artikel</th>
+            <th class="has-text-right">Größe</th>
+            <th class="has-text-right">Preis</th>
+            <th style="width:1px;"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var a in Model.Articles)
+        {
+            <tr>
+                <td>@a.PersonId-@a.ArticleId</td>
+                <td>@a.Name</td>
+                <td class="has-text-right">@a.Size</td>
+                <td class="has-text-right">@a.Price.ToString("N2")&nbsp;€</td>
+                <td>
+                    <form method="post" asp-action="@nameof(AdminSalesController.RemoveArticle)" asp-route-id="@Model.Id" asp-route-article="@a.PersonId-@a.ArticleId">
+                        <button type="submit" class="button is-danger is-small">
+                            <i class="fad fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="notification is-warning">Es sind noch keine Artikel verkauft.</div>
+}
+
+<div class="columns mt-6">
+    <div class="column">
+        <a asp-action="@nameof(AdminSalesController.Pdf)" asp-route-id="@Model.Id" class="button is-light" download>
+            PDF herunterladen
+        </a>
+    </div>
+    <div class="columns has-text-right">
+        <a asp-action="@nameof(AdminSalesController.DeleteSale)" asp-route-id="@Model.Id" class="button is-danger">
+            Verkauf löschen
+        </a>
+    </div>
+</div>

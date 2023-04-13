@@ -9,6 +9,10 @@ public class User
     public string? PasswordSalt { get; set; }
     public bool RequiresPasswordReset { get; set; }
 
+    public bool CanManageAdmin { get; set; }
+    public bool CanManagePersons { get; set; }
+    public bool CanManageSales { get; set; }
+    
     public DateTime? LastLoginUtc { get; set; }
     public DateTime? PasswordSetUtc { get; set; }
 }

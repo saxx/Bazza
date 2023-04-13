@@ -1,5 +1,4 @@
-﻿@using Bazza.Controllers
-@if (User.Identity?.IsAuthenticated == true)
+﻿@if (User.Identity?.IsAuthenticated == true)
 {
     <nav class="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
         <div class="container">
@@ -17,36 +16,60 @@
 
             <div id="navbarBasicExample" class="navbar-menu">
                 <div class="navbar-start">
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                            Verkäufer
-                        </a>
-                        <div class="navbar-dropdown">
-                            <a asp-action="@nameof(AdminController.Persons)" asp-controller="Admin" class="navbar-item">
-                                Übersicht
-                            </a>
-                            <a asp-action="@nameof(HomeController.Register)" asp-controller="Home" class="navbar-item">
-                                Neue Registrierung
-                            </a>
-                            <a asp-action="@nameof(AdminController.Download)" asp-controller="Admin" class="navbar-item">
-                                Excel-Datei herunterladen
-                            </a>
-                        </div>
-                    </div>
 
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                            Administration
-                        </a>
-                        <div class="navbar-dropdown">
-                            <a asp-action="@nameof(AdminController.Settings)" asp-controller="Admin" class="navbar-item">
-                                Einstellungen
+                    @if (User.IsInRole(Roles.CanManagePersons))
+                    {
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                Registrierungen
                             </a>
-                            <a asp-action="@nameof(AdminController.ClearData)" asp-controller="Admin" class="navbar-item">
-                                Daten löschen
-                            </a>
+                            <div class="navbar-dropdown">
+                                <a asp-action="@nameof(AdminController.Persons)" asp-controller="Admin" class="navbar-item">
+                                    Übersicht
+                                </a>
+                                <a asp-action="@nameof(HomeController.Register)" asp-controller="Home" class="navbar-item">
+                                    Neue Registrierung
+                                </a>
+                                <a asp-action="@nameof(AdminController.Download)" asp-controller="Admin" class="navbar-item">
+                                    Excel-Datei herunterladen
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    }
+
+                    @if (User.IsInRole(Roles.CanManageSales))
+                    {
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                Verkäufe
+                            </a>
+                            <div class="navbar-dropdown">
+                                <a asp-action="@nameof(AdminSalesController.Sales)" asp-controller="AdminSales" class="navbar-item">
+                                    Übersicht
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                    @if (User.IsInRole(Roles.CanManageAdmin))
+                    {
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                Administration
+                            </a>
+                            <div class="navbar-dropdown">
+                                <a asp-action="@nameof(AdminUserController.Users)" asp-controller="AdminUser" class="navbar-item">
+                                    Benutzer
+                                </a>
+                                <a asp-action="@nameof(AdminController.Settings)" asp-controller="Admin" class="navbar-item">
+                                    Einstellungen
+                                </a>
+                                <a asp-action="@nameof(AdminController.ClearData)" asp-controller="Admin" class="navbar-item">
+                                    Daten löschen
+                                </a>
+                            </div>
+                        </div>
+                    }
                 </div>
 
                 <div class="navbar-end">

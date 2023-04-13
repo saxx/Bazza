@@ -1,0 +1,58 @@
+﻿@model Bazza.ViewModels.AdminUser.UsersViewModel
+
+<h1 class="title">Benutzer</h1>
+
+<div class="mb-4">
+    <a asp-action="@nameof(AdminUserController.EditUser)" class="button is-light">Neuen Benutzer erstellen</a>
+</div>
+
+@if (Model.Users.Any())
+{
+    <table class="table is-striped is-fullwidth">
+        <thead>
+        <tr>
+            <th>Benutzername</th>
+            <th>Letzter Login</th>
+            <th>Rechte</th>
+            <th>Passwort zurücksetzen erzwingen</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var u in Model.Users)
+        {
+            <tr>
+                <td>
+                    <a asp-action="@nameof(AdminUserController.EditUser)" asp-route-username="@u.Username">
+                        @u.Username
+                    </a>
+                </td>
+                <td>@u.LastLoginUtc.FormatUtcAsCetDateTime()</td>
+                <td>
+                    @if (u.CanManageAdmin)
+                    {
+                        <span>Admin&nbsp;</span>
+                    }
+                    @if (u.CanManagePersons)
+                    {
+                        <span>Registrierungen&nbsp;</span>
+                    }
+                    @if (u.CanManageSales)
+                    {
+                        <span>Verkäufe&nbsp;</span>
+                    }
+                </td>
+                <td>
+                    @if (u.RequirePasswordReset)
+                    {
+                        <span>Ja</span>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="notification is-danger">Es gibt keine Benutzer.</div>
+}

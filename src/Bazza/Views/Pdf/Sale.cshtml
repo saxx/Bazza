@@ -1,0 +1,52 @@
+﻿@model Bazza.ViewModels.AdminSales.SaleViewModel
+@{
+    Layout = "_PdfLayout";
+}
+
+<h1 class="title">Verkauf #@Model.Id</h1>
+
+<div class="mb-6">
+    <div class="columns">
+        <div class="column">
+            <field label="Datum:">@Model.CreatedUtc.FormatUtcAsCetDateTime()</field>
+        </div>
+        <div class="column">
+            <field label="Benutzer:">@Model.Username</field>
+        </div>
+        <div class="column">
+            <field label="Anzahl Artikel:">@Model.ArticlesCount</field>
+        </div>
+        <div class="column">
+            <field label="Summe:">@Model.ArticlesPriceSum.ToString("N2")&nbsp;€</field>
+        </div>
+    </div>
+</div>
+
+@if (Model.Articles.Any())
+{
+    <table class="table is-striped is-fullwidth">
+        <thead>
+        <tr>
+            <th style="width:1px;">Nummer</th>
+            <th>Artikel</th>
+            <th class="has-text-right">Größe</th>
+            <th class="has-text-right">Preis</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var a in Model.Articles)
+        {
+            <tr>
+                <td>@a.PersonId-@a.ArticleId</td>
+                <td>@a.Name</td>
+                <td class="has-text-right">@a.Size</td>
+                <td class="has-text-right">@a.Price.ToString("N2")&nbsp;€</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="notification is-warning">Es sind noch keine Artikel verkauft.</div>
+}

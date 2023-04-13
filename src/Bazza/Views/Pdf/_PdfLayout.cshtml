@@ -1,0 +1,47 @@
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <style type="text/css">
+        body {
+            margin: 50px 50px;
+            font-family: sans-serif;
+        }
+        
+        table {
+            width: 100%;
+        }
+        
+        .has-text-right {
+            text-align: right;
+        }
+        
+        .mb-6 {
+            margin-bottom: 30px;
+        }
+        
+        .columns {
+            display:  flex;
+            flex-wrap: nowrap;
+        }
+        
+        .column {
+            flex-basis: 0;
+            flex-grow: 1;
+            flex-shrink: 1;
+        }
+        
+        label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>

@@ -2,6 +2,8 @@ using System;
 using System.Globalization;
 using Adliance.AspNetCore.Buddy.Abstractions.Extensions;
 using Adliance.AspNetCore.Buddy.Email.Mailjet.Extensions;
+using Adliance.AspNetCore.Buddy.Pdf.V2.Extensions;
+using Adliance.AspNetCore.Buddy.Template.Razor.Extensions;
 using Bazza.Models;
 using Bazza.Models.Database;
 using Bazza.Services;
@@ -36,6 +38,12 @@ public class Startup
         services.AddTransient<ViewModels.Admin.IndexViewModelFactory>();
         services.AddTransient<ViewModels.Admin.PersonsViewModelFactory>();
         services.AddTransient<ViewModels.Admin.SettingsViewModelFactory>();
+        services.AddTransient<ViewModels.AdminSales.DeleteSaleViewModelFactory>();
+        services.AddTransient<ViewModels.AdminSales.SalesViewModelFactory>();
+        services.AddTransient<ViewModels.AdminSales.SaleViewModelFactory>();
+        services.AddTransient<ViewModels.AdminUser.DeleteUserViewModelFactory>();
+        services.AddTransient<ViewModels.AdminUser.EditUserViewModelFactory>();
+        services.AddTransient<ViewModels.AdminUser.UsersViewModelFactory>();
         services.AddTransient<ViewModels.Home.RegisterViewModelFactory>();
         services.AddTransient<ViewModels.User.LoginViewModelFactory>();
         services.AddTransient<ViewModels.User.ResetPasswordViewModelFactory>();
@@ -70,7 +78,7 @@ public class Startup
                 {
                     options.Cookie.SameSite = SameSiteMode.None;
                     options.Cookie.Name = "auth";
-                    options.LoginPath = "/user/login";
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                     options.SlidingExpiration = true;
                     options.AccessDeniedPath = "/error/403";
@@ -78,7 +86,9 @@ public class Startup
             );
 
         services.AddBuddy()
-            .AddMailjet(_configuration.GetSection("Email"), _configuration.GetSection("Mailjet"));
+            .AddMailjet(_configuration.GetSection("Email"), _configuration.GetSection("Mailjet"))
+            .AddPdf(_configuration.GetSection("Pdf"))
+            .AddRazorPdfV2Renderer();
         services.AddHttpContextAccessor();
         services.Configure<ForwardedHeadersOptions>(options =>
         {

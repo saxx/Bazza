@@ -1,0 +1,13 @@
+﻿@model Bazza.ViewModels.AdminSales.DeleteSaleViewModel
+
+<h1 class="title">Verkauf löschen</h1>
+
+<form method="post">
+    Bist du sicher, dass die den Verkauf <code>@Model.Id</code> löschen möchtest. Dies ist nicht rückgängig zu machen und betrifft @Model.ArticlesCount Artikel.
+    <div class="columns mt-6">
+        <div class="column">
+            <button type="submit" class="button is-danger">Verkauf löschen</button>
+            <a asp-action="@nameof(AdminSalesController.Sale)" asp-route-id="@Model.Id" class="button">Abbrechen</a>
+        </div>
+    </div>
+</form>

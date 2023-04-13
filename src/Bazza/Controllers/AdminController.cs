@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bazza.Models.Database;
 using Bazza.Services;
 using Bazza.ViewModels.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,19 +18,20 @@ public class AdminController : Controller
         return View(await factory.Build());
     }
     
-    [HttpGet("/admin/persons")]
+    
+    [Authorize(Roles = Roles.CanManagePersons), HttpGet("/admin/persons")]
     public async Task<IActionResult> Persons([FromServices] PersonsViewModelFactory factory)
     {
         return View(await factory.Build());
     }
 
-    [HttpGet("/admin/settings")]
+    [Authorize(Roles = Roles.CanManageAdmin), HttpGet("/admin/settings")]
     public async Task<IActionResult> Settings([FromServices] SettingsViewModelFactory factory)
     {
         return View(await factory.Build());
     }
 
-    [HttpPost("/admin/settings")]
+    [Authorize(Roles = Roles.CanManageAdmin), HttpPost("/admin/settings")]
     public async Task<IActionResult> Settings([FromServices] SettingsViewModelFactory factory, SettingsViewModel viewModel)
     {
         if (!ModelState.IsValid) return View(viewModel);
@@ -37,14 +39,14 @@ public class AdminController : Controller
         return View(viewModel);
     }
 
-    [HttpGet("/admin/download-excel")]
+    [Authorize(Roles = Roles.CanManagePersons), HttpGet("/admin/download-excel")]
     public async Task<IActionResult> Download([FromServices] ExcelExportService excel)
     {
         var bytes = await excel.CreateExcelFile();
         return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Basar_Neufelden_{DateTime.UtcNow:yyyy-MM-dd_HH-mm-ss}.xlsx");
     }
 
-    [HttpPost("/admin/delete-person/{id}")]
+    [Authorize(Roles = Roles.CanManagePersons), HttpPost("/admin/delete-person/{id}")]
     public async Task<IActionResult> DeletePerson([FromServices] Db db, [FromRoute] int id)
     {
         db.Articles.RemoveRange(db.Articles.Where(x => x.PersonId == id));
@@ -53,14 +55,14 @@ public class AdminController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpPost("/admin/make-internal/{id}")]
+    [Authorize(Roles = Roles.CanManagePersons), HttpPost("/admin/make-internal/{id}")]
     public async Task<IActionResult> MakeInternal([FromServices] Db db, [FromRoute] int id)
     {
         await ChangeId(db, id, 1001);
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpPost("/admin/make-normal/{id}")]
+    [Authorize(Roles = Roles.CanManagePersons), HttpPost("/admin/make-normal/{id}")]
     public async Task<IActionResult> MakeNormal([FromServices] Db db, [FromRoute] int id)
     {
         await ChangeId(db, id, 1);
@@ -108,15 +110,16 @@ public class AdminController : Controller
         await db.SaveChangesAsync();
     }
 
-    [HttpGet("/admin/clear-data")]
+    [Authorize(Roles = Roles.CanManageAdmin), HttpGet("/admin/clear-data")]
     public IActionResult ClearData([FromServices] Db db)
     {
         return View();
     }
 
-    [HttpPost("/admin/clear-data")]
+    [Authorize(Roles = Roles.CanManageAdmin), HttpPost("/admin/clear-data")]
     public async Task<IActionResult> ClearDataConfirm([FromServices] Db db)
     {
+        await db.Sales.ExecuteDeleteAsync();
         await db.Articles.ExecuteDeleteAsync();
         await db.Persons.ExecuteDeleteAsync();
         return RedirectToAction(nameof(Index));

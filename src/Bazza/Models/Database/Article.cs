@@ -1,4 +1,6 @@
-﻿namespace Bazza.Models.Database;
+﻿using System;
+
+namespace Bazza.Models.Database;
 
 public class Article
 {
@@ -7,4 +9,9 @@ public class Article
     public string? Name { get; set; }
     public string? Size { get; set; }
     public double Price { get; set; }
+    public int? SaleId { get; set; }
+    public DateTime? SaleUtc { get; set; }
+    public string? SaleUsername { get; set; }
+    public Sale? Sale { get; set; }
+    
 }
