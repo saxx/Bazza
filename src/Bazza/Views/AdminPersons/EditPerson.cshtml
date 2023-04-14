@@ -101,7 +101,12 @@ else
     <div class="columns mt-6">
         <div class="column">
             <a asp-action="@nameof(AdminPersonsController.Pdf)" asp-route-id="@Model.Id" class="button is-light" download>
-                PDF herunterladen
+                Übersicht herunterladen
+            </a>
+        </div>
+        <div class="column has-text-centered">
+            <a asp-action="@nameof(AdminPersonsController.Labels)" asp-route-id="@Model.Id" class="button is-light" download>
+                Labels herunterladen
             </a>
         </div>
         <div class="column has-text-centered">

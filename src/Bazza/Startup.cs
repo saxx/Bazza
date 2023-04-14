@@ -7,8 +7,6 @@ using Adliance.AspNetCore.Buddy.Template.Razor.Extensions;
 using Bazza.Models;
 using Bazza.Models.Database;
 using Bazza.Services;
-using Bazza.ViewModels.AdminPersons;
-using Bazza.ViewModels.AdminUsers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +35,7 @@ public class Startup
 
         services.AddScoped<Settings>();
         services.AddTransient<ExcelExportService>();
+        services.AddTransient<LabelsPdfService>();
         services.AddTransient<ViewModels.Admin.IndexViewModelFactory>();
         services.AddTransient<ViewModels.Admin.SettingsViewModelFactory>();
         services.AddTransient<ViewModels.AdminPersons.DeletePersonViewModelFactory>();
@@ -45,9 +44,9 @@ public class Startup
         services.AddTransient<ViewModels.AdminSales.DeleteSaleViewModelFactory>();
         services.AddTransient<ViewModels.AdminSales.SalesViewModelFactory>();
         services.AddTransient<ViewModels.AdminSales.SaleViewModelFactory>();
-        services.AddTransient<DeleteUserViewModelFactory>();
-        services.AddTransient<EditUserViewModelFactory>();
-        services.AddTransient<UsersViewModelFactory>();
+        services.AddTransient<ViewModels.AdminUsers.DeleteUserViewModelFactory>();
+        services.AddTransient<ViewModels.AdminUsers.EditUserViewModelFactory>();
+        services.AddTransient<ViewModels.AdminUsers.UsersViewModelFactory>();
         services.AddTransient<ViewModels.Home.RegisterViewModelFactory>();
         services.AddTransient<ViewModels.User.LoginViewModelFactory>();
         services.AddTransient<ViewModels.User.ResetPasswordViewModelFactory>();

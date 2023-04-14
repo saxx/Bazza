@@ -37,6 +37,12 @@ public class AdminPersonsController : Controller
         return File(pdf, "application/pdf", $"Registrierung {viewModel.Id}.pdf");
     }
     
+    [HttpGet("/admin/person/{id}/labels")]
+    public async Task<IActionResult> Labels([FromServices] LabelsPdfService labelsPdfService, int id)
+    {
+        return File(await labelsPdfService.BuildPdf(id), "application/pdf", $"Labels ({id}).pdf");
+    }
+    
     [HttpGet("/admin/person")]
     public async Task<IActionResult> CreatePerson([FromServices] EditPersonViewModelFactory factory)
     {
