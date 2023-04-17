@@ -1,4 +1,5 @@
-﻿@model Bazza.ViewModels.Home.RegisterViewModel
+﻿@using Azure.Core
+@model Bazza.ViewModels.Home.RegisterViewModel
 
 <section class="section">
     <h4 class="title is-4">Herzlichen Dank für die Anpassung deiner Registrierung</h4>
@@ -18,7 +19,8 @@
     </p>
     <p>
         Du kannst deine Registrierung beziehungsweise deine Artikel noch anpassen, indem du diese Adresse aufrufst:<br/>
-        @{ var url = Url.Action("Register", "Home", null, "https") + "/" + Model.AccessToken; }
-        <a href="@url">@url</a>
+        @{ var url = Url.Action(nameof(HomeController.Register), "Home", new { accessToken = Model.AccessToken }, "https"); }
+        <a href="@url">@url</a><br/><br/>
     </p>
+    <partial name="_Register_Buttons"/>
 </section>

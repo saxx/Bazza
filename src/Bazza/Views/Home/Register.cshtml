@@ -129,7 +129,7 @@ else
                     <button type="button" id="remove_row" class="button is-danger is-small"><i class="fad fa-trash"></i>&nbsp;Letzte Zeile entfernen</button>
                 </p>
                 <span class="help">
-                    Du kannst bis zu 50 Artikel angeben. Bitte gib für jeden Artikel mindestens den Preis und eine möglichst aussagekräftige Bezeichnung an.
+                    Du kannst aus organisatorischen Gründen pro Registrierung maximal 50 Artikel angeben. Solltest du mehr als 50 Artikel verkaufen wollen, kannst du dich aber gerne mehrmals mit derselben E-Mail-Adresse registrieren. Bitte gib für jeden Artikel mindestens den Preis und eine möglichst aussagekräftige Bezeichnung an.
                     Bitte runde den Preis immer auf 50 Cent genau.
                 </span>
             </div>
@@ -152,34 +152,22 @@ else
                 </div>
             </div>
         </section>
+
         <section class="section">
             <div class="field">
-                <input type="hidden" asp-for="CaptchaExpectedResultHash" value="@Model.CaptchaExpectedResultHash"/>
-
-                <div class="field">
-                    <label asp-for="CaptchaResult" class="label">Sicherheitsfrage:</label>
-                    <div class="control">
-                        <div class="form-text" style="display: inline-block; padding-top: 6px;">
-                            @Model.CaptchaFirstValue + @Model.CaptchaSecondValue =
-                        </div>
-                        <input asp-for="CaptchaResult" class="input" type="text" style="width:40px;" value="">
-                    </div>
-                    <span asp-validation-for="CaptchaResult" class="help is-danger"></span>
-                </div>
-
-                <div class="help">
-                    Wir haben leider mit sehr vielen falschen, automatisierten Eintragungen und Spam zu kämpfen, daher müssen wir mit dieser einfachen Berechnung sicher gehen, dass du kein Bot bist ;)
-                </div>
-            </div>
-        </section>
-        <section class="section">
-            <div class="field">
-                <div style="display: none;">
-                    <input type="text" asp-for="CaptchaText"/>
-                </div>
-
                 <button type="submit" class="button is-link" onclick="setButtonWorking(this);"><i class="fad fa-save"></i>&nbsp;Speichern und verbindlich registrieren</button>
             </div>
         </section>
     </form>
+
+    @if (!string.IsNullOrWhiteSpace(Model.AccessToken))
+    {
+        <section class="section">
+            <div class="field">
+                <a asp-action="@nameof(HomeController.DownloadPdf)" asp-route-accessToken="@Model.AccessToken" class="button is-light" download><i class="fad fa-file-pdf"></i>&nbsp;Übersicht als PDF herunterladen</a>
+
+                <a asp-action="@nameof(HomeController.DownloadLabels)" asp-route-accessToken="@Model.AccessToken" class="button is-light" download><i class="fad fa-file-pdf"></i>&nbsp;Labels herunterladen</a>
+            </div>
+        </section>
+    }
 }

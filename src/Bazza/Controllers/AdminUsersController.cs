@@ -1,13 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Bazza.Models.Database;
-using Bazza.Services;
-using Bazza.ViewModels.Admin;
+﻿using System.Threading.Tasks;
 using Bazza.ViewModels.AdminUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.Controllers;
 

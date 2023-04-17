@@ -7,7 +7,6 @@ using Bazza.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
-using ZXing.QrCode;
 
 namespace Bazza.Services;
 
@@ -24,6 +23,12 @@ public class LabelsPdfService
         _db = db;
     }
 
+    public async Task<byte[]> BuildPdf(string accessToken)
+    {
+        var person = await _db.Persons.AsNoTracking().SingleOrDefaultAsync(x => x.AccessToken == accessToken) ?? throw new EntityNotFoundException();
+        return await BuildPdf(person.PersonId);
+    }
+
     public async Task<byte[]> BuildPdf(int personId)
     {
         var html = await _templater.Render("Pdf", "Labels", await BuildViewModel(personId));
@@ -34,7 +39,7 @@ public class LabelsPdfService
     {
         var person = await _db.Persons.AsNoTracking().SingleOrDefaultAsync(x => x.PersonId == personId) ?? throw new EntityNotFoundException();
         var articles = await _db.Articles.AsNoTracking().Where(x => x.PersonId == person.PersonId).OrderBy(x => x.ArticleId).ToListAsync();
-        
+
         var result = new LabelsPdfViewModel
         {
             PersonEmail = person.Email ?? "",

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy;
@@ -32,29 +31,10 @@ public class RegisterViewModelFactory
         _link = link;
         _context = context;
     }
-
-    public void ArmCaptcha(RegisterViewModel viewModel)
-    {
-        var random = new Random();
-        viewModel.CaptchaFirstValue = random.Next(1, 9);
-        viewModel.CaptchaSecondValue = random.Next(1, 9);
-        viewModel.CaptchaResult = null;
-        viewModel.CaptchaText = null;
-        viewModel.CaptchaExpectedResultHash = Crypto.Hash((viewModel.CaptchaFirstValue + viewModel.CaptchaSecondValue).ToString(CultureInfo.InvariantCulture), "salt");
-    }
-
-    public bool IsCaptchaValid(RegisterViewModel viewModel)
-    {
-        if (viewModel.CaptchaText != null) return false;
-        if (viewModel.CaptchaResult == null) return false;
-        if (Crypto.Hash(viewModel.CaptchaResult.Value.ToString(CultureInfo.InvariantCulture), "salt") != viewModel.CaptchaExpectedResultHash) return false;
-        return true;
-    }
-
+    
     public async Task<RegisterViewModel> Fill(string? accessToken = null)
     {
         var result = new RegisterViewModel();
-        ArmCaptcha(result);
 
         if (!string.IsNullOrWhiteSpace(accessToken))
         {
@@ -193,13 +173,7 @@ public class RegisterViewModel
 
     [BindNever] public bool DisplayInitialSuccess { get; set; }
     [BindNever] public bool DisplaySubsequentSuccess { get; set; }
-
-    public string? CaptchaText { get; set; }
-    [BindNever] public int CaptchaFirstValue { get; set; }
-    [BindNever] public int CaptchaSecondValue { get; set; }
-    public int? CaptchaResult { get; set; }
-    public string CaptchaExpectedResultHash { get; set; } = "";
-
+    
     public class Article
     {
         [Required(ErrorMessage = "Bitte gib eine aussagekräftige Artikelbeschreibung an.")] public string? Name { get; init; }

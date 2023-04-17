@@ -1,7 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Adliance.AspNetCore.Buddy.Pdf.V2;
+using Adliance.AspNetCore.Buddy.Template.Razor;
 using Bazza.Models;
+using Bazza.Services;
+using Bazza.ViewModels.AdminPersons;
 using Bazza.ViewModels.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,19 +31,25 @@ public class HomeController : Controller
         return View(await factory.Fill(accessToken));
     }
 
+    [AllowAnonymous, HttpGet("/register/{accessToken}/labels")]
+    public async Task<IActionResult> DownloadLabels([FromServices] LabelsPdfService labelsPdfService, string accessToken)
+    {
+        return File(await labelsPdfService.BuildPdf(accessToken), "application/pdf", $"Basar Neufelden Labels.pdf");
+    }
+
+    [AllowAnonymous, HttpGet("/register/{accessToken}/pdf")]
+    public async Task<IActionResult> DownloadPdf([FromServices] ITemplater templater, [FromServices] IPdfer pdfer, [FromServices] EditPersonViewModelFactory factory, string accessToken)
+    {
+        var viewModel = await factory.Build(accessToken);
+        var html = await templater.Render("Pdf", "Person", viewModel);
+        var pdf = await pdfer.HtmlToPdf(html, new PdfOptions());
+        return File(pdf, "application/pdf", "Basar Neufelden Übersicht.pdf");
+    }
+
     [AllowAnonymous, HttpPost("/register"), ValidateAntiForgeryToken]
     public async Task<IActionResult> Register([FromServices] RegisterViewModelFactory factory, RegisterViewModel viewModel)
     {
-        // block a little to avoid brute forcing
-        Thread.Sleep(new Random().Next(1000, 3000));
-
-        if (!factory.IsCaptchaValid(viewModel)) ModelState.AddModelError(nameof(viewModel.CaptchaResult), "Bitte prüfe das Ergebnis dieser Rechnung.");
-        if (!ModelState.IsValid)
-        {
-            factory.ArmCaptcha(viewModel);
-            return View(viewModel);
-        }
-
+        if (!ModelState.IsValid) return View(viewModel);
         await factory.SaveToDatabase(viewModel);
         return View(viewModel);
     }

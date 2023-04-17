@@ -13,14 +13,14 @@
         Bei vollständig ausgefüllten Listen mit 50 Artikeln werden die Etiketten ehestmöglich erstellt und an die von dir angegebenen E-Mail-Adresse zugesendet.<br/><br/>
     </p>
     <p>
-        Ausgefüllte Listen mit weniger als 50 Artikeln können noch für 1 Woche ab Erstellung ergänzt werden. Dann erst bekommst du von uns die Etiketten. 
+        Ausgefüllte Listen mit weniger als 50 Artikeln können noch für 1 Woche ab Erstellung ergänzt werden. Dann erst bekommst du von uns die Etiketten.
         Sollte deine Liste schon fertig sein und du benötigst die Etiketten schon vor Ablauf der 7 Tage, schreibe bitte kurz eine E-Mail an <a href="mailto:basar@neufelden.at">basar@neufelden.at</a>.<br/><br/>
     </p>
     <p>
-        Die Eingabe der Artikel ist bis <b>@Settings.RegistrationEndDate.ToString("dddd, dd. MMMM yyyy")</b> möglich.<br /><br />
+        Die Eingabe der Artikel ist bis <b>@Settings.RegistrationEndDate.ToString("dddd, dd. MMMM yyyy")</b> möglich.<br/><br/>
     </p>
     <p>
-        Du kannst deine Registrierung beziehungsweise deine Artikel noch anpassen, indem du diese Adresse aufrufst:<br/>
+        Du kannst deine Registrierung beziehungsweise deine Artikel noch anpassen, indem du die folgende Adresse aufrufst. Wenn du dir diese Adresse merkst, kannst du deine Registrierung auch später noch anpassen.<br/>
         @{ var url = Url.Action("Register", "Home", null, "https") + "/" + Model.AccessToken; }
         <a href="@url">@url</a><br/><br/>
     </p>
@@ -28,4 +28,5 @@
         Wenn du dir diese Adresse abspeicherst (beispielsweise indem du sie in den Favoriten deines Browsers speicherst), kannst du auch später noch auf deine Registrierung zugreifen und sie anpassen.
         Wir haben dir außerdem eine E-Mail an <code>@Model.Email</code> geschickt, wo diese Adresse ebenfalls zu finden ist. Solltest du keine E-Mail erhalten haben, wirf bitte auch einen Blick in deinen Spam-Ordner.
     </p>
+    <partial name="_Register_Buttons"/>
 </section>

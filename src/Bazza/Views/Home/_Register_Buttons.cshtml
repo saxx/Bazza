@@ -1,0 +1,8 @@
+﻿@model Bazza.ViewModels.Home.RegisterViewModel
+
+<p>
+    <br/><br/>
+    <a asp-action="@nameof(HomeController.Register)" asp-route-accessToken="@Model.AccessToken" class="button is-light"><i class="fad fa-pencil"></i>&nbsp;Registrierung anpassen</a>
+    <a asp-action="@nameof(HomeController.DownloadPdf)" asp-route-accessToken="@Model.AccessToken" class="button is-light"><i class="fad fa-file-pdf"></i>&nbsp;Übersicht als PDF herunterladen</a>
+    <a asp-action="@nameof(HomeController.DownloadLabels)" asp-route-accessToken="@Model.AccessToken" class="button is-light"><i class="fad fa-file-pdf"></i>&nbsp;Labels als PDF herunterladen</a>
+</p>

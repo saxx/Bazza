@@ -46,7 +46,7 @@ public class AdminPersonsController : Controller
     [HttpGet("/admin/person")]
     public async Task<IActionResult> CreatePerson([FromServices] EditPersonViewModelFactory factory)
     {
-        return View(nameof(EditPerson), await factory.Build(null));
+        return View(nameof(EditPerson), await factory.Build((int?)null));
     }
 
     [HttpGet("/admin/person/{id}")]
