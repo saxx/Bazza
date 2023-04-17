@@ -8,6 +8,20 @@
     </a>
 </div>
 
+@if (Model.DisplayInvalidError)
+{
+    <div class="notification is-danger mt-6 mb-6">
+        Der angegebene Artikel ist ungültig.
+    </div>
+}
+
+@if (Model.DisplayAlreadySoldError)
+{
+    <div class="notification is-warning mt-6 mb-6">
+        Der angegebene Artikel wurde entweder bereits verkauft, oder ist gesperrt.
+    </div>
+}
+
 <div class="mb-6">
     <div class="columns">
         <div class="column">

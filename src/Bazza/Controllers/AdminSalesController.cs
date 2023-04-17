@@ -66,14 +66,25 @@ public class AdminSalesController : Controller
     }
 
     [Authorize(Roles = Roles.CanManageSales), HttpPost("/admin/sale/{id}/article")]
-    public async Task<IActionResult> AddArticle([FromServices] Db db, int id, string article)
+    public async Task<IActionResult> AddArticle([FromServices] SaleViewModelFactory factory, [FromServices] Db db, int id, string article)
     {
         try
         {
             ParseArticle(article, out var personId, out var articleId);
-            if (personId <= 0 || articleId <= 0) return BadRequest();
+            if (personId <= 0 || articleId <= 0)
+            {
+                var viewModel = await factory.Build(id);
+                viewModel.DisplayInvalidError = true;
+                return View("Sale", viewModel);
+            }
+
             var articleInDb = await db.Articles.SingleOrDefaultAsync(x => x.PersonId == personId && x.ArticleId == articleId) ?? throw new EntityNotFoundException();
-            if (articleInDb.SaleId.HasValue) return BadRequest();
+            if (articleInDb.SaleId.HasValue)
+            {
+                var viewModel = await factory.Build(id);
+                viewModel.DisplayAlreadySoldError = true;
+                return View("Sale", viewModel);
+            }
 
             var sale = await db.Sales.SingleOrDefaultAsync(x => x.Id == id) ?? throw new EntityNotFoundException();
             articleInDb.SaleId = sale.Id;

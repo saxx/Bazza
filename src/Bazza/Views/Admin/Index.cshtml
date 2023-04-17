@@ -61,7 +61,7 @@
                     @Model.ArticlesSold
                 </p>
                 <p class="subtitle">
-                    verkaufte Artikel
+                    verkaufte Artikel (@((100d / Model.Articles * Model.ArticlesSold).ToString("N2")) %)
                 </p>
             </div>
         </div>
@@ -73,7 +73,7 @@
                     @Model.ArticlesPriceSold.ToString("N2") €
                 </p>
                 <p class="subtitle">
-                    eingenommen
+                    eingenommen (@((100d / Model.ArticlesPrice * Model.ArticlesPriceSold).ToString("N2")) %)
                 </p>
             </div>
         </div>

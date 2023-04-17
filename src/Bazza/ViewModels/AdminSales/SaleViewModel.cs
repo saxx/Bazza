@@ -47,6 +47,9 @@ public class SaleViewModel
     public DateTime CreatedUtc { get; set; }
     public double ArticlesPriceSum => Articles.Sum(x => x.Price);
     public int ArticlesCount => Articles.Count;
+
+    public bool DisplayAlreadySoldError { get; set; }
+    public bool DisplayInvalidError { get; set; }
     
     public IList<Article> Articles { get; set; } = new List<Article>();
 
