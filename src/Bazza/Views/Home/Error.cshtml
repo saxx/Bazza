@@ -1,0 +1,12 @@
+﻿@model int
+
+@if (Model == 404)
+{
+    <h1 class="title">Seite nicht gefunden</h1>
+    <p>Die aufgerufene Seite existiert nicht.</p>
+}
+else
+{
+    <h1 class="title">Fehler</h1>
+    <p>Es ist ein Fehler @Model aufgetreten.</p>
+}

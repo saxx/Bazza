@@ -110,7 +110,7 @@ public class Startup
         app.UseForwardedHeaders();
         app.UseHttpsRedirection();
         app.UseHsts();
-        app.UseStatusCodePages();
+        app.UseStatusCodePagesWithRedirects("/error/{0}");
         app.UseExceptionHandler("/error/500");
         app.UseStaticFiles();
         app.UseRequestLocalization(options =>

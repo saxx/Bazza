@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Pdf.V2;
 using Adliance.AspNetCore.Buddy.Template.Razor;
 using Bazza.Models;
@@ -6,6 +7,7 @@ using Bazza.Services;
 using Bazza.ViewModels.AdminPersons;
 using Bazza.ViewModels.Home;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bazza.Controllers;
@@ -57,6 +59,8 @@ public class HomeController : Controller
     [AllowAnonymous, Route("error/{status}")]
     public IActionResult Error([FromRoute] int status)
     {
-        return Content($"Error {status}");
+        var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+        if (exceptionHandlerPathFeature?.Error is EntityNotFoundException) status = 404;
+        return View(status);
     }
 }
