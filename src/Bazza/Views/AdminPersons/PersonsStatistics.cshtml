@@ -1,0 +1,52 @@
+﻿@using System.Text.Json
+@model Bazza.ViewModels.AdminPersons.PersonsStatisticsViewModel
+
+<h1 class="title">Statistiken</h1>
+
+<div class="columns">
+    <div class="column">
+        <div id="person_by_count" style="width: 100%; height: 600px;"></div>
+    </div>
+</div>
+
+<div class="columns">
+    <div class="column">
+        <div id="person_by_price" style="width: 100%; height: 600px;"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        echarts.init(document.getElementById("person_by_count")).setOption({
+            title: {
+                text: "Anzahl verkaufter Artikel",
+                left: "center"
+            },
+            tooltip: {
+                trigger: "item",
+                formatter: "{b}: {c} Artikel ({d}%)"
+            },
+            series: [{
+                type: "pie",
+                roseType: "area",
+                data: @Html.Raw(JsonSerializer.Serialize(Model.Persons.Select(x => new { value = x.ArticlesCount, name = x.Name })))
+            }]
+        });
+        
+        echarts.init(document.getElementById("person_by_price")).setOption({
+            title: {
+                text: "Verkaufswert",
+                left: "center"
+            },
+            tooltip: {
+                trigger: "item",
+                formatter: "{b}: {c} € ({d}%)"
+            },
+            series: [{
+                type: "pie",
+                roseType: "area",
+                data: @Html.Raw(JsonSerializer.Serialize(Model.Persons.Select(x => new { value = x.ArticlesPrice, name = x.Name })))
+            }]
+        });
+    </script>
+}

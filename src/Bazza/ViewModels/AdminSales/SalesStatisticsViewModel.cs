@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Adliance.Buddy.DateTime;
 using Bazza.Models.Database;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.AdminSales;

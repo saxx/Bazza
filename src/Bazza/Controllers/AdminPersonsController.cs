@@ -20,6 +20,12 @@ public class AdminPersonsController : Controller
     {
         return View(await factory.Build());
     }
+    
+    [HttpGet("/admin/persons/statistics")]
+    public async Task<IActionResult> PersonsStatistics([FromServices] PersonsStatisticsViewModelFactory factory)
+    {
+        return View(await factory.Build());
+    }
 
     [HttpGet("/admin/persons/download-excel")]
     public async Task<IActionResult> Excel([FromServices] ExcelExportService excel)
