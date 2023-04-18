@@ -23,6 +23,8 @@ public class IndexViewModelFactory
             ArticlesPrice = await _db.Articles.SumAsync(x => x.Price),
             ArticlesSold = await _db.Articles.CountAsync(x => x.SaleId.HasValue),
             ArticlesPriceSold = await _db.Articles.Where(x => x.SaleId.HasValue).SumAsync(x => x.Price),
+            ArticlesBlocked = await _db.Articles.CountAsync(x => x.BlockedUtc.HasValue),
+            ArticlesPriceBlocked = await _db.Articles.Where(x => x.BlockedUtc.HasValue).SumAsync(x => x.Price),
             Sales = await _db.Sales.CountAsync()
         };
     }
@@ -36,4 +38,7 @@ public class IndexViewModel
     public int Sales { get; init; }
     public int ArticlesSold { get; init; }
     public double ArticlesPriceSold { get; init; }
+    
+    public int ArticlesBlocked { get; init; }
+    public double ArticlesPriceBlocked { get; init; }
 }

@@ -1,16 +1,16 @@
-﻿var addButton = $("button#add_row");
-var removeButton = $("button#remove_row");
+﻿const addButton = $("button#add_row");
+const removeButton = $("button#remove_row");
 
 addButton.on("click", function() {
-   var templateRow = $("tr#template_row");
-   
-   var currentCount = $("table tbody tr").length;
+   const templateRow = $("tr#template_row");
+
+   const currentCount = $("table tbody tr").length;
    if (currentCount >= 51) {
       alert("Es sind nicht mehr als 50 Artikel pro Registrierung möglich. Bitte registrieren Sie sich ein weiteres Mal, um mehr Artikel anzugeben.")
       return;
    }
-   
-   var newRow = templateRow.clone();
+
+   const newRow = templateRow.clone();
    newRow.prop("id", "");
    newRow.css("display", "table-row");
    
@@ -41,3 +41,10 @@ function setButtonWorking(button) {
       button.innerText = "Bitte warten ..."
    }, 100);
 }
+
+
+$(".submit-on-tab").on("keydown", function(e) {
+   if (e.which === 9) {
+      this.closest("form").submit();
+   }
+});

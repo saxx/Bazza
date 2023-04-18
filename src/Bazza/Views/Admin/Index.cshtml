@@ -79,3 +79,29 @@
         </div>
     </div>
 </div>
+<div class="columns">
+    <div class="column">
+        <div class="card">
+            <div class="card-content has-text-centered">
+                <p class="title">
+                    @Model.ArticlesBlocked
+                </p>
+                <p class="subtitle">
+                    gesperrte Artikel (@((100d / Model.Articles * Model.ArticlesBlocked).ToString("N2")) %)
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="card">
+            <div class="card-content has-text-centered">
+                <p class="title">
+                    @Model.ArticlesPriceBlocked.ToString("N2") €
+                </p>
+                <p class="subtitle">
+                    Artikelwert gesperrt (@((100d / Model.ArticlesPrice * Model.ArticlesPriceBlocked).ToString("N2")) %)
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
