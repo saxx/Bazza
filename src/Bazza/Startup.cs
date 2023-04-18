@@ -43,6 +43,7 @@ public class Startup
         services.AddTransient<ViewModels.AdminPersons.EditPersonViewModelFactory>();
         services.AddTransient<ViewModels.AdminSales.BlockedViewModelFactory>();
         services.AddTransient<ViewModels.AdminSales.DeleteSaleViewModelFactory>();
+        services.AddTransient<ViewModels.AdminSales.SalesStatisticsViewModelFactory>();
         services.AddTransient<ViewModels.AdminSales.SalesViewModelFactory>();
         services.AddTransient<ViewModels.AdminSales.SaleViewModelFactory>();
         services.AddTransient<ViewModels.AdminUsers.DeleteUserViewModelFactory>();
@@ -66,6 +67,7 @@ public class Startup
             pipeline.AddJavaScriptBundle(
                 "/js/bundle.js",
                 "/lib/jquery.js",
+                "/lib/echarts.js",
                 "/js/site.js");
         });
         services.AddHealthChecks()
@@ -82,8 +84,7 @@ public class Startup
                 {
                     options.Cookie.SameSite = SameSiteMode.None;
                     options.Cookie.Name = "auth";
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                    options.ExpireTimeSpan = TimeSpan.FromHours(12);
                     options.SlidingExpiration = true;
                     options.AccessDeniedPath = "/error/403";
                     options.LoginPath = "/user/login";

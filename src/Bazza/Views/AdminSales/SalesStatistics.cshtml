@@ -1,0 +1,107 @@
+﻿@using System.Text.Json
+@model Bazza.ViewModels.AdminSales.SalesStatisticsViewModel
+
+<h1 class="title">Statistiken</h1>
+
+<div class="columns">
+    <div class="column">
+        <div id="user_by_count" style="width: 100%; height: 400px;"></div>
+    </div>
+    <div class="column">
+        <div id="user_by_price" style="width: 100%; height: 400px;"></div>
+    </div>
+</div>
+
+<div class="columns">
+    <div class="column">
+        <div id="hour_by_count" style="width: 100%; height: 400px;"></div>
+    </div>
+</div>
+<div class="columns">
+    <div class="column">
+        <div id="hour_by_price" style="width: 100%; height: 400px;"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        echarts.init(document.getElementById("user_by_count")).setOption({
+            title: {
+                text: "Anzahl verkaufter Artikel",
+                left: "center"
+            },
+            tooltip: {
+                trigger: "item",
+                formatter: "{b}: {c} Artikel ({d}%)"
+            },
+            series: [{
+                type: "pie",
+                roseType: "area",
+                data: @Html.Raw(JsonSerializer.Serialize(Model.Users.Select(x => new { value = x.ArticlesCount, name = x.Username })))
+            }]
+        });
+        
+        echarts.init(document.getElementById("user_by_price")).setOption({
+            title: {
+                text: "Verkaufswert",
+                left: "center"
+            },
+            tooltip: {
+                trigger: "item",
+                formatter: "{b}: {c} € ({d}%)"
+            },
+            series: [{
+                type: "pie",
+                roseType: "area",
+                data: @Html.Raw(JsonSerializer.Serialize(Model.Users.Select(x => new { value = x.ArticlesPrice, name = x.Username })))
+            }]
+        });
+        
+        echarts.init(document.getElementById("hour_by_count")).setOption({
+            title: {
+                text: "Anzahl verkaufter Artikel nach Zeitpunkt",
+                left: "center"
+            },
+            tooltip: {
+                trigger: "axis"
+            },
+            xAxis: [{
+                type: "category",
+                data: @Html.Raw(JsonSerializer.Serialize(Model.Hours.Select(x => x.Label)))
+            }],
+            yAxis: {
+                type: "value",
+                name: "Stück",
+                interval: 1
+            },
+            series: [{
+                name: "Anzahl verkaufter Artikel",
+                type: "bar",
+                data: @Html.Raw(JsonSerializer.Serialize(Model.Hours.Select(x => x.ArticlesCount)))
+            }]
+        });
+        
+        echarts.init(document.getElementById("hour_by_price")).setOption({
+            title: {
+                text: "Verkaufswert nach Zeitpunkt",
+                left: "center"
+            },
+            tooltip: {
+                trigger: "axis"
+            },
+            xAxis: [{
+                type: "category",
+                data: @Html.Raw(JsonSerializer.Serialize(Model.Hours.Select(x => x.Label)))
+            }],
+            yAxis: {
+                type: "value",
+                name: "€"
+            },
+            series: [{
+                name: "Verkaufswert",
+                type: "bar",
+                data: @Html.Raw(JsonSerializer.Serialize(Model.Hours.Select(x => x.ArticlesPrice)))
+            }]
+        });
+    </script>
+}

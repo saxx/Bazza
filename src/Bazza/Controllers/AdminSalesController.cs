@@ -19,6 +19,12 @@ public class AdminSalesController : Controller
         return View(await factory.Build());
     }
 
+    [Authorize(Roles = Roles.CanManageSales), HttpGet("/admin/sales/statistics")]
+    public async Task<IActionResult> SalesStatistics([FromServices] SalesStatisticsViewModelFactory factory)
+    {
+        return View(await factory.Build());
+    }
+
     [Authorize(Roles = Roles.CanManageSales), HttpPost("/admin/sale/create")]
     public async Task<IActionResult> CreateSale([FromServices] Db db)
     {

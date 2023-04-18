@@ -33,6 +33,8 @@
 
 @* ReSharper disable once Html.PathError *@
 <script src="~/js/bundle.js?v=@version"></script>
+
+@await RenderSectionAsync("Scripts", false)
 </body>
 </html>
 <!-- Adliance.Website v@(version) -->
