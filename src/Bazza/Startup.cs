@@ -41,6 +41,7 @@ public class Startup
         services.AddTransient<ViewModels.AdminPersons.DeletePersonViewModelFactory>();
         services.AddTransient<ViewModels.AdminPersons.PersonsViewModelFactory>();
         services.AddTransient<ViewModels.AdminPersons.EditPersonViewModelFactory>();
+        services.AddTransient<ViewModels.AdminSales.BlockedViewModelFactory>();
         services.AddTransient<ViewModels.AdminSales.DeleteSaleViewModelFactory>();
         services.AddTransient<ViewModels.AdminSales.SalesViewModelFactory>();
         services.AddTransient<ViewModels.AdminSales.SaleViewModelFactory>();

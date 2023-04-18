@@ -26,9 +26,19 @@
 
                     @if (User.IsInRole(Roles.CanManageSales))
                     {
-                        <a asp-action="@nameof(AdminSalesController.Sales)" asp-controller="AdminSales" class="navbar-item">
-                            Verkäufe
-                        </a>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                Verkäufe
+                            </a>
+                            <div class="navbar-dropdown">
+                                <a asp-action="@nameof(AdminSalesController.Sales)" asp-controller="AdminSales" class="navbar-item">
+                                    Übersicht
+                                </a>
+                                <a asp-action="@nameof(AdminSalesController.Blocked)" asp-controller="AdminSales" class="navbar-item">
+                                    Gesperrte Artikel
+                                </a>
+                            </div>
+                        </div>
                     }
 
                     @if (User.IsInRole(Roles.CanManageAdmin))

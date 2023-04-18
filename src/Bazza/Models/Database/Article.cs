@@ -12,6 +12,8 @@ public class Article
     public int? SaleId { get; set; }
     public DateTime? SaleUtc { get; set; }
     public string? SaleUsername { get; set; }
+    public DateTime? BlockedUtc { get; set; }
+    public string? BlockedUsername { get; set; }
     public Sale? Sale { get; set; }
     
 }
