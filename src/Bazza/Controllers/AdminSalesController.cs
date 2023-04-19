@@ -164,9 +164,9 @@ public class AdminSalesController : Controller
 
     private void ParseArticle(string article, out int personId, out int articleId)
     {
-        personId = 0;
+        personId = 0;a
         articleId = 0;
-        var ids = article.Split(' ', '_', '-').Where(x => int.TryParse(x, out _)).Select(int.Parse).ToList();
+        var ids = article.Split('_', '-', 'ß').Where(x => int.TryParse(x, out _)).Select(int.Parse).ToList();
         if (ids.Count != 2) return;
         personId = ids[0];
         articleId = ids[1];
