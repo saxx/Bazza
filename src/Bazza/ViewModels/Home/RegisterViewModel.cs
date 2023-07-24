@@ -126,7 +126,7 @@ public class RegisterViewModelFactory
                            $"Hallo {viewModel.Name}!<br /><br />Danke für deine Registrierung für den Basar Neufelden. Wir freuen uns, dass du mit an Bord bist.<br /><br />" +
                            "Wenn du deine Registrierung oder deine Artikel im Nachhinein anpassen möchtest, kannst du das über die folgende Adresse tun:<br /><br />" +
                            $"{_link.GetUriByAction(_context.HttpContext!, "Register", "Home", null, "https") + "/" + viewModel.AccessToken}<br /><br />" +
-                           "Bei Anmerkungen oder Fragen kannst du dich jederzeit gerne an Ursula Pühringer unter basar@neufelden.at bzw. 0664 1458265 wenden.<br /><br />" +
+                           $"Für Fragen haben wir eine detaillierte Anleitung zusammengestellt: {_link.GetUriByAction(_context.HttpContext!, "Manual", "Home", null, "https")}.<br /><br />" +
                            "Danke & liebe Grüße,<br />das Team vom Basar Neufelden" +
                            "</div>";
 

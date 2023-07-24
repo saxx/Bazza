@@ -55,6 +55,12 @@ public class HomeController : Controller
         await factory.SaveToDatabase(viewModel);
         return View(viewModel);
     }
+    
+    [AllowAnonymous, HttpGet("/anleitung")]
+    public IActionResult Manual()
+    {
+        return View();
+    }
 
     [AllowAnonymous, Route("error/{status}")]
     public IActionResult Error([FromRoute] int status)

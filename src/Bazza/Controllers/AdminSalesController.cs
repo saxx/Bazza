@@ -82,20 +82,29 @@ public class AdminSalesController : Controller
             return View(nameof(Sale), viewModel);
         }
 
-        var articleInDb = await db.Articles.SingleOrDefaultAsync(x => x.PersonId == personId && x.ArticleId == articleId) ?? throw new EntityNotFoundException();
-        if (articleInDb.SaleId.HasValue || articleInDb.SaleUtc.HasValue)
+        try
+        {
+            var articleInDb = await db.Articles.SingleOrDefaultAsync(x => x.PersonId == personId && x.ArticleId == articleId) ?? throw new EntityNotFoundException();
+            if (articleInDb.SaleId.HasValue || articleInDb.SaleUtc.HasValue)
+            {
+                var viewModel = await factory.Build(id);
+                viewModel.DisplayAlreadySoldError = true;
+                return View(nameof(Sale), viewModel);
+            }
+
+            var sale = await db.Sales.SingleOrDefaultAsync(x => x.Id == id) ?? throw new EntityNotFoundException();
+            articleInDb.SaleId = sale.Id;
+            articleInDb.SaleUsername = User.Identity?.Name;
+            articleInDb.SaleUtc = DateTime.UtcNow;
+            await db.SaveChangesAsync();
+            return RedirectToAction(nameof(Sale), new { id = sale.Id });
+        }
+        catch (EntityNotFoundException)
         {
             var viewModel = await factory.Build(id);
-            viewModel.DisplayAlreadySoldError = true;
+            viewModel.DisplayInvalidError = true;
             return View(nameof(Sale), viewModel);
         }
-
-        var sale = await db.Sales.SingleOrDefaultAsync(x => x.Id == id) ?? throw new EntityNotFoundException();
-        articleInDb.SaleId = sale.Id;
-        articleInDb.SaleUsername = User.Identity?.Name;
-        articleInDb.SaleUtc = DateTime.UtcNow;
-        await db.SaveChangesAsync();
-        return RedirectToAction(nameof(Sale), new { id = sale.Id });
     }
 
     [Authorize(Roles = Roles.CanManageSales), HttpPost("/admin/sale/{id}/article/{article}")]
@@ -134,18 +143,27 @@ public class AdminSalesController : Controller
             return View(nameof(Blocked), viewModel);
         }
 
-        var articleInDb = await db.Articles.SingleOrDefaultAsync(x => x.PersonId == personId && x.ArticleId == articleId) ?? throw new EntityNotFoundException();
-        if (articleInDb.SaleId.HasValue || articleInDb.BlockedUtc.HasValue)
+        try
+        {
+            var articleInDb = await db.Articles.SingleOrDefaultAsync(x => x.PersonId == personId && x.ArticleId == articleId) ?? throw new EntityNotFoundException();
+            if (articleInDb.SaleId.HasValue || articleInDb.BlockedUtc.HasValue)
+            {
+                var viewModel = await factory.Build();
+                viewModel.DisplayAlreadySoldError = true;
+                return View(nameof(Blocked), viewModel);
+            }
+
+            articleInDb.BlockedUsername = User.Identity?.Name;
+            articleInDb.BlockedUtc = DateTime.UtcNow;
+            await db.SaveChangesAsync();
+            return RedirectToAction(nameof(Blocked));
+        }
+        catch (EntityNotFoundException)
         {
             var viewModel = await factory.Build();
-            viewModel.DisplayAlreadySoldError = true;
+            viewModel.DisplayInvalidError = true;
             return View(nameof(Blocked), viewModel);
         }
-
-        articleInDb.BlockedUsername = User.Identity?.Name;
-        articleInDb.BlockedUtc = DateTime.UtcNow;
-        await db.SaveChangesAsync();
-        return RedirectToAction(nameof(Blocked));
     }
 
     [Authorize(Roles = Roles.CanManageSales), HttpPost("/admin/blocked/article/{article}")]

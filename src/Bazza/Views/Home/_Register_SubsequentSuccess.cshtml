@@ -4,23 +4,21 @@
 <section class="section">
     <h4 class="title is-4">Herzlichen Dank für die Anpassung deiner Registrierung</h4>
     <p>
-        Deine angepassten Daten sind bei uns eingelangt, und wir werden uns rechtzeitig vor dem Basar wieder bei dir melden,
-        um dir deine Etiketten und alle sonstigen Informationen zum Basar zuzusenden.<br/><br/>
+        Deine angepassten Daten sind bei uns eingelangt.<br/><br/>
     </p>
     <p>
-        Bei vollständig ausgefüllten Listen mit 50 Artikeln werden die Etiketten ehestmöglich erstellt und an die von dir angegebenen E-Mail-Adresse zugesendet.<br/><br/>
-    </p>
-    <p>
-        Ausgefüllte Listen mit weniger als 50 Artikeln können noch für 1 Woche ab Erstellung ergänzt werden. Dann erst bekommst du von uns die Etiketten.
-        Sollte deine Liste schon fertig sein und du benötigst die Etiketten schon vor Ablauf der 7 Tage, schreibe bitte kurz eine E-Mail an <a href="mailto:basar@neufelden.at">basar@neufelden.at</a>.<br/><br/>
-    </p>
-    <p>
-        Die Eingabe der Artikel ist bis <b>@Settings.RegistrationEndDate.ToString("dddd, dd. MMMM yyyy")</b> möglich.<br/><br/>
+        Die Anpassung oder Änderung deiner Artikel ist bis <b>@Settings.RegistrationEndDate.ToString("dddd, dd. MMMM yyyy")</b> möglich.<br/><br/>
     </p>
     <p>
         Du kannst deine Registrierung beziehungsweise deine Artikel noch anpassen, indem du diese Adresse aufrufst:<br/>
-        @{ var url = Url.Action(nameof(HomeController.Register), "Home", new { accessToken = Model.AccessToken }, "https"); }
+        @{ var url = Url.Action(nameof(HomeController.Register), "Home", new
+           {
+               accessToken = Model.AccessToken
+           }, "https"); }
         <a href="@url">@url</a><br/><br/>
+    </p>
+    <p>
+        Für Details zum Ablauf oder wenn du noch Fragen hast, haben wir eine <a asp-action="Manual">Anleitung zur Onlineeinschreibung</a> zusammengestellt.
     </p>
     <partial name="_Register_Buttons"/>
 </section>

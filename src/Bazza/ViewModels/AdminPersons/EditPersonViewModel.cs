@@ -135,18 +135,18 @@ public class EditPersonViewModel
 
     public int ArticlesSold => Articles.Count(x => x.IsSold);
     public double ArticlesSoldPrice => Articles.Where(x => x.IsSold).Sum(x => x.Price ?? 0);
-    public double ArticlesPercentage => IsInternal ? 0 : ArticlesSoldPrice * 0.1;
-    public double ArticlesFee => IsInternal ? 0 : Articles.Count(x => x.Price < 25) * 0.1 + Articles.Count(x => x.Price >= 25);
+    public double ArticlesPercentage => IsInternal ? 0 : ArticlesSoldPrice * 0.2;
+    public double ArticlesFee => IsInternal ? 0 : Articles.Count(x => x.Price < 25) * 0.1 + Articles.Count(x => x.Price >= 25) * 0.1;
     public double Payout => ArticlesSoldPrice - ArticlesPercentage - ArticlesFee > 0 ? ArticlesSoldPrice - ArticlesPercentage - ArticlesFee : 0;
 
     public record Article
     {
-        public string? Name { get; set; }
-        public string? Size { get; set; }
-        public double? Price { get; set; }
+        public string? Name { get; init; }
+        public string? Size { get; init; }
+        public double? Price { get; init; }
         public bool IsSold => SaleId.HasValue;
-        public int? SaleId { get; set; }
-        public DateTime? SaleUtc { get; set; }
-        public string? SaleUsername { get; set; }
+        public int? SaleId { get; init; }
+        public DateTime? SaleUtc { get; init; }
+        public string? SaleUsername { get; init; }
     }
 }

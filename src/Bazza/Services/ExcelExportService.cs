@@ -168,9 +168,9 @@ public class ExcelExportService
         worksheet.Cells[7, 3].Formula = "=COUNTIF(E14:E999,\"=v\")";
         worksheet.Cells[8, 3].Formula = "=SUMIF(E14:E999,\"=v\",D14:D999)";
         worksheet.Cells[8, 3].Style.Numberformat.Format = "#0.00 €";
-        worksheet.Cells[9, 3].Formula = "=C8*-0.1";
+        worksheet.Cells[9, 3].Formula = "=C8*-0.2";
         worksheet.Cells[9, 3].Style.Numberformat.Format = "#0.00 €";
-        worksheet.Cells[10, 3].Formula = "=COUNTIF(D14:D999,\">=25\")*-1+COUNTIF(D14:D999,\"<25\")*-0.1";
+        worksheet.Cells[10, 3].Formula = "=COUNTIF(D14:D999,\">=25\")*-0.1+COUNTIF(D14:D999,\"<25\")*-0.1";
         worksheet.Cells[10, 3].Style.Numberformat.Format = "#0.00 €";
         worksheet.Cells[11, 3].Formula = "=MAX(C8+C9+C10,0)";
         worksheet.Cells[11, 3].Style.Numberformat.Format = "#0.00 €";
