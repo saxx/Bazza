@@ -85,6 +85,13 @@ public class AdminSalesController : Controller
         try
         {
             var articleInDb = await db.Articles.SingleOrDefaultAsync(x => x.PersonId == personId && x.ArticleId == articleId) ?? throw new EntityNotFoundException();
+            if (articleInDb.BlockedUtc.HasValue)
+            {
+                var viewModel = await factory.Build(id);
+                viewModel.DisplayLockedError = true;
+                return View(nameof(Sale), viewModel);
+            }
+            
             if (articleInDb.SaleId.HasValue || articleInDb.SaleUtc.HasValue)
             {
                 var viewModel = await factory.Build(id);

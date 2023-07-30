@@ -128,4 +128,15 @@ else
             </a>
         </div>
     </div>
+    @if (!string.IsNullOrWhiteSpace(Model.AccessToken))
+    {
+        <div>
+            @{ var url = Url.Action(nameof(HomeController.Register), "Home", new
+               {
+                   accessToken = Model.AccessToken
+               }, "https"); }
+
+            Link für Registrierung (aus E-Mail): <a href="@url">@url</a>
+        </div>
+    }
 }

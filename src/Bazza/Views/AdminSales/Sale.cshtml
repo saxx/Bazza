@@ -18,7 +18,14 @@
 @if (Model.DisplayAlreadySoldError)
 {
     <div class="notification is-warning mt-6 mb-6">
-        Der angegebene Artikel wurde entweder bereits verkauft, oder ist gesperrt.
+        Der angegebene Artikel wurde bereits verkauft.
+    </div>
+}
+
+@if (Model.DisplayLockedError)
+{
+    <div class="notification is-danger mt-6 mb-6">
+        Der angegebene Artikel ist gesperrt.
     </div>
 }
 

@@ -144,4 +144,8 @@ public class Settings
         if (!_settings.ContainsKey(key)) _settings[key] = new Setting();
         _settings[key].StringValue = value;
     }
+
+    public static double CostsPerArticleBelow25 = 0.2;
+    public static double CostsPerArticleAbove25 = 0.2;
+    public static double PercentageProvision = 0.1;
 }

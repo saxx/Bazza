@@ -27,3 +27,7 @@ label.label {
 nav + main {
   margin-top: 5rem !important;
 }
+
+li {
+  page-break-inside: avoid;
+}

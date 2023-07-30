@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Bazza.Models;
 using Bazza.Models.Database;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.AdminPersons;
@@ -41,6 +43,7 @@ public class EditPersonViewModelFactory
                 Email = person.Email ?? "",
                 Name = person.Name ?? "",
                 Phone = person.Phone,
+                AccessToken = person.AccessToken,
                 Articles = await _db.Articles
                     .Where(x => x.PersonId == person.PersonId)
                     .OrderBy(x => x.ArticleId)
@@ -135,9 +138,10 @@ public class EditPersonViewModel
 
     public int ArticlesSold => Articles.Count(x => x.IsSold);
     public double ArticlesSoldPrice => Articles.Where(x => x.IsSold).Sum(x => x.Price ?? 0);
-    public double ArticlesPercentage => IsInternal ? 0 : ArticlesSoldPrice * 0.2;
-    public double ArticlesFee => IsInternal ? 0 : Articles.Count(x => x.Price < 25) * 0.1 + Articles.Count(x => x.Price >= 25) * 0.1;
+    public double ArticlesPercentage => IsInternal ? 0 : ArticlesSoldPrice * Settings.PercentageProvision;
+    public double ArticlesFee => IsInternal ? 0 : Articles.Count(x => x.Price < 25) * Settings.CostsPerArticleAbove25 + Articles.Count(x => x.Price >= 25) * Settings.CostsPerArticleBelow25;
     public double Payout => ArticlesSoldPrice - ArticlesPercentage - ArticlesFee > 0 ? ArticlesSoldPrice - ArticlesPercentage - ArticlesFee : 0;
+    [BindNever] public string? AccessToken { get; set; }
 
     public record Article
     {

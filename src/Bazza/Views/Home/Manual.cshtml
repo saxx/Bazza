@@ -7,7 +7,7 @@
 </h1>
 
 <div class="notification is-warning mb-6 mt-6">
-    Viel Erfolg beim Verkaufen wünscht dir die Mütterrunde Neufelden!<br />Damit der Verkauf deiner Artikel so problemlos wie möglich erfolgen kann, bitten wir dich, stets die folgende Anleitung zu beachten.
+    Viel Erfolg beim Verkaufen wünscht dir die Mütterrunde Neufelden!<br/>Damit der Verkauf deiner Artikel so problemlos wie möglich erfolgen kann, bitten wir dich, stets die folgende Anleitung zu beachten.
 </div>
 
 <div class="content">
@@ -17,11 +17,11 @@
             Die Etiketten werden nicht mehr per Mail zugeschickt, sondern du kannst sie jederzeit selbst herunterladen und ausdrucken.
         </li>
         <li>
-            Sobald du deine Artikel registriert habt, bekommst du eine Bestätigungs-E-Mail mit einem Link für deine Artikel. <b>Bitte diese E-Mail nicht löschen</b>.
+            Sobald du deine Artikel registriert hast, bekommst du eine Bestätigungs-E-Mail mit einem Link für deine Artikel. <b>Bitte diese E-Mail nicht löschen</b>.
         </li>
         <li>
             Denn wenn du auf den Link klickst, gelangst du wieder zurück zu deiner Registrierungsseite und du kannst auch nachträglich deine Artikel verändern oder ergänzen.
-            Dies ist bis zum Ende der Registrierung am @Settings.RegistrationEndDate.ToString("d. MMMM yyyy") möglich.
+            Dies ist bis zum Ende der Registrierung am @Settings.EventStartDate.AddDays(-1).ToString("d. MMMM yyyy") möglich.
         </li>
         <li>
             Du findest auf deiner Registrierungsseite ganz unten die Funktion "Übersicht als PDF herunterladen". Das ist deine persönliche Einschreibliste, die du bitte auf Richtigkeit und eventuelle Kommafehler überprüfst.
@@ -36,27 +36,32 @@
             <b>Sollten die Etiketten nicht fest genug befestigt werden und beim Basar verloren gehen, können die Artikel nicht mehr verkauft werden</b>.
         </li>
         <li>
-            Wenn mehrere Artikel gemeinsam verkauft werden, müssen diese fest miteinander befestigt werden. Bei Kleidung zB mit Etikettierpistole, Sicherheitsnadeln oder Spagat.
+            Wenn mehrere Artikel gemeinsam verkauft werden, müssen diese fest miteinander verbunden werden. Bei Kleidung zB mit Etikettierpistole, Sicherheitsnadeln oder Spagat.
             Spielsachen, wie zB Puzzles müssen so verpackt sein, dass nichts herausfallen kann (zB mit Frischhaltefolie umwickeln).
-            Bei größeren oder teuren zweiteiligen Kleidungsstücken, wie zB Erstkommunions- oder Firm-Anzüge, Dirndl oder Schianzüge bitte auf einem Kleidungsstück das vorgedruckte weiße Etikett anbringen und auf dem zweiten ein leeres weißes Etikett versehen mit der gleichen Listennummer, gleicher fortlaufender Nummer und beschriften mit "zweiteilig" und "EUR 0,00".
+            Bei größeren oder teuren zweiteiligen Kleidungsstücken, wie zB Erstkommunions- oder Firm-Anzüge, Dirndl oder Schianzüge bitte auf
+            einem Kleidungsstück das vorgedruckte weiße Etikett anbringen und auf dem zweiten ein leeres weißes Etikett versehen mit der gleichen Listennummer,
+            gleicher fortlaufender Nummer und beschriften mit "zweiteilig" und "EUR 0,00".
         </li>
 
         <li>
-            Die vorgedruckten Nummern (Listennummer, fortlaufende Nummer, Größe und Preis) und der QR-Code auf den Etiketten müssen unbedingt frei und leserlich bleiben, auch beim Befestigen auf den Artikeln.
+            Der vorgedruckte QR-Code und die Nummern (Listennummer, fortlaufende Nummer, Größe und Preis) auf den Etiketten müssen unbedingt frei, unbeschädigt und leserlich bleiben, auch beim Befestigen auf den Artikeln.
         </li>
         <li>
-            Die eingeschriebenen Artikel können dann am @Settings.ArticlesDropOffDate.ToString("dddd, d. MMMM dddd") von 17:00-19:30 Uhr im Turnsaal der Volksschule Neufelden (Marktplatz 12, 4120 Neufelden) abgeben werden.
+            Schmutzige oder löchrige Kleidung wird aussortiert und nicht zum Verkauf angeboten.
+        </li>
+        <li>
+            Die eingeschriebenen Artikel können dann am @Settings.ArticlesDropOffDate.ToString("dddd, d. MMMM yyyy") von 17:00-19:30 Uhr im Turnsaal der Volksschule Neufelden (Marktplatz 12, 4120 Neufelden) abgeben werden.
             Die Artikel müssen in Bananenschachteln oder ähnlichen festen Kartonschachteln abgegeben werden.
             Es werden nur korrekt eingeschriebene Artikel angenommen. Dies wird stichprobenartig kontrolliert und bei Auffälligkeiten kann die gesamte Ware nicht angenommen werden.
         </li>
         <li>
-            Die Einschreibgebühr in Höhe von EUR 0,20 pro eingeschriebenen Artikel wird dann bei der Auszahlung des Erlöses berechnet und abgezogen.
+            Die Einschreibgebühr in Höhe von EUR @Settings.CostsPerArticleAbove25.ToString("N2") pro eingeschriebenen Artikel wird dann bei der Auszahlung des Erlöses berechnet und abgezogen.
         </li>
         <li>
             Die Möglichkeit zum Einkaufen gibt es am @Settings.EventStartDate.ToString("dddd, d. MMMM yyyy") von 18:00-21:00 Uhr und am @Settings.EventEndDate.ToString("dddd, d. MMMM yyyy") von 09:00-11:00 Uhr im Turnsaal der Volksschule Neufelden.
         </li>
         <li>
-            Die Abholung der nicht verkauften Ware und des Erlöses (abzüglich Einschreibgebühr und 20 % vom Erlös) ist am @Settings.EventEndDate.ToString("dddd, d. MMMM yyyy") von 16:00-17:00 Uhr möglich.
+            Die Abholung der nicht verkauften Waren und des Erlöses (abzüglich Einschreibgebühr und @(Settings.PercentageProvision * 100) % vom Erlös) ist am @Settings.EventEndDate.ToString("dddd, d. MMMM yyyy") von 16:00-17:00 Uhr möglich.
         </li>
         <li>
             Die Mütterrunde Neufelden übernimmt keine Haftung für verloren gegangene Waren.
