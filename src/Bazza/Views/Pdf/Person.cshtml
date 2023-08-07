@@ -35,7 +35,7 @@
             <field label="Erlös:">@Model.ArticlesSoldPrice.ToString("N2")&nbsp;€</field>
         </div>
         <div class="column">
-            <field label="20% vom Umsatz:">-@Model.ArticlesPercentage.ToString("N2")&nbsp;€</field>
+            <field label="@((Settings.PercentageProvision * 100).ToString("N0")) % vom Umsatz:">-@Model.ArticlesPercentage.ToString("N2")&nbsp;€</field>
         </div>
         <div class="column">
             <field label="Einschreibgebühr:">-@Model.ArticlesFee.ToString("N2")&nbsp;€</field>
@@ -59,10 +59,10 @@
     @for (var i = 0; i < Model.Articles.Count; i++)
     {
         @if (string.IsNullOrWhiteSpace(@Model.Articles[i].Name)) continue;
-        
+
         <tr style="text-decoration:@(Model.Articles[i].IsSold ? "line-through" : "");">
             <td>@(i + 1)</td>
-            <td>@Model.Articles[i].Name</td>
+            <td>@(Model.Articles[i].IsBlocked ? "[GESPERRT] " : "")@Model.Articles[i].Name</td>
             <td class="has-text-right">@Model.Articles[i].Size</td>
             <td class="has-text-right">@Model.Articles[i].Price?.ToString("N2")&nbsp;€</td>
         </tr>

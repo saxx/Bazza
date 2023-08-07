@@ -54,6 +54,7 @@ public class EditPersonViewModelFactory
                         Size = x.Size,
                         SaleUtc = x.SaleUtc,
                         SaleId = x.SaleId,
+                        BlockedUtc = x.BlockedUtc,
                         SaleUsername = x.SaleUsername
                     }).ToListAsync()
             };
@@ -149,8 +150,10 @@ public class EditPersonViewModel
         public string? Size { get; init; }
         public double? Price { get; init; }
         public bool IsSold => SaleId.HasValue;
+        public bool IsBlocked => BlockedUtc.HasValue;
         public int? SaleId { get; init; }
         public DateTime? SaleUtc { get; init; }
+        public DateTime? BlockedUtc { get; init; }
         public string? SaleUsername { get; init; }
     }
 }
