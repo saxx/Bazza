@@ -38,8 +38,8 @@ public class AdminController : Controller
     [Authorize(Roles = Roles.CanManageAdmin), HttpPost("/admin/clear-data")]
     public async Task<IActionResult> ClearDataConfirm([FromServices] Db db)
     {
-        await db.Sales.ExecuteDeleteAsync();
         await db.Articles.ExecuteDeleteAsync();
+        await db.Sales.ExecuteDeleteAsync();
         await db.Persons.ExecuteDeleteAsync();
         return RedirectToAction(nameof(Index));
     }
