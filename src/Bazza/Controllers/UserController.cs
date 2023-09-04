@@ -50,13 +50,13 @@ public class UserController : Controller
         return View(viewModel);
     }
 
-    [HttpGet("/user/reset-password")]
+    [AllowAnonymous, HttpGet("/user/reset-password")]
     public IActionResult ResetPassword(ResetPasswordViewModel viewModel)
     {
         return View(viewModel);
     }
 
-    [HttpPost("/user/reset-password")]
+    [AllowAnonymous, HttpPost("/user/reset-password")]
     public async Task<IActionResult> ResetPassword([FromServices] ResetPasswordViewModelFactory factory, ResetPasswordViewModel viewModel)
     {
         if (!ModelState.IsValid) return View(viewModel);
