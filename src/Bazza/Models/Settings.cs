@@ -111,7 +111,7 @@ public class Settings
 
     private DateTime Get(string key, DateTime defaultValue)
     {
-        if (_settings.ContainsKey(key)) return _settings[key].DateTimeValue ?? defaultValue;
+        if (_settings.TryGetValue(key, out var setting)) return setting.DateTimeValue ?? defaultValue;
         return defaultValue;
     }
 
@@ -123,7 +123,7 @@ public class Settings
 
     private int Get(string key, int defaultValue)
     {
-        if (_settings.ContainsKey(key)) return _settings[key].NumberValue ?? defaultValue;
+        if (_settings.TryGetValue(key, out var setting)) return setting.NumberValue ?? defaultValue;
         return defaultValue;
     }
 
@@ -135,7 +135,7 @@ public class Settings
 
     private string Get(string key, string defaultValue)
     {
-        if (_settings.ContainsKey(key)) return _settings[key].StringValue ?? defaultValue;
+        if (_settings.TryGetValue(key, out var setting)) return setting.StringValue ?? defaultValue;
         return defaultValue;
     }
 
