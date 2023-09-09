@@ -37,7 +37,7 @@
                 </p>
                 <p class="subtitle">
                     Artikelwert<br/>
-                    Davon <b> @Model.ArticlesInternalOnly.Sum(x => x.Price) €</b> aus der Mütterrunde
+                    Davon <b> @Model.ArticlesInternalOnly.Sum(x => x.Price).ToString("N2") €</b> aus der Mütterrunde
                 </p>
             </div>
         </div>
@@ -79,7 +79,7 @@
                 </p>
                 <p class="subtitle">
                     eingenommen (@((100d / Model.Articles.Sum(x => x.Price) * Model.Articles.Where(x => x.IsSold).Sum(x => x.Price)).ToString("N2")) %)<br/>
-                    Davon <b> @Model.ArticlesInternalOnly.Where(x => x.IsSold).Sum(x => x.Price) €</b> aus der Mütterrunde
+                    Davon <b> @Model.ArticlesInternalOnly.Where(x => x.IsSold).Sum(x => x.Price).ToString("N2") €</b> aus der Mütterrunde
                 </p>
             </div>
         </div>
