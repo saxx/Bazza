@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Connections
-@model Bazza.ViewModels.Admin.IndexViewModel
+﻿@model Bazza.ViewModels.Admin.IndexViewModel
 
 <h1 class="title">Dashboard</h1>
 
@@ -50,11 +49,11 @@
         <div class="card">
             <div class="card-content has-text-centered">
                 <p class="title">
-                    @Model.Articles.Where(x => x.IsSold).DistinctBy(x => x.SaleId).Count()
+                    @Model.SalesCount
                 </p>
                 <p class="subtitle">
-                    Registrierungen<br/>
-                    Davon <b> @Model.ArticlesInternalOnly.Where(x => x.IsSold).DistinctBy(x => x.SaleId).Count()</b> aus der Mütterrunde
+                    Verkäufe<br/>
+                    Davon <b>@Model.EmptySalesCount</b> ohne Artikel.
                 </p>
             </div>
         </div>
@@ -91,10 +90,11 @@
         <div class="card">
             <div class="card-content has-text-centered">
                 <p class="title">
-                    @Model.Articles.Sum(x => x.ArticlesFee + x.ArticlesPercentage).ToString("N2") €
+                    @Model.Articles.Where(x => !x.IsExemptFromFees).Sum(x => x.Provision).ToString("N2") €
                 </p>
                 <p class="subtitle">
-                    Provision verdient insgesamt
+                    Provision verdient insgesamt<br/>
+                    <b>@Model.Articles.Where(x => x.IsExemptFromFees).Sum(x => x.Provision).ToString("N2") €</b> nicht gezählt wegen keinen/geringen Verkäufen.
                 </p>
             </div>
         </div>
@@ -103,10 +103,11 @@
         <div class="card">
             <div class="card-content has-text-centered">
                 <p class="title">
-                    @Model.Articles.Sum(x => x.ArticlesFee).ToString("N2") €
+                    @Model.Articles.Where(x => !x.IsExemptFromFees).Sum(x => x.Fee).ToString("N2") €
                 </p>
                 <p class="subtitle">
-                    Einschreibgebühr verdient
+                    Einschreibgebühr verdient<br/>
+                    <b>@Model.Articles.Where(x => x.IsExemptFromFees).Sum(x => x.Fee).ToString("N2") €</b> nicht gezählt wegen keinen/geringen Verkäufen.
                 </p>
             </div>
         </div>
@@ -115,10 +116,11 @@
         <div class="card">
             <div class="card-content has-text-centered">
                 <p class="title">
-                    @Model.Articles.Sum(x => x.ArticlesPercentage).ToString("N2") €
+                    @Model.Articles.Where(x => !x.IsExemptFromFees).Sum(x => x.Percentage).ToString("N2") €
                 </p>
                 <p class="subtitle">
-                    Umsatzprovision verdient
+                    Umsatzprovision verdient<br/>
+                    <b>@Model.Articles.Where(x => x.IsExemptFromFees).Sum(x => x.Percentage).ToString("N2") €</b> nicht gezählt wegen keinen/geringen Verkäufen.
                 </p>
             </div>
         </div>
