@@ -140,7 +140,7 @@ public class EditPersonViewModel
     public int ArticlesSold => Articles.Count(x => x.IsSold);
     public double ArticlesSoldPrice => Articles.Where(x => x.IsSold).Sum(x => x.Price ?? 0);
     public double ArticlesPercentage => IsInternal ? 0 : ArticlesSoldPrice * Settings.PercentageProvision;
-    public double ArticlesFee => IsInternal ? 0 : Articles.Count(x => x.Price < 25) * Settings.CostsPerArticleAbove25 + Articles.Count(x => x.Price >= 25) * Settings.CostsPerArticleBelow25;
+    public double ArticlesFee => IsInternal ? 0 : Articles.Count(x => x.Price < 25) * Settings.CostsPerArticleBelow25 + Articles.Count(x => x.Price >= 25) * Settings.CostsPerArticleAbove25;
     public double Payout => ArticlesSoldPrice - ArticlesPercentage - ArticlesFee > 0 ? ArticlesSoldPrice - ArticlesPercentage - ArticlesFee : 0;
     [BindNever] public string? AccessToken { get; set; }
 
