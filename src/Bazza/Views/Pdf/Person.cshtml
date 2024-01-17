@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<table class="table is-striped is-fullwidth">
+<table class="table is-striped is-fullwidth" cellspacing="0" cellpadding="3">
     <thead>
     <tr>
         <th style="width:1px;">Nummer</th>
@@ -60,7 +60,7 @@
     {
         @if (string.IsNullOrWhiteSpace(@Model.Articles[i].Name)) continue;
 
-        <tr style="text-decoration:@(Model.Articles[i].IsSold ? "line-through" : "");">
+        <tr style="text-decoration:@(Model.Articles[i].IsSold ? "line-through" : ""); text-decoration-style: double;">
             <td>@(i + 1)</td>
             <td>@(Model.Articles[i].IsBlocked ? "[GESPERRT] " : "")@Model.Articles[i].Name</td>
             <td class="has-text-right">@Model.Articles[i].Size</td>

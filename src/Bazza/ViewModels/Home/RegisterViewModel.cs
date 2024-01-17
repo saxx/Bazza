@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy;
 using Adliance.AspNetCore.Buddy.Abstractions;
+using Adliance.Buddy.Crypto;
 using Bazza.Models.Database;
 using Bazza.Services;
 using Microsoft.AspNetCore.Http;

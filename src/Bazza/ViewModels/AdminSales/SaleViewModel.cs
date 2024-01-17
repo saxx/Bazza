@@ -26,14 +26,15 @@ public class SaleViewModelFactory
             Username = sale.Username,
             Articles = await _db.Articles
                 .Where(x => x.SaleId == sale.Id)
-                .OrderBy(x => x.SaleUtc)
+                .OrderByDescending(x => x.SaleUtc)
                 .Select(x => new SaleViewModel.Article
                 {
                     Name = x.Name,
                     Price = x.Price,
                     ArticleId = x.ArticleId,
                     PersonId = x.PersonId,
-                    Size = x.Size
+                    Size = x.Size,
+                    SaleUtc = x.SaleUtc
                 }).ToListAsync()
         };
         return result;
@@ -61,5 +62,6 @@ public class SaleViewModel
         public string? Name { get; set; }
         public string? Size { get; set; }
         public double Price { get; set; }
+        public DateTime? SaleUtc { get; set; }
     }
 }

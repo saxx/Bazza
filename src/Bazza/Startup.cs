@@ -7,6 +7,8 @@ using Adliance.AspNetCore.Buddy.Template.Razor.Extensions;
 using Bazza.Models;
 using Bazza.Models.Database;
 using Bazza.Services;
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+using JavaScriptEngineSwitcher.V8;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -60,6 +62,8 @@ public class Startup
             options.Filters.Add(new AuthorizeFilter());
             options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((_, _) => "Ungültige Angabe.");
         });
+        
+        services.AddJsEngineSwitcher(options => options.DefaultEngineName = V8JsEngine.EngineName).AddV8();
         services.AddWebOptimizer(pipeline =>
         {
             pipeline.AddScssBundle(

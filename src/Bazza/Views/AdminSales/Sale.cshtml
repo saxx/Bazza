@@ -68,6 +68,7 @@
         <tr>
             <th style="width:1px;">Nummer</th>
             <th>Artikel</th>
+            <th>Verkauft</th>
             <th class="has-text-right">Größe</th>
             <th class="has-text-right">Preis</th>
             <th style="width:1px;"></th>
@@ -79,6 +80,7 @@
             <tr>
                 <td>@a.PersonId-@a.ArticleId</td>
                 <td>@a.Name</td>
+                <td title="@a.SaleUtc.FormatUtcAsCetDateTime()">@a.SaleUtc.Humanize()</td>
                 <td class="has-text-right">@a.Size</td>
                 <td class="has-text-right">@a.Price.ToString("N2")&nbsp;€</td>
                 <td>

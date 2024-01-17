@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy;
+using Adliance.Buddy.Crypto;
 using Bazza.Models.Database;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;

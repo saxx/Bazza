@@ -15,6 +15,6 @@ RUN dotnet publish "/src/Bazza/Bazza.csproj" -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
+ENV ASPNETCORE_HTTP_PORTS=80
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "Bazza.dll"]
