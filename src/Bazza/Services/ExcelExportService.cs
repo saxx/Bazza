@@ -36,7 +36,7 @@ public class ExcelExportService
         return await excel.GetAsByteArrayAsync();
     }
 
-    private void AddPersons(ExcelPackage excel, IList<Person> persons)
+    private static void AddPersons(ExcelPackage excel, IList<Person> persons)
     {
         var worksheet = excel.Workbook.Worksheets.Add("Alle Personen");
         worksheet.Column(1).Width = 10;
@@ -75,7 +75,7 @@ public class ExcelExportService
         worksheet.Cells[1, 1, row - 1, 7].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
     }
 
-    private void AddArticles(ExcelPackage excel, IList<Article> articles)
+    private static void AddArticles(ExcelPackage excel, IList<Article> articles)
     {
         var worksheet = excel.Workbook.Worksheets.Add("Alle Artikel");
         worksheet.Column(1).Width = 10;
@@ -119,7 +119,7 @@ public class ExcelExportService
         worksheet.Cells[row - 1, 6].Value = 1; // so that the last row also is counted as "Letzte Zeile"
     }
 
-    private void AddPerson(ExcelPackage excel, Person p, IList<Article> articles)
+    private static void AddPerson(ExcelPackage excel, Person p, IList<Article> articles)
     {
         var worksheet = excel.Workbook.Worksheets.Add($"Kunde {p.PersonId}");
         worksheet.PrinterSettings.RepeatRows = new ExcelAddress("1:2");
@@ -152,7 +152,7 @@ public class ExcelExportService
         worksheet.Cells[11, 1, 11, 3].Style.Border.Bottom.Style = ExcelBorderStyle.Double;
         worksheet.Cells[1, 1, 11, 1].Style.Font.Bold = true;
 
-        worksheet.Cells[1, 3].Value = p.PersonId.ToString();
+        worksheet.Cells[1, 3].Value = p.PersonId.ToString(CultureInfo.InvariantCulture);
         worksheet.Cells[1, 3].Style.Font.Size = 18;
         worksheet.Cells[1, 3, 1, 5].Merge = true;
         worksheet.Cells[2, 3].Value = p.Name;

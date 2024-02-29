@@ -20,7 +20,7 @@ public class AdminPersonsController : Controller
     {
         return View(await factory.Build());
     }
-    
+
     [HttpGet("/admin/persons/statistics")]
     public async Task<IActionResult> PersonsStatistics([FromServices] PersonsStatisticsViewModelFactory factory)
     {
@@ -42,13 +42,13 @@ public class AdminPersonsController : Controller
         var pdf = await pdfer.HtmlToPdf(html, new PdfOptions());
         return File(pdf, "application/pdf", $"Registrierung {viewModel.Id}.pdf");
     }
-    
+
     [HttpGet("/admin/person/{id}/labels")]
     public async Task<IActionResult> Labels([FromServices] LabelsPdfService labelsPdfService, int id)
     {
         return File(await labelsPdfService.BuildPdf(id), "application/pdf", $"Labels ({id}).pdf");
     }
-    
+
     [HttpGet("/admin/person")]
     public async Task<IActionResult> CreatePerson([FromServices] EditPersonViewModelFactory factory)
     {
@@ -104,7 +104,7 @@ public class AdminPersonsController : Controller
         return RedirectToAction(nameof(Persons));
     }
 
-    private async Task ChangeId(Db db, int oldPersonId, int newPersonId)
+    private static async Task ChangeId(Db db, int oldPersonId, int newPersonId)
     {
         var oldPerson = await db.Persons.SingleOrDefaultAsync(x => x.PersonId == oldPersonId);
         if (oldPerson == null) return;

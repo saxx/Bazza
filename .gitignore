@@ -4,3 +4,4 @@ bin
 obj
 .DS_Store
 src/Bazza/appsettings.Development.json
+.editorconfig

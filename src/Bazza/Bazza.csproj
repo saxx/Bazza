@@ -9,6 +9,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="7.0.0.11" />
     <PackageReference Include="Adliance.Buddy.Crypto" Version="7.0.0.6" />
     <PackageReference Include="Adliance.AspNetCore.Buddy" Version="7.0.0.14" />
     <PackageReference Include="Adliance.AspNetCore.Buddy.Bulma" Version="7.0.0.12" />

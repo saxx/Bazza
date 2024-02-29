@@ -91,7 +91,7 @@ public class AdminSalesController : Controller
                 viewModel.DisplayLockedError = true;
                 return View(nameof(Sale), viewModel);
             }
-            
+
             if (articleInDb.SaleId.HasValue || articleInDb.SaleUtc.HasValue)
             {
                 var viewModel = await factory.Build(id);
@@ -187,7 +187,7 @@ public class AdminSalesController : Controller
         return RedirectToAction(nameof(Blocked));
     }
 
-    private void ParseArticle(string article, out int personId, out int articleId)
+    private static void ParseArticle(string article, out int personId, out int articleId)
     {
         personId = 0;
         articleId = 0;

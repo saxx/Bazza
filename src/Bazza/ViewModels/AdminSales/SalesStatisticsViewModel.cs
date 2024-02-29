@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Adliance.Buddy.DateTime;
@@ -20,7 +21,7 @@ public class SalesStatisticsViewModelFactory
     public async Task<SalesStatisticsViewModel> Build()
     {
         var result = new SalesStatisticsViewModel();
-        
+
         var soldArticles = await _db.Articles
             .Where(x => x.SaleId.HasValue && x.SaleUtc.HasValue)
             .OrderBy(x => x.SaleUtc)
@@ -38,7 +39,7 @@ public class SalesStatisticsViewModelFactory
             ArticlesPrice = g.Sum(x => x.Price)
         }).ToList();
         result.Users = groupedByUser.OrderByDescending(x => x.ArticlesCount).ToList();
-        
+
         var firstSale = soldArticles.Min(x => x.SaleUtc.UtcToCet());
         var lastSale = soldArticles.Max(x => x.SaleUtc.UtcToCet());
 
@@ -64,9 +65,9 @@ public class SalesStatisticsViewModelFactory
         return result;
     }
 
-    private string GetHourString(DateTime d)
+    private static string GetHourString(DateTime d)
     {
-        return d.UtcToCet().ToString("ddd, H 'Uhr'") ;
+        return d.UtcToCet().ToString("ddd, H 'Uhr'", new CultureInfo("de-DE")) ;
     }
 }
 

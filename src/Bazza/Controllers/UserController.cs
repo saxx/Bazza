@@ -43,7 +43,11 @@ public class UserController : Controller
             identity.AddClaim(new Claim(ClaimTypes.Name, viewModel.Username));
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-            if (viewModel.RequiresPasswordReset) return RedirectToAction(nameof(ResetPassword), new { username = viewModel.Username });
+            if (viewModel.RequiresPasswordReset)
+                return RedirectToAction(nameof(ResetPassword), new
+                {
+                    username = viewModel.Username
+                });
             return RedirectToAction(nameof(AdminController.Index), "Admin");
         }
 
@@ -51,16 +55,17 @@ public class UserController : Controller
     }
 
     [AllowAnonymous, HttpGet("/user/reset-password")]
-    public IActionResult ResetPassword(ResetPasswordViewModel viewModel)
+    public async Task<IActionResult> ResetPassword([FromServices] ResetPasswordViewModelFactory factory, ResetPasswordViewModel viewModel)
     {
+        viewModel = await factory.FillReadonly(viewModel);
         return View(viewModel);
     }
 
     [AllowAnonymous, HttpPost("/user/reset-password")]
-    public async Task<IActionResult> ResetPassword([FromServices] ResetPasswordViewModelFactory factory, ResetPasswordViewModel viewModel)
+    public async Task<IActionResult> HandleResetPassword([FromServices] ResetPasswordViewModelFactory factory, ResetPasswordViewModel viewModel)
     {
-        if (!ModelState.IsValid) return View(viewModel);
-        await factory.ResetPassword(viewModel);
-        return View(viewModel);
+        if (!ModelState.IsValid) return View(nameof(ResetPassword), viewModel);
+        viewModel = await factory.ResetPassword(viewModel);
+        return View(nameof(ResetPassword), viewModel);
     }
 }
