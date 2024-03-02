@@ -32,7 +32,7 @@ public class RegisterViewModelFactory
         _link = link;
         _context = context;
     }
-    
+
     public async Task<RegisterViewModel> Fill(string? accessToken = null)
     {
         var result = new RegisterViewModel();
@@ -53,7 +53,8 @@ public class RegisterViewModelFactory
                 {
                     Name = x.Name,
                     Price = x.Price,
-                    Size = x.Size
+                    Size = x.Size,
+                    Sold = x.SaleUtc.HasValue
                 }).ToList();
             }
         }
@@ -69,6 +70,11 @@ public class RegisterViewModelFactory
         if (!string.IsNullOrWhiteSpace(viewModel.AccessToken))
         {
             person = await _db.Persons.FirstOrDefaultAsync(x => x.AccessToken == viewModel.AccessToken);
+        }
+
+        if (person != null && await _db.Articles.AnyAsync(x => x.PersonId == person.PersonId && x.SaleUtc.HasValue))
+        {
+            throw new Exception("Unable to update registration after first sale. This exception should not be possible as the UI hides the 'Submit' button if something has been sold.");
         }
 
         if (person == null)
@@ -158,15 +164,20 @@ public class RegisterViewModelFactory
 
 public class RegisterViewModel
 {
-    [Required(ErrorMessage = "Bitte gib deinen Namen an.")] public string? Name { get; set; }
+    [Required(ErrorMessage = "Bitte gib deinen Namen an.")]
+    public string? Name { get; set; }
 
-    [Required(ErrorMessage = "Bitte gib deine Adresse an.")] public string? Address { get; set; }
+    [Required(ErrorMessage = "Bitte gib deine Adresse an.")]
+    public string? Address { get; set; }
 
-    [Required(ErrorMessage = "Bitte gib deine E-Mail-Adresse an."), EmailAddress(ErrorMessage = "Bitte gib deine korrekte E-Mail-Adresse an.")] public string? Email { get; set; }
+    [Required(ErrorMessage = "Bitte gib deine E-Mail-Adresse an."), EmailAddress(ErrorMessage = "Bitte gib deine korrekte E-Mail-Adresse an.")]
+    public string? Email { get; set; }
 
-    [Required(ErrorMessage = "Bitte gib deine Telefonnummer an.")] public string? Phone { get; set; }
+    [Required(ErrorMessage = "Bitte gib deine Telefonnummer an.")]
+    public string? Phone { get; set; }
 
-    [Required(ErrorMessage = "Bitte stimm unserer Datenschutzerklärung zu."), RegularExpression("true", ErrorMessage = "Bitte stimme unserer Datenschutzerklärung zu.")] public string? Privacy { get; set; }
+    [Required(ErrorMessage = "Bitte stimm unserer Datenschutzerklärung zu."), RegularExpression("true", ErrorMessage = "Bitte stimme unserer Datenschutzerklärung zu.")]
+    public string? Privacy { get; set; }
 
     public IList<Article> Articles { get; set; } = new List<Article>();
 
@@ -174,15 +185,18 @@ public class RegisterViewModel
 
     [BindNever] public bool DisplayInitialSuccess { get; set; }
     [BindNever] public bool DisplaySubsequentSuccess { get; set; }
-    
+
     public class Article
     {
-        [Required(ErrorMessage = "Bitte gib eine aussagekräftige Artikelbeschreibung an.")] public string? Name { get; init; }
+        [Required(ErrorMessage = "Bitte gib eine aussagekräftige Artikelbeschreibung an.")]
+        public string? Name { get; init; }
 
         public string? Size { get; init; }
 
         [Required(ErrorMessage = "Bitte gib den Preis an."), DivisableBy50, RegularExpression("[\\d,]*", ErrorMessage = "Bitte gib den Preis an.")]
         [Range(0.1, 99999, ErrorMessage = "Der Preis muss größer als 0,- sein.")]
         public double? Price { get; init; }
+
+        public bool Sold { get; set; }
     }
 }

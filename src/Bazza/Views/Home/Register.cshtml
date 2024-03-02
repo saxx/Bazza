@@ -124,40 +124,46 @@ else
                     </tbody>
                 </table>
 
-                <p>
-                    <button type="button" id="add_row" class="button is-success is-small"><i class="fad fa-plus"></i>&nbsp;Weiteren Artikel hinzufügen</button>
-                    <button type="button" id="remove_row" class="button is-danger is-small"><i class="fad fa-trash"></i>&nbsp;Letzte Zeile entfernen</button>
-                </p>
-                <span class="help">
-                    Du kannst aus organisatorischen Gründen pro Registrierung maximal 50 Artikel angeben. Solltest du mehr als 50 Artikel verkaufen wollen, kannst du dich aber gerne mehrmals mit derselben E-Mail-Adresse registrieren. Bitte gib für jeden Artikel mindestens den Preis und eine möglichst aussagekräftige Bezeichnung an.
-                    Bitte runde den Preis immer auf 50 Cent genau.
-                </span>
+                @if (Model.Articles.All(x => !x.Sold))
+                {
+                    <p>
+                        <button type="button" id="add_row" class="button is-success is-small"><i class="fad fa-plus"></i>&nbsp;Weiteren Artikel hinzufügen</button>
+                        <button type="button" id="remove_row" class="button is-danger is-small"><i class="fad fa-trash"></i>&nbsp;Letzte Zeile entfernen</button>
+                    </p>
+                    <span class="help">
+                        Du kannst aus organisatorischen Gründen pro Registrierung maximal 50 Artikel angeben. Solltest du mehr als 50 Artikel verkaufen wollen, kannst du dich aber gerne mehrmals mit derselben E-Mail-Adresse registrieren. Bitte gib für jeden Artikel mindestens den Preis und eine möglichst aussagekräftige Bezeichnung an.
+                        Bitte runde den Preis immer auf 50 Cent genau.
+                    </span>
+                }
             </div>
 
         </section>
 
-        <section class="section">
-            <div class="field">
-                <label asp-for="Privacy" class="label">Datenschutzhinweis:</label>
-                <label class="checkbox">
-                    <input type="checkbox" asp-for="Privacy" value="true">
-                    Ich stimme zu, dass meine Daten zur Organisation und Abwicklung des Basars verwendet werden dürfen.
-                </label>
-                <span asp-validation-for="Privacy" class="help is-danger"></span>
+        @if (Model.Articles.All(x => !x.Sold))
+        {
+            <section class="section">
+                <div class="field">
+                    <label asp-for="Privacy" class="label">Datenschutzhinweis:</label>
+                    <label class="checkbox">
+                        <input type="checkbox" asp-for="Privacy" value="true">
+                        Ich stimme zu, dass meine Daten zur Organisation und Abwicklung des Basars verwendet werden dürfen.
+                    </label>
+                    <span asp-validation-for="Privacy" class="help is-danger"></span>
 
-                <div class="help">
-                    Sie werden ausschließlich für diesen Zweck verwendet.
-                    Die Zusendung von Informations-E-Mails zum Basar und die Speicherung meiner Daten in diesem Zusammenhang kann ich jederzeit telefonisch bei Ursula Pühringer, 0664 / 14 58 265 oder per Mail an basar@neufelden.at widerrufen.
-                    Es wird darauf hingewiesen, dass alle bis zum Widerruf vorgenommenen Verarbeitungen weiterhin rechtmäßig bleiben.
+                    <div class="help">
+                        Sie werden ausschließlich für diesen Zweck verwendet.
+                        Die Zusendung von Informations-E-Mails zum Basar und die Speicherung meiner Daten in diesem Zusammenhang kann ich jederzeit telefonisch bei Ursula Pühringer, 0664 / 14 58 265 oder per Mail an basar@neufelden.at widerrufen.
+                        Es wird darauf hingewiesen, dass alle bis zum Widerruf vorgenommenen Verarbeitungen weiterhin rechtmäßig bleiben.
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="section">
-            <div class="field">
-                <button type="submit" class="button is-link" onclick="setButtonWorking(this);"><i class="fad fa-save"></i>&nbsp;Speichern und verbindlich registrieren</button>
-            </div>
-        </section>
+            <section class="section">
+                <div class="field">
+                    <button type="submit" class="button is-link" onclick="setButtonWorking(this);"><i class="fad fa-save"></i>&nbsp;Speichern und verbindlich registrieren</button>
+                </div>
+            </section>
+        }
     </form>
 
     @if (!string.IsNullOrWhiteSpace(Model.AccessToken))
