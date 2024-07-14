@@ -1,7 +1,7 @@
 name: Bazza CI
 
 env:
-  VERSION: 2.0.0.${{ github.run_number }}
+  VERSION: 2.1.0.${{ github.run_number }}
 
 on:
   push:
