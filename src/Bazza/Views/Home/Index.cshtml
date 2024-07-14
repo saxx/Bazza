@@ -1,5 +1,4 @@
-﻿@using System.Globalization
-<div style="background-image: url('/images/title.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center; padding-top: 300px; margin: 0 -.5rem;">
+﻿<div style="background-image: url('/images/title.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center; padding-top: 300px; margin: 0 -.5rem;">
     <div style="background-color: rgba(255,255,255,0.75); ">
         <h1 class="is-title is-size-1 has-text-centered mt-5">Kinder&shy;waren&shy;basar Neufelden</h1>
 
@@ -115,7 +114,7 @@ else if (Settings.RegistrationIsActive)
             Einschreibgebühr
         </h3>
         <p>
-            @(Settings.CostsPerArticleBelow25*100) Cent pro Artikel, sowie @(Settings.PercentageProvision*100) % vom Erlös werden einbehalten.
+            @(Settings.CostsPerArticleBelow25 * 100) Cent pro Artikel, sowie @(Settings.PercentageProvision * 100) % vom Erlös werden einbehalten.
         </p>
     </div>
     <div class="column">
@@ -134,9 +133,9 @@ else if (Settings.RegistrationIsActive)
             Kontaktpersonen
         </h3>
         <p>
-            Ursula Pühringer: <a href="tel:+43 664 14 58 265">0664/14 58 265</a><br/>
-            Daniela Haslmaier: <a href="tel:+43 699 12 51 71 15">0699/12 51 71 15</a><br/>
-            E-Mail: <a href="mailto:basar@neufelden.at">basar@neufelden.at</a><br/>
+            @Settings.PrimaryResponsibleName: <a href="tel:@Settings.PrimaryResponsiblePhone.NormalizePhoneNumber()">@Settings.PrimaryResponsiblePhone</a><br/>
+            @Settings.SecondaryResponsibleName: <a href="tel:@Settings.SecondaryResponsiblePhone.NormalizePhoneNumber()">@Settings.SecondaryResponsiblePhone</a><br/>
+            E-Mail: <a href="mailto:@Settings.PrimaryResponsibleEmail">@Settings.PrimaryResponsibleEmail</a><br/>
             <a href="https://www.facebook.com/Basar-Neufelden-101183602264571" target="_blank">Facebook</a>
         </p>
     </div>

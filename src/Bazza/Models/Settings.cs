@@ -43,6 +43,36 @@ public class Settings
         }
     }
 
+    public string PrimaryResponsibleName
+    {
+        get => Get("primary_responsible_person_name", "Daniela Haslmaier");
+        set => Set("primary_responsible_person_name", value);
+    }
+
+    public string PrimaryResponsiblePhone
+    {
+        get => Get("primary_responsible_person_phone", "0699 / 12 51 71 15");
+        set => Set("primary_responsible_person_phone", value);
+    }
+
+    public string PrimaryResponsibleEmail
+    {
+        get => Get("primary_responsible_person_email", "basar@neufelden.at");
+        set => Set("primary_responsible_person_email", value);
+    }
+
+    public string SecondaryResponsibleName
+    {
+        get => Get("secondary_responsible_person_name", "Tanja Falkner");
+        set => Set("secondary_responsible_person_name", value);
+    }
+
+    public string SecondaryResponsiblePhone
+    {
+        get => Get("secondary_responsible_person_phone", "0699 / 18 13 42 96");
+        set => Set("secondary_responsible_person_phone", value);
+    }
+
     public DateTime EventStartDate
     {
         get => Get("event_start_date", new DateTime(2022, 09, 09));

@@ -26,7 +26,12 @@ public class SettingsViewModelFactory
             RegistrationEndDate = _settings.RegistrationEndDate,
             RegistrationStartDate = _settings.RegistrationStartDate,
             ArticlesDropOffDate = _settings.ArticlesDropOffDate,
-            MaxNumberOfArticles = _settings.MaxNumberOfArticles
+            MaxNumberOfArticles = _settings.MaxNumberOfArticles,
+            PrimaryResponsibleName = _settings.PrimaryResponsibleName,
+            PrimaryResponsibleEmail = _settings.PrimaryResponsibleEmail,
+            PrimaryResponsiblePhone = _settings.PrimaryResponsiblePhone,
+            SecondaryResponsibleName = _settings.SecondaryResponsibleName,
+            SecondaryResponsiblePhone = _settings.SecondaryResponsiblePhone
         };
         return await Task.FromResult(result);
     }
@@ -41,6 +46,11 @@ public class SettingsViewModelFactory
         _settings.RegistrationStartDate = viewModel.RegistrationStartDate;
         _settings.ArticlesDropOffDate = viewModel.ArticlesDropOffDate;
         _settings.MaxNumberOfArticles = viewModel.MaxNumberOfArticles;
+        _settings.PrimaryResponsibleName = viewModel.PrimaryResponsibleName;
+        _settings.PrimaryResponsibleEmail = viewModel.PrimaryResponsibleEmail;
+        _settings.PrimaryResponsiblePhone = viewModel.PrimaryResponsiblePhone;
+        _settings.SecondaryResponsibleName = viewModel.SecondaryResponsibleName;
+        _settings.SecondaryResponsiblePhone = viewModel.SecondaryResponsiblePhone;
         await _settings.UpdateDatabase();
         viewModel.Success = true;
     }
@@ -48,14 +58,45 @@ public class SettingsViewModelFactory
 
 public class SettingsViewModel
 {
-    [Required(ErrorMessage = "Bitte angeben.")] public DateTime EventStartDate { get; init; }
-    [Required(ErrorMessage = "Bitte angeben.")] public DateTime EventEndDate { get; init; }
-    [Required(ErrorMessage = "Bitte angeben.")] public DateTime RegistrationStartDate { get; init; }
-    [Required(ErrorMessage = "Bitte angeben.")] public DateTime RegistrationEndDate { get; init; }
-    [Required(ErrorMessage = "Bitte angeben.")] public DateTime ArticlesDropOffDate { get; init; }
-    [Required(ErrorMessage = "Bitte angeben.")] public int MaxNumberOfArticles { get; init; }
-    [Required(ErrorMessage = "Bitte angeben.")] public string CoronaText { get; init; } = "";
-    [Required(ErrorMessage = "Bitte angeben.")] public string AllowedArticleTypes { get; init; } = "";
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public DateTime EventStartDate { get; init; }
+
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public DateTime EventEndDate { get; init; }
+
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public DateTime RegistrationStartDate { get; init; }
+
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public DateTime RegistrationEndDate { get; init; }
+
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public DateTime ArticlesDropOffDate { get; init; }
+
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public int MaxNumberOfArticles { get; init; }
+
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public string CoronaText { get; init; } = "";
+
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public string AllowedArticleTypes { get; init; } = "";
+
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public string SecondaryResponsibleName { get; init; } = "";
+
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public string SecondaryResponsiblePhone { get; init; } = "";
+
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public string PrimaryResponsibleEmail { get; init; } = "";
+
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public string PrimaryResponsiblePhone { get; init; } = "";
+
+    [Required(ErrorMessage = "Bitte angeben.")]
+    public string PrimaryResponsibleName { get; init; } = "";
+
 
     [BindNever] public bool Success { get; set; }
 }

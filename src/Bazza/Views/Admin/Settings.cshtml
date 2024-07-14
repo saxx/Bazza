@@ -42,6 +42,28 @@ else
     </div>
     <div class="columns">
         <div class="column">
+            <field asp-for="PrimaryResponsibleName" label="Hauptverantwortliche Name:" help="zB Maria Musterfrau"/>
+        </div>
+        <div class="column">
+            <field asp-for="PrimaryResponsiblePhone" label="Hauptverantwortliche Telefon:" help="zB 0699 / 12 34 56 78"/>
+        </div>
+        <div class="column">
+            <field asp-for="PrimaryResponsibleEmail" label="Hauptverantwortliche E-Mail:" help="zB basar@neufelden.at"/>
+        </div>
+        <div class="column"></div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <field asp-for="SecondaryResponsibleName" label="Vertretung Name:" help="zB Maria Musterfrau"/>
+        </div>
+        <div class="column">
+            <field asp-for="SecondaryResponsiblePhone" label="Vertretung Telefon:" help="zB 0699 / 12 34 56 78"/>
+        </div>
+        <div class="column"></div>
+        <div class="column"></div>
+    </div>
+    <div class="columns">
+        <div class="column">
             <field asp-for="CoronaText" label="Corona-Maßnahmen:" help="Text (HTML) auf der Startseite zur den Corona-Maßnahmen." multi-line rows="10"/>
         </div>
         <div class="column">
