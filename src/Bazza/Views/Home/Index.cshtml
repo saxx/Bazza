@@ -74,7 +74,7 @@
     <div class="columns pt-5 pb-5">
         <div class="column">
             <p class="notification is-warning">
-                Die Onlineeinschreibung ist von @Settings.RegistrationStartDate.ToString("dddd, d. MMMM yyyy") bis @Settings.RegistrationEndDate.ToString("dddd, d. MMMM yyyy") möglich.
+                Die Onlineeinschreibung ist ab @Settings.RegistrationStartDate.ToString("dddd, d. MMMM yyyy") möglich.
                 Um alle Artikel übersichtlich präsentieren zu können, ist die Anzahl insgesamt mit @Settings.MaxNumberOfArticles.ToString("N0", new CultureInfo("de-DE")) Stück begrenzt.
             </p>
         </div>
@@ -85,8 +85,7 @@ else if (Settings.RegistrationHasEnded)
     <div class="columns pt-5 pb-5">
         <div class="column">
             <p class="notification is-warning">
-                Die Onlineeinschreibung war bis @Settings.RegistrationEndDate.ToString("dddd, d. MMMM yyyy") möglich.
-                Um alle Artikel übersichtlich präsentieren zu können, ist die Anzahl insgesamt mit @Settings.MaxNumberOfArticles Stück begrenzt.
+                Die Onlineeinschreibung ist nicht mehr möglich. Um alle Artikel übersichtlich präsentieren zu können, ist die Anzahl insgesamt mit @Settings.MaxNumberOfArticles Stück begrenzt.
             </p>
         </div>
     </div>
@@ -96,7 +95,7 @@ else if (Settings.RegistrationIsActive)
     <div class="columns pt-5 pb-5">
         <div class="column is-two-thirds">
             <p class="notification">
-                Die Onlineeinschreibung ist von @Settings.RegistrationStartDate.ToString("dddd, d. MMMM yyyy") bis @Settings.RegistrationEndDate.ToString("dddd, d. MMMM yyyy") möglich.
+                Die Onlineeinschreibung ist seit @Settings.RegistrationStartDate.ToString("dddd, d. MMMM yyyy") möglich.
                 Um alle Artikel übersichtlich präsentieren zu können, ist die Anzahl insgesamt mit @Settings.MaxNumberOfArticles Stück begrenzt.
             </p>
         </div>

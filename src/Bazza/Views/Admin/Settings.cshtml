@@ -33,7 +33,7 @@ else
             <field asp-for="RegistrationStartDate" label="Start des Online-Registrierung:" help="Der Tag, an dem die Online-Registrierung freigeschalten wird."/>
         </div>
         <div class="column">
-            <field asp-for="RegistrationEndDate" label="Ende der Online-Registrierung:" help="Der Tag, an dem die Online-Registrierung gesperrt wird."/>
+            <field asp-for="RegistrationEndDate" label="Ende der Online-Registrierung:" help="Der Tag, an dem die Online-Registrierung spätestens gesperrt wird. Wenn die maximale Zahl von Artikeln erreicht wird, wird dieses Datum automatisch angepasst und damit die Online-Registrierung automatisch gesperrt."/>
         </div>
         <div class="column">
             <field asp-for="MaxNumberOfArticles" label="Max. Anzahl an Artikel:" help="Die maximale Zahl der Artikel wird nur für die Anzeige verwendet, es erfolgt daher keine automatische Deaktivierung der Registrierung bei Überschreiten der Anzahl. Für eine tatsächliche Sperre bitte das Datum der Online-Registrierung im Bedarfsfall anpassen."/>

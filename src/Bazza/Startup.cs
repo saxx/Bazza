@@ -36,6 +36,7 @@ public class Startup
         services.AddApplicationInsightsTelemetry();
 
         services.AddScoped<Settings>();
+        services.AddTransient<BackgroundJobsManager>();
         services.AddTransient<ExcelExportService>();
         services.AddTransient<LabelsPdfService>();
         services.AddTransient<ViewModels.Admin.IndexViewModelFactory>();
@@ -62,7 +63,7 @@ public class Startup
             options.Filters.Add(new AuthorizeFilter());
             options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((_, _) => "Ungültige Angabe.");
         });
-        
+
         services.AddJsEngineSwitcher(options => options.DefaultEngineName = V8JsEngine.EngineName).AddV8();
         services.AddWebOptimizer(pipeline =>
         {
@@ -95,7 +96,7 @@ public class Startup
                     options.LoginPath = "/user/login";
                 }
             );
-
+        BackgroundJobsManager.ConfigureServices(services, _configuration.GetValue<string>("DbConnectionString") ?? "");
         services.AddBuddy()
             .AddMailjet(_configuration.GetSection("Email"), _configuration.GetSection("Mailjet"))
             .AddPdf(_configuration.GetSection("Pdf"))
@@ -109,7 +110,7 @@ public class Startup
         });
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, BackgroundJobsManager backgroundJobsManager)
     {
         app.UseForwardedHeaders();
         app.UseHttpsRedirection();
@@ -132,5 +133,6 @@ public class Startup
             endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             endpoints.MapHealthChecks("/health");
         });
+        backgroundJobsManager.Start(app);
     }
 }
