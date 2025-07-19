@@ -36,9 +36,9 @@ public class CloseRegistrationBackgroundJob(IServiceProvider services)
             Count = x.Count()
         }).ToListAsync();
 
-        // if we have a list with only one article, we count it as a full list. otherwise, we count the actual number.
+        // if we have a list with only up to 10 articles, we count it as a full list. otherwise, we count the actual number.
         var articlesCount = 0;
-        foreach (var u in users) articlesCount += u.Count == 1 ? 50 : u.Count;
+        foreach (var u in users) articlesCount += u.Count <= 10 ? 50 : u.Count;
 
         if (articlesCount > settings.MaxNumberOfArticles)
         {

@@ -7,24 +7,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.AdminSales;
 
-public class SaleViewModelFactory
+public class SaleViewModelFactory(Db db)
 {
-    private readonly Db _db;
-
-    public SaleViewModelFactory(Db db)
-    {
-        _db = db;
-    }
-
     public async Task<SaleViewModel> Build(int id)
     {
-        var sale = await _db.Sales.SingleOrDefaultAsync(x => x.Id == id) ?? throw new EntityNotFoundException();
+        var sale = await db.Sales.SingleOrDefaultAsync(x => x.Id == id) ?? throw new EntityNotFoundException();
         var result = new SaleViewModel
         {
             Id = sale.Id,
             CreatedUtc = sale.CreatedUtc,
             Username = sale.Username,
-            Articles = await _db.Articles
+            Articles = await db.Articles
                 .Where(x => x.SaleId == sale.Id)
                 .OrderByDescending(x => x.SaleUtc)
                 .Select(x => new SaleViewModel.Article

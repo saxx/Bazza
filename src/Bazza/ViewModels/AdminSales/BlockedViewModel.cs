@@ -7,20 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.AdminSales;
 
-public class BlockedViewModelFactory
+public class BlockedViewModelFactory(Db db)
 {
-    private readonly Db _db;
-
-    public BlockedViewModelFactory(Db db)
-    {
-        _db = db;
-    }
-
     public async Task<BlockedViewModel> Build()
     {
         var result = new BlockedViewModel
         {
-            Articles = await _db.Articles
+            Articles = await db.Articles
                 .Where(x => x.BlockedUtc.HasValue)
                 .OrderBy(x => x.BlockedUtc)
                 .Select(x => new BlockedViewModel.Article

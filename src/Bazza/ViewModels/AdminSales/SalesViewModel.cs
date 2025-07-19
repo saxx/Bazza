@@ -7,20 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.AdminSales;
 
-public class SalesViewModelFactory
+public class SalesViewModelFactory(Db db)
 {
-    private readonly Db _db;
-
-    public SalesViewModelFactory(Db db)
-    {
-        _db = db;
-    }
-
     public async Task<SalesViewModel> Build()
     {
         return new SalesViewModel
         {
-            Sales = await _db.Sales
+            Sales = await db.Sales
                 .OrderByDescending(x => x.CreatedUtc)
                 .Select(x => new SalesViewModel.Sale
                 {

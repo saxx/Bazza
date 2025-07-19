@@ -7,20 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.Admin;
 
-public class IndexViewModelFactory
+public class IndexViewModelFactory(Db db)
 {
-    private readonly Db _db;
-
-    public IndexViewModelFactory(Db db)
-    {
-        _db = db;
-    }
-
     public async Task<IndexViewModel> Build()
     {
         var result = new IndexViewModel
         {
-            Articles = await _db.Articles.Select(x => new IndexViewModel.Article
+            Articles = await db.Articles.Select(x => new IndexViewModel.Article
             {
                 IsBlocked = x.BlockedUtc.HasValue,
                 IsInternal = x.PersonId > 1000,
@@ -28,8 +21,8 @@ public class IndexViewModelFactory
                 PersonId = x.PersonId,
                 IsSold = x.SaleId.HasValue
             }).ToListAsync(),
-            SalesCount = await _db.Sales.CountAsync(),
-            EmptySalesCount = await _db.Sales.Where(x => !x.Articles.Any()).CountAsync()
+            SalesCount = await db.Sales.CountAsync(),
+            EmptySalesCount = await db.Sales.Where(x => !x.Articles.Any()).CountAsync()
         };
 
         foreach (var article in result.Articles)

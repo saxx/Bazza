@@ -9,24 +9,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.User;
 
-public class LoginViewModelFactory
+public class LoginViewModelFactory(Db db)
 {
-    private readonly Db _db;
-
-    public LoginViewModelFactory(Db db)
-    {
-        _db = db;
-    }
-
     public async Task<LoginViewModel> Login(LoginViewModel viewModel)
     {
-        var user = await _db.Users.SingleOrDefaultAsync(x => x.Username.ToLower() == viewModel.Username.ToLower());
+        var user = await db.Users.SingleOrDefaultAsync(x => x.Username.ToLower() == viewModel.Username.ToLower());
         if (user != null)
         {
             if (string.IsNullOrWhiteSpace(user.PasswordHash) && string.IsNullOrWhiteSpace(user.PasswordSalt) && user.RequiresPasswordReset)
             {
                 user.LastLoginUtc = DateTime.UtcNow;
-                await _db.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
                 viewModel.RequiresPasswordReset = true;
                 return viewModel;
@@ -35,7 +28,7 @@ public class LoginViewModelFactory
             if (user.PasswordHash == Crypto.Hash(viewModel.Password, user.PasswordSalt))
             {
                 user.LastLoginUtc = DateTime.UtcNow;
-                await _db.SaveChangesAsync();
+                await db.SaveChangesAsync();
                 return viewModel;
             }
         }

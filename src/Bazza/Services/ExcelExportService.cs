@@ -10,21 +10,14 @@ using OfficeOpenXml.Style;
 
 namespace Bazza.Services;
 
-public class ExcelExportService
+public class ExcelExportService(Db db)
 {
-    private readonly Db _db;
-
-    public ExcelExportService(Db db)
-    {
-        _db = db;
-    }
-
     public async Task<byte[]> CreateExcelFile()
     {
-        var allPersons = await _db.Persons.OrderBy(x => x.PersonId).ToListAsync();
-        var allArticles = await _db.Articles.OrderBy(x => x.PersonId).ThenBy(x => x.ArticleId).ToListAsync();
+        var allPersons = await db.Persons.OrderBy(x => x.PersonId).ToListAsync();
+        var allArticles = await db.Articles.OrderBy(x => x.PersonId).ThenBy(x => x.ArticleId).ToListAsync();
 
-        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+        ExcelPackage.License.SetNonCommercialPersonal("Bazza");
         var excel = new ExcelPackage();
         AddPersons(excel, allPersons);
         AddArticles(excel, allArticles);

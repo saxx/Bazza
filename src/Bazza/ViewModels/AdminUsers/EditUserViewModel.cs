@@ -8,15 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.AdminUsers;
 
-public class EditUserViewModelFactory
+public class EditUserViewModelFactory(Db db)
 {
-    private readonly Db _db;
-
-    public EditUserViewModelFactory(Db db)
-    {
-        _db = db;
-    }
-
     public async Task<EditUserViewModel> Build(string? username)
     {
         if (string.IsNullOrWhiteSpace(username))
@@ -29,7 +22,7 @@ public class EditUserViewModelFactory
             };
         }
 
-        var user = await _db.Users.AsNoTracking().SingleOrDefaultAsync(x => x.Username.ToLower() == username.ToLower()) ?? throw new EntityNotFoundException();
+        var user = await db.Users.AsNoTracking().SingleOrDefaultAsync(x => x.Username.ToLower() == username.ToLower()) ?? throw new EntityNotFoundException();
         var result = new EditUserViewModel
         {
             CanManageAdmin = user.CanManageAdmin,
@@ -43,7 +36,7 @@ public class EditUserViewModelFactory
 
     public async Task Validate(ModelStateDictionary modelState, EditUserViewModel viewModel, string? username)
     {
-        if (string.IsNullOrWhiteSpace(username) && await _db.Users.AnyAsync(x => x.Username.ToLower() == viewModel.Username.ToLower()))
+        if (string.IsNullOrWhiteSpace(username) && await db.Users.AnyAsync(x => x.Username.ToLower() == viewModel.Username.ToLower()))
         {
             modelState.AddModelError(nameof(EditUserViewModel.Username), "Es existiert bereits ein Benutzer mit diesem Benutzernamen");
         }
@@ -54,7 +47,7 @@ public class EditUserViewModelFactory
         Models.Database.User user = null!;
         if (!string.IsNullOrWhiteSpace(username))
         {
-            user = await _db.Users.SingleOrDefaultAsync(x => x.Username.ToLower() == username.ToLower()) ?? throw new EntityNotFoundException();
+            user = await db.Users.SingleOrDefaultAsync(x => x.Username.ToLower() == username.ToLower()) ?? throw new EntityNotFoundException();
         }
         else
         {
@@ -62,7 +55,7 @@ public class EditUserViewModelFactory
             {
                 Username = viewModel.Username
             };
-            await _db.Users.AddAsync(user);
+            await db.Users.AddAsync(user);
         }
 
         user.CanManagePersons = viewModel.CanManagePersons;
@@ -81,7 +74,7 @@ public class EditUserViewModelFactory
             user.PasswordSalt = salt;
         }
 
-        await _db.SaveChangesAsync();
+        await db.SaveChangesAsync();
     }
 }
 

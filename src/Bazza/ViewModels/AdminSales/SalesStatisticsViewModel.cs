@@ -9,20 +9,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.AdminSales;
 
-public class SalesStatisticsViewModelFactory
+public class SalesStatisticsViewModelFactory(Db db)
 {
-    private readonly Db _db;
-
-    public SalesStatisticsViewModelFactory(Db db)
-    {
-        _db = db;
-    }
-
     public async Task<SalesStatisticsViewModel> Build()
     {
         var result = new SalesStatisticsViewModel();
 
-        var soldArticles = await _db.Articles
+        var soldArticles = await db.Articles
             .Where(x => x.SaleId.HasValue && x.SaleUtc.HasValue)
             .OrderBy(x => x.SaleUtc)
             .Select(x => new

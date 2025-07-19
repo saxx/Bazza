@@ -10,35 +10,24 @@ using SixLabors.ImageSharp.Formats.Png;
 
 namespace Bazza.Services;
 
-public class LabelsPdfService
+public class LabelsPdfService(ITemplater templater, IPdfer pdfer, Db db)
 {
-    private readonly ITemplater _templater;
-    private readonly IPdfer _pdfer;
-    private readonly Db _db;
-
-    public LabelsPdfService(ITemplater templater, IPdfer pdfer, Db db)
-    {
-        _templater = templater;
-        _pdfer = pdfer;
-        _db = db;
-    }
-
     public async Task<byte[]> BuildPdf(string accessToken)
     {
-        var person = await _db.Persons.AsNoTracking().SingleOrDefaultAsync(x => x.AccessToken == accessToken) ?? throw new EntityNotFoundException();
+        var person = await db.Persons.AsNoTracking().SingleOrDefaultAsync(x => x.AccessToken == accessToken) ?? throw new EntityNotFoundException();
         return await BuildPdf(person.PersonId);
     }
 
     public async Task<byte[]> BuildPdf(int personId)
     {
-        var html = await _templater.Render("Pdf", "Labels", await BuildViewModel(personId));
-        return await _pdfer.HtmlToPdf(html, new PdfOptions());
+        var html = await templater.Render("Pdf", "Labels", await BuildViewModel(personId));
+        return await pdfer.HtmlToPdf(html, new PdfOptions());
     }
 
     private async Task<LabelsPdfViewModel> BuildViewModel(int personId)
     {
-        var person = await _db.Persons.AsNoTracking().SingleOrDefaultAsync(x => x.PersonId == personId) ?? throw new EntityNotFoundException();
-        var articles = await _db.Articles.AsNoTracking().Where(x => x.PersonId == person.PersonId).OrderBy(x => x.ArticleId).ToListAsync();
+        var person = await db.Persons.AsNoTracking().SingleOrDefaultAsync(x => x.PersonId == personId) ?? throw new EntityNotFoundException();
+        var articles = await db.Articles.AsNoTracking().Where(x => x.PersonId == person.PersonId).OrderBy(x => x.ArticleId).ToListAsync();
 
         var result = new LabelsPdfViewModel
         {

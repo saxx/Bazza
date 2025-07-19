@@ -2,12 +2,8 @@
 
 namespace Bazza.Models.Database;
 
-public sealed class Db : DbContext
+public sealed class Db(DbContextOptions options) : DbContext(options)
 {
-    public Db(DbContextOptions options) : base(options)
-    {
-    }
-
     public DbSet<Person> Persons => Set<Person>();
     public DbSet<Article> Articles => Set<Article>();
     public DbSet<User> Users => Set<User>();

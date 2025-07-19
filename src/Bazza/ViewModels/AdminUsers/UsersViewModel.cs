@@ -7,20 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.AdminUsers;
 
-public class UsersViewModelFactory
+public class UsersViewModelFactory(Db db)
 {
-    private readonly Db _db;
-
-    public UsersViewModelFactory(Db db)
-    {
-        _db = db;
-    }
-
     public async Task<UsersViewModel> Build()
     {
         return new UsersViewModel
         {
-            Users = await _db.Users
+            Users = await db.Users
                 .OrderBy(x => x.Username)
                 .Select(x => new UsersViewModel.User
                 {

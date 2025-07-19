@@ -6,20 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.AdminPersons;
 
-public class PersonsStatisticsViewModelFactory
+public class PersonsStatisticsViewModelFactory(Db db)
 {
-    private readonly Db _db;
-
-    public PersonsStatisticsViewModelFactory(Db db)
-    {
-        _db = db;
-    }
-
     public async Task<PersonsStatisticsViewModel> Build()
     {
         var result = new PersonsStatisticsViewModel();
         
-        var soldArticles = await _db.Articles
+        var soldArticles = await db.Articles
             .Where(x => x.SaleId.HasValue)
             .OrderBy(x => x.SaleUtc)
             .Select(x => new
@@ -28,7 +21,7 @@ public class PersonsStatisticsViewModelFactory
                 x.Price
             }).ToListAsync();
 
-        var persons = await _db.Persons.ToDictionaryAsync(x => x.PersonId, x => x.Name);
+        var persons = await db.Persons.ToDictionaryAsync(x => x.PersonId, x => x.Name);
         var groupedByPerson = soldArticles.GroupBy(x => x.PersonId).Select(g => new PersonsStatisticsViewModel.Person
         {
             Name = persons[g.Key] ?? "< Unbekannt >",

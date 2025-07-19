@@ -22,15 +22,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Bazza;
 
-public class Startup
+public class Startup(IConfiguration configuration)
 {
-    private readonly IConfiguration _configuration;
-
-    public Startup(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddApplicationInsightsTelemetry();
@@ -57,7 +50,7 @@ public class Startup
         services.AddTransient<ViewModels.User.LoginViewModelFactory>();
         services.AddTransient<ViewModels.User.ResetPasswordViewModelFactory>();
 
-        services.AddDbContext<Db>(options => options.UseSqlServer(_configuration.GetValue<string>("DbConnectionString") ?? ""));
+        services.AddDbContext<Db>(options => options.UseSqlServer(configuration.GetValue<string>("DbConnectionString") ?? ""));
         services.AddControllersWithViews(options =>
         {
             options.Filters.Add(new AuthorizeFilter());
@@ -96,10 +89,10 @@ public class Startup
                     options.LoginPath = "/user/login";
                 }
             );
-        BackgroundJobsManager.ConfigureServices(services, _configuration.GetValue<string>("DbConnectionString") ?? "");
+        BackgroundJobsManager.ConfigureServices(services, configuration.GetValue<string>("DbConnectionString") ?? "");
         services.AddBuddy()
-            .AddMailjet(_configuration.GetSection("Email"), _configuration.GetSection("Mailjet"))
-            .AddPdf(_configuration.GetSection("Pdf"))
+            .AddMailjet(configuration.GetSection("Email"), configuration.GetSection("Mailjet"))
+            .AddPdf(configuration.GetSection("Pdf"))
             .AddRazorPdfV2Renderer();
         services.AddHttpContextAccessor();
         services.Configure<ForwardedHeadersOptions>(options =>

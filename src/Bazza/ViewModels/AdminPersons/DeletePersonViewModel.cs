@@ -5,31 +5,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.AdminPersons;
 
-public class DeletePersonViewModelFactory
+public class DeletePersonViewModelFactory(Db db)
 {
-    private readonly Db _db;
-
-    public DeletePersonViewModelFactory(Db db)
-    {
-        _db = db;
-    }
-
     public async Task<DeletePersonViewModel> Build(int id)
     {
-        var person = await _db.Persons.AsNoTracking().SingleOrDefaultAsync(x => x.PersonId == id) ?? throw new EntityNotFoundException();
+        var person = await db.Persons.AsNoTracking().SingleOrDefaultAsync(x => x.PersonId == id) ?? throw new EntityNotFoundException();
         var result = new DeletePersonViewModel
         {
             Id = person.PersonId,
             Name = person.Name,
-            Articles = await _db.Articles.CountAsync(x => x.PersonId == person.PersonId)
+            Articles = await db.Articles.CountAsync(x => x.PersonId == person.PersonId)
         };
         return result;
     }
 
     public async Task UpdateDatabase(DeletePersonViewModel viewModel)
     {
-        await _db.Articles.Where(x => x.PersonId == viewModel.Id).ExecuteDeleteAsync();
-        await _db.Persons.Where(x => x.PersonId == viewModel.Id).ExecuteDeleteAsync();
+        await db.Articles.Where(x => x.PersonId == viewModel.Id).ExecuteDeleteAsync();
+        await db.Persons.Where(x => x.PersonId == viewModel.Id).ExecuteDeleteAsync();
     }
 }
 

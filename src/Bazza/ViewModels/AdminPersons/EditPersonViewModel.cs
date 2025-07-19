@@ -10,18 +10,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bazza.ViewModels.AdminPersons;
 
-public class EditPersonViewModelFactory
+public class EditPersonViewModelFactory(Db db)
 {
-    private readonly Db _db;
-
-    public EditPersonViewModelFactory(Db db)
-    {
-        _db = db;
-    }
-
     public async Task<EditPersonViewModel> Build(string accessToken)
     {
-        var person = await _db.Persons.AsNoTracking().SingleOrDefaultAsync(x => x.AccessToken == accessToken) ?? throw new EntityNotFoundException();
+        var person = await db.Persons.AsNoTracking().SingleOrDefaultAsync(x => x.AccessToken == accessToken) ?? throw new EntityNotFoundException();
         return await Build(person.PersonId);
     }
 
@@ -34,7 +27,7 @@ public class EditPersonViewModelFactory
         }
         else
         {
-            var person = await _db.Persons.AsNoTracking().SingleOrDefaultAsync(x => x.PersonId == id) ?? throw new EntityNotFoundException();
+            var person = await db.Persons.AsNoTracking().SingleOrDefaultAsync(x => x.PersonId == id) ?? throw new EntityNotFoundException();
             result = new EditPersonViewModel
             {
                 Id = person.PersonId,
@@ -44,7 +37,7 @@ public class EditPersonViewModelFactory
                 Name = person.Name ?? "",
                 Phone = person.Phone,
                 AccessToken = person.AccessToken,
-                Articles = await _db.Articles
+                Articles = await db.Articles
                     .Where(x => x.PersonId == person.PersonId)
                     .OrderBy(x => x.ArticleId)
                     .Select(x => new EditPersonViewModel.Article
@@ -69,12 +62,12 @@ public class EditPersonViewModelFactory
         Person person;
         if (viewModel.Id.HasValue)
         {
-            person = await _db.Persons.SingleOrDefaultAsync(x => x.PersonId == viewModel.Id.Value) ?? throw new EntityNotFoundException();
+            person = await db.Persons.SingleOrDefaultAsync(x => x.PersonId == viewModel.Id.Value) ?? throw new EntityNotFoundException();
         }
         else
         {
             person = await CreateNewPerson(viewModel.Address);
-            await _db.Persons.AddAsync(person);
+            await db.Persons.AddAsync(person);
         }
 
         person.Name = viewModel.Name;
@@ -82,14 +75,14 @@ public class EditPersonViewModelFactory
         person.Address = viewModel.Address;
         person.Phone = viewModel.Phone;
 
-        await _db.SaveChangesAsync();
+        await db.SaveChangesAsync();
 
         for (var i = 0; i < viewModel.Articles.Count; i++)
         {
-            var existingArticle = await _db.Articles.SingleOrDefaultAsync(x => x.PersonId == person.PersonId && x.ArticleId == i + 1);
+            var existingArticle = await db.Articles.SingleOrDefaultAsync(x => x.PersonId == person.PersonId && x.ArticleId == i + 1);
             if (existingArticle == null && !string.IsNullOrWhiteSpace(viewModel.Articles[i].Name))
             {
-                await _db.Articles.AddAsync(new Article
+                await db.Articles.AddAsync(new Article
                 {
                     Name = viewModel.Articles[i].Name,
                     Size = viewModel.Articles[i].Size,
@@ -106,16 +99,16 @@ public class EditPersonViewModelFactory
             }
             else if (existingArticle != null && string.IsNullOrWhiteSpace(viewModel.Articles[i].Name) && !existingArticle.SaleId.HasValue)
             {
-                _db.Articles.Remove(existingArticle);
+                db.Articles.Remove(existingArticle);
             }
         }
 
-        await _db.SaveChangesAsync();
+        await db.SaveChangesAsync();
     }
 
     private async Task<Person> CreateNewPerson(string address)
     {
-        var existingPersonIds = await _db.Persons.Select(x => x.PersonId).ToListAsync();
+        var existingPersonIds = await db.Persons.Select(x => x.PersonId).ToListAsync();
         var personId = address.Contains("Mütterrunde", StringComparison.InvariantCultureIgnoreCase) ? 1001 : 1;
         while (existingPersonIds.Contains(personId)) personId++;
         return new Person

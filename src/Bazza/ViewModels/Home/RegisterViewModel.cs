@@ -16,30 +16,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Bazza.ViewModels.Home;
 
-public class RegisterViewModelFactory
+public class RegisterViewModelFactory(ILogger<RegisterViewModelFactory> logger, Db db, IEmailer emailer, LinkGenerator link, IHttpContextAccessor context)
 {
-    private readonly ILogger<RegisterViewModelFactory> _logger;
-    private readonly Db _db;
-    private readonly IEmailer _emailer;
-    private readonly LinkGenerator _link;
-    private readonly IHttpContextAccessor _context;
-
-    public RegisterViewModelFactory(ILogger<RegisterViewModelFactory> logger, Db db, IEmailer emailer, LinkGenerator link, IHttpContextAccessor context)
-    {
-        _logger = logger;
-        _db = db;
-        _emailer = emailer;
-        _link = link;
-        _context = context;
-    }
-
     public async Task<RegisterViewModel> Fill(string? accessToken = null)
     {
         var result = new RegisterViewModel();
 
         if (!string.IsNullOrWhiteSpace(accessToken))
         {
-            var person = await _db.Persons.FirstOrDefaultAsync(x => x.AccessToken == accessToken);
+            var person = await db.Persons.FirstOrDefaultAsync(x => x.AccessToken == accessToken);
             if (person != null)
             {
                 result.Address = person.Address;
@@ -48,7 +33,7 @@ public class RegisterViewModelFactory
                 result.Phone = person.Phone;
                 result.AccessToken = person.AccessToken;
 
-                var articles = await _db.Articles.Where(x => x.PersonId == person.PersonId).OrderBy(x => x.ArticleId).ToListAsync();
+                var articles = await db.Articles.Where(x => x.PersonId == person.PersonId).OrderBy(x => x.ArticleId).ToListAsync();
                 result.Articles = articles.Select(x => new RegisterViewModel.Article
                 {
                     Name = x.Name,
@@ -69,10 +54,10 @@ public class RegisterViewModelFactory
         Person? person = null;
         if (!string.IsNullOrWhiteSpace(viewModel.AccessToken))
         {
-            person = await _db.Persons.FirstOrDefaultAsync(x => x.AccessToken == viewModel.AccessToken);
+            person = await db.Persons.FirstOrDefaultAsync(x => x.AccessToken == viewModel.AccessToken);
         }
 
-        if (person != null && await _db.Articles.AnyAsync(x => x.PersonId == person.PersonId && x.SaleUtc.HasValue))
+        if (person != null && await db.Articles.AnyAsync(x => x.PersonId == person.PersonId && x.SaleUtc.HasValue))
         {
             throw new Exception("Unable to update registration after first sale. This exception should not be possible as the UI hides the 'Submit' button if something has been sold.");
         }
@@ -80,7 +65,7 @@ public class RegisterViewModelFactory
         if (person == null)
         {
             person = await CreateNewPerson(viewModel);
-            _db.Persons.Add(person);
+            db.Persons.Add(person);
             sendMail = true;
         }
         else
@@ -93,13 +78,13 @@ public class RegisterViewModelFactory
         person.Phone = viewModel.Phone;
         person.Name = viewModel.Name;
         person.AccessToken = string.IsNullOrWhiteSpace(person.AccessToken) ? Crypto.RandomString(20) : person.AccessToken;
-        _db.Articles.RemoveRange(_db.Articles.Where(x => x.PersonId == person.PersonId));
-        await _db.SaveChangesAsync();
+        db.Articles.RemoveRange(db.Articles.Where(x => x.PersonId == person.PersonId));
+        await db.SaveChangesAsync();
 
         var articleId = 1;
         foreach (var a in viewModel.Articles)
         {
-            _db.Articles.Add(new Article
+            db.Articles.Add(new Article
             {
                 Name = a.Name,
                 Price = a.Price ?? 0,
@@ -109,7 +94,7 @@ public class RegisterViewModelFactory
             });
         }
 
-        await _db.SaveChangesAsync();
+        await db.SaveChangesAsync();
 
         viewModel.AccessToken = person.AccessToken;
 
@@ -132,22 +117,22 @@ public class RegisterViewModelFactory
             var htmlBody = "<div style=\"font-family:sans-serif;\">" +
                            $"Hallo {viewModel.Name}!<br /><br />Danke für deine Registrierung für den Basar Neufelden. Wir freuen uns, dass du mit an Bord bist.<br /><br />" +
                            "Wenn du deine Registrierung oder deine Artikel im Nachhinein anpassen möchtest, kannst du das über die folgende Adresse tun:<br /><br />" +
-                           $"{_link.GetUriByAction(_context.HttpContext!, "Register", "Home", null, "https") + "/" + viewModel.AccessToken}<br /><br />" +
-                           $"Für Fragen haben wir eine detaillierte Anleitung zusammengestellt: {_link.GetUriByAction(_context.HttpContext!, "Manual", "Home", null, "https")}.<br /><br />" +
+                           $"{link.GetUriByAction(context.HttpContext!, "Register", "Home", null, "https") + "/" + viewModel.AccessToken}<br /><br />" +
+                           $"Für Fragen haben wir eine detaillierte Anleitung zusammengestellt: {link.GetUriByAction(context.HttpContext!, "Manual", "Home", null, "https")}.<br /><br />" +
                            "Danke & liebe Grüße,<br />das Team vom Basar Neufelden" +
                            "</div>";
 
-            await _emailer.Send(viewModel.Email ?? "", subject, htmlBody, "");
+            await emailer.Send(viewModel.Email ?? "", subject, htmlBody, "");
         }
         catch (Exception ex)
         {
-            _logger.LogWarning($"Unable to send email: {ex.Message}");
+            logger.LogWarning($"Unable to send email: {ex.Message}");
         }
     }
 
     private async Task<Person> CreateNewPerson(RegisterViewModel viewModel)
     {
-        var existingPersonIds = await _db.Persons.Select(x => x.PersonId).ToListAsync();
+        var existingPersonIds = await db.Persons.Select(x => x.PersonId).ToListAsync();
         var personId = (viewModel.Address ?? "").Contains("Mütterrunde", StringComparison.InvariantCultureIgnoreCase) ? 1001 : 1;
         while (existingPersonIds.Contains(personId))
         {
