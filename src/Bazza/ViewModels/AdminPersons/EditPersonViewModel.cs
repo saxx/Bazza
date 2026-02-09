@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Adliance.Buddy.Crypto;
 using Bazza.Models;
 using Bazza.Models.Database;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -74,7 +75,7 @@ public class EditPersonViewModelFactory(Db db)
         person.Email = viewModel.Email;
         person.Address = viewModel.Address;
         person.Phone = viewModel.Phone;
-
+        person.AccessToken = string.IsNullOrWhiteSpace(person.AccessToken) ? Crypto.RandomString(20) : person.AccessToken;
         await db.SaveChangesAsync();
 
         for (var i = 0; i < viewModel.Articles.Count; i++)
