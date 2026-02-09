@@ -4,6 +4,7 @@ using Adliance.AspNetCore.Buddy.Abstractions.Extensions;
 using Adliance.AspNetCore.Buddy.Email.Mailjet.Extensions;
 using Adliance.AspNetCore.Buddy.Pdf.V2.Extensions;
 using Adliance.AspNetCore.Buddy.Template.Razor.Extensions;
+using Bazza.Extensions;
 using Bazza.Models;
 using Bazza.Models.Database;
 using Bazza.Services;
@@ -26,7 +27,7 @@ public class Startup(IConfiguration configuration)
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddApplicationInsightsTelemetry();
+        services.AddApplicationInsightsIfConfigured();
 
         services.AddScoped<Settings>();
         services.AddTransient<BackgroundJobsManager>();
@@ -98,7 +99,7 @@ public class Startup(IConfiguration configuration)
         services.Configure<ForwardedHeadersOptions>(options =>
         {
             options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
-            options.KnownNetworks.Clear();
+            options.KnownIPNetworks.Clear();
             options.KnownProxies.Clear();
         });
     }

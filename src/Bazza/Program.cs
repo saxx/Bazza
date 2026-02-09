@@ -40,20 +40,5 @@ public class Program
         host.Run();
     }
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.ConfigureLogging((context, builder) =>
-                {
-                    var instrumentationKey = context.Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"];
-                    if (!string.IsNullOrWhiteSpace(instrumentationKey))
-                    {
-#pragma warning disable CS0618
-                        builder.AddApplicationInsights(instrumentationKey);
-#pragma warning restore CS0618
-                    }
-                });
-                webBuilder.UseStartup<Startup>();
-            });
+    public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 }

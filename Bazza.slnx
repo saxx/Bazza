@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution/">
+    <File Path=".github/workflows/main.yml" />
+    <File Path="Dockerfile" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="src/Bazza/Bazza.csproj" />
+</Solution>
